@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class CommentDisputes extends StatefulWidget {
   final User currUser;
@@ -379,16 +380,25 @@ Widget ownDispute(
               // Displays the explanatory picture if there is one.
               dispute.explanatoryPics == null
                   ? const SizedBox.shrink()
-                  : Image(
-                      image: NetworkImage(dispute.explanatoryPicss!),
-                      fit: BoxFit.cover),
+                  : CarouselSlider(
+                      options: CarouselOptions(height: 400.0),
+                      items: dispute.explanatoryPics!.map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Image(
+                              image: NetworkImage(i),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
               Container(
                   padding: const EdgeInsets.all(2),
                   color: dispute.isApproved
                       ? const Color.fromARGB(255, 231, 250, 237)
                       : null,
                   child: Text(
-                    dispute.dispute,
+                    dispute.content,
                     style: const TextStyle(fontSize: 13),
                   ))
             ],
@@ -413,7 +423,7 @@ Widget ownDispute(
                                 return AlertDialog(
                                     title: const Text("Edit Dispute"),
                                     content: TextFormField(
-                                      initialValue: dispute.dispute,
+                                      initialValue: dispute.content,
                                       minLines: 1,
                                       maxLines: 10,
                                       decoration: const InputDecoration(
@@ -678,16 +688,25 @@ Widget otherDispute(
               // Displays the explanatory picture if there is one.
               dispute.explanatoryPics == null
                   ? const SizedBox.shrink()
-                  : Image(
-                      image: NetworkImage(dispute.explanatoryPics!),
-                      fit: BoxFit.cover),
+                  : CarouselSlider(
+                      options: CarouselOptions(height: 400.0),
+                      items: dispute.explanatoryPics!.map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Image(
+                              image: NetworkImage(i),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
               Container(
                   padding: const EdgeInsets.all(2),
                   color: dispute.isApproved
                       ? const Color.fromARGB(255, 231, 250, 237)
                       : null,
                   child: Text(
-                    dispute.dispute,
+                    dispute.content,
                     style: const TextStyle(fontSize: 13),
                   ))
             ],

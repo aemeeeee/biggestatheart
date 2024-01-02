@@ -305,7 +305,9 @@ class WaitingListPageState extends State<WaitingListPage> {
       child: Padding(
         padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
         child: InkWell(
-            child: Ink.image(image: NetworkImage(post.pic), fit: BoxFit.cover),
+            child: Ink.image(
+                image: NetworkImage(post.sightingPics.first),
+                fit: BoxFit.cover),
             onTap: () {
               Navigator.push(
                 context,

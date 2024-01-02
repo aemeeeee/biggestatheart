@@ -15,7 +15,7 @@ class PostPageMultiComment extends StatefulWidget {
   final httpHelpers = HttpHelpers();
   final String jwt;
   final int postid;
-  final String postPicture;
+  final List<String> postPics;
   final User currUser;
   final Map<String, dynamic> decodedJWT;
   final Function updateCallBack;
@@ -25,7 +25,7 @@ class PostPageMultiComment extends StatefulWidget {
       required this.comments,
       required this.jwt,
       required this.postid,
-      required this.postPicture,
+      required this.postPics,
       required this.currUser,
       required this.decodedJWT,
       required this.updateCallBack})
@@ -79,7 +79,7 @@ class PostPageMultiCommentState extends State<PostPageMultiComment> {
             MaterialPageRoute(
                 builder: (context) => CommentPage(
                       postid: widget.postid,
-                      postPic: widget.postPicture,
+                      postPics: widget.postPics,
                       currUser: widget.currUser,
                       acceptIdCallback: widget.updateCallBack,
                     )),
@@ -98,7 +98,7 @@ class PostPageSingleComment extends StatefulWidget {
   final List<Comment> comments;
   final String jwt;
   final int postid;
-  final String postPic;
+  final List<String> postPics;
   final User currUser;
   final Map<String, dynamic> decodedJWT;
   final Function updateCallBack;
@@ -108,7 +108,7 @@ class PostPageSingleComment extends StatefulWidget {
       required this.comments,
       required this.jwt,
       required this.postid,
-      required this.postPic,
+      required this.postPics,
       required this.decodedJWT,
       required this.updateCallBack,
       required this.currUser})
@@ -428,8 +428,6 @@ class PostPageSingleCommentState extends State<PostPageSingleComment> {
                                       .createNotificationRequest(
                                           everyUser.substring(1),
                                           contentText.text,
-                                          widget.currUser.pfp,
-                                          widget.postPic,
                                           widget.postid,
                                           widget.jwt)
                                       .then((response) {
@@ -478,7 +476,7 @@ class PostPageSingleCommentState extends State<PostPageSingleComment> {
 class PostPageNoComment extends StatefulWidget {
   final String jwt;
   final int postid;
-  final String postPic;
+  final List<String> postPics;
   final User currUser;
   final Function addCallBack;
 
@@ -486,7 +484,7 @@ class PostPageNoComment extends StatefulWidget {
       {Key? key,
       required this.jwt,
       required this.postid,
-      required this.postPic,
+      required this.postPics,
       required this.currUser,
       required this.addCallBack})
       : super(key: key);
@@ -763,8 +761,6 @@ class PostPageNoCommentState extends State<PostPageNoComment> {
                                       .createNotificationRequest(
                                           everyUser.substring(1),
                                           contentText.text,
-                                          widget.currUser.pfp,
-                                          widget.postPic,
                                           widget.postid,
                                           widget.jwt)
                                       .then((response) {

@@ -5,9 +5,9 @@ class Dispute {
   final int authorId;
   final int commentId;
   final String authorName;
-  final String dispute;
+  final String content;
   final String authorPfp;
-  final List<String>? explanatoryPic;
+  final List<String>? explanatoryPics;
   final String uploadTime;
   final bool isEdited;
   final String editedTime;
@@ -19,8 +19,8 @@ class Dispute {
       required this.commentId,
       required this.authorName,
       required this.authorPfp,
-      required this.explanatoryPic,
-      required this.dispute,
+      required this.explanatoryPics,
+      required this.content,
       required this.uploadTime,
       required this.isEdited,
       required this.editedTime,
@@ -32,9 +32,9 @@ class Dispute {
         commentId: json['commentid'],
         authorId: json['authorid'],
         authorName: json['username'],
-        dispute: json['content'],
+        content: json['content'],
         authorPfp: json['pfp'],
-        explanatoryPic: json['explanatorypics'],
+        explanatoryPics: json['explanatorypics'],
         uploadTime: DateFormat("hh:mm a, dd/MM/yyyy")
             .format(DateTime.parse(json['uploadtime'])),
         isEdited: json['isedited'],

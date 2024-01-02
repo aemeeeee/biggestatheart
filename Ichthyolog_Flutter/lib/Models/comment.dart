@@ -5,7 +5,7 @@ class Comment {
   final int authorId;
   final int postId;
   final String authorName;
-  final String comment;
+  final String content;
   final String authorPfp;
   final String uploadTime;
   final int upvotes;
@@ -25,7 +25,7 @@ class Comment {
       required this.postId,
       required this.authorName,
       required this.authorPfp,
-      required this.comment,
+      required this.content,
       required this.uploadTime,
       required this.upvotes,
       required this.isEdited,
@@ -44,7 +44,7 @@ class Comment {
         authorId: json['authorid'],
         postId: json['postid'],
         authorName: json['username'],
-        comment: json['comment'],
+        content: json['content'],
         authorPfp: json['pfp'],
         uploadTime: DateFormat("hh:mm a, dd/MM/yyyy")
             .format(DateTime.parse(json['uploadtime'])),

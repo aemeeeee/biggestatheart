@@ -2,40 +2,40 @@ import 'package:intl/intl.dart';
 
 class CommentNotification {
   final int notificationId;
-  final String receiverUsername;
-  final String notificationContent;
-  final String senderUsername;
-  final String senderProfilePic;
+  final String receipient;
+  final String content;
+  final String sender;
+  final String senderPfp;
   final int senderId;
   final int postId;
-  final String postPicture;
-  final String createdTime;
-  final bool viewed;
+  final List<String> postPics;
+  final String creationTime;
+  final bool hasViewed;
 
   CommentNotification(
       {required this.notificationId,
-      required this.receiverUsername,
-      required this.notificationContent,
-      required this.senderUsername,
-      required this.senderProfilePic,
+      required this.receipient,
+      required this.content,
+      required this.sender,
+      required this.senderPfp,
       required this.senderId,
       required this.postId,
-      required this.postPicture,
-      required this.createdTime,
-      required this.viewed});
+      required this.postPics,
+      required this.creationTime,
+      required this.hasViewed});
 
   factory CommentNotification.fromJson(Map<String, dynamic> json) {
     return CommentNotification(
         notificationId: json['notificationid'],
-        receiverUsername: json['receiverusername'],
-        notificationContent: json['notificationcontent'],
-        senderUsername: json['senderusername'],
-        senderProfilePic: json['senderprofilepic'],
-        senderId: json['senderid'],
+        receipient: json['receipient'],
+        content: json['content'],
+        sender: json['sender'],
+        senderPfp: json['pfp'],
+        senderId: json['userid'],
         postId: json['postid'],
-        postPicture: json['postpicture'],
-        createdTime: DateFormat("hh:mm a, dd/MM/yyyy")
-            .format(DateTime.parse(json['time'])),
-        viewed: json['viewed']);
+        postPics: json['sightingimages'],
+        creationTime: DateFormat("hh:mm a, dd/MM/yyyy")
+            .format(DateTime.parse(json['creationtime'])),
+        hasViewed: json['hasviewed']);
   }
 }

@@ -1697,8 +1697,6 @@ class HttpHelpers {
   Future<String> createNotificationRequest(
     String receiverUsername,
     String notificationContent,
-    String senderProfilePic,
-    String postPic,
     int postid,
     String jwt,
   ) async {
@@ -1710,14 +1708,11 @@ class HttpHelpers {
         'Authorisation': jwt
       },
       body: json.encode(<String, dynamic>{
-        'receiverusername': receiverUsername,
-        'notificationcontent': notificationContent,
-        'senderprofilepic': senderProfilePic,
+        'receipient': receiverUsername,
+        'content': notificationContent,
         'postid': postid,
-        'postpicture': postPic
       }),
     );
-    print('NANI!: ${response.body}');
     if (response.statusCode == 201) {
       return ('Notification Created');
     } else if (response.body == 'jwt expired') {

@@ -1490,7 +1490,7 @@ class HomePageState extends State<HomePage> {
             child: Stack(children: [
               InkWell(
                   child: Ink.image(
-                      image: NetworkImage(post.sightingPics),
+                      image: NetworkImage(post.sightingPics.first),
                       fit: BoxFit.cover),
                   onTap: () {
                     Navigator.push(

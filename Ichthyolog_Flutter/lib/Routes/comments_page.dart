@@ -12,13 +12,13 @@ import 'comment_disputes.dart';
 
 class CommentPage extends StatefulWidget {
   final int postid;
-  final String postPic;
+  final List<String> postPics;
   final User currUser;
   final Function acceptIdCallback;
   const CommentPage(
       {Key? key,
       required this.postid,
-      required this.postPic,
+      required this.postPics,
       required this.currUser,
       required this.acceptIdCallback})
       : super(key: key);
@@ -391,8 +391,6 @@ class CommentPageState extends State<CommentPage> {
                                                           everyUser
                                                               .substring(1),
                                                           contentText.text,
-                                                          widget.currUser.pfp,
-                                                          widget.postPic,
                                                           widget.postid,
                                                           jwt)
                                                       .then((response) {

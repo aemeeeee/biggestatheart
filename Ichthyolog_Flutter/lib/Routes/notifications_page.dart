@@ -137,7 +137,7 @@ class NotificationsPageState extends State<NotificationsPage> {
                 MaterialPageRoute(
                     builder: (context) => CommentPage(
                           postid: notification.postId,
-                          postPic: notification.postPicture,
+                          postPics: notification.postPics,
                           currUser: widget.currUser,
                           acceptIdCallback: refreshCallback,
                         )),
@@ -157,7 +157,7 @@ class NotificationsPageState extends State<NotificationsPage> {
           contentPadding: const EdgeInsets.only(left: 20, right: 20),
           leading: CircleAvatar(
               radius: 18,
-              backgroundImage: NetworkImage(notification.senderProfilePic)),
+              backgroundImage: NetworkImage(notification.senderPfp)),
           title: Padding(
               padding: const EdgeInsets.only(bottom: 3),
               child: Column(
@@ -168,7 +168,7 @@ class NotificationsPageState extends State<NotificationsPage> {
                       Padding(
                           padding: const EdgeInsets.only(bottom: 2),
                           child: Text(
-                            notification.senderUsername,
+                            notification.sender,
                             style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -183,13 +183,13 @@ class NotificationsPageState extends State<NotificationsPage> {
                     ],
                   ),
                   Container(
-                      color: notification.viewed
+                      color: notification.hasViewed
                           ? Colors.white
                           : const Color.fromARGB(255, 255, 240, 240),
                       child: Padding(
                           padding: const EdgeInsets.only(bottom: 2),
                           child: Text(
-                            notification.notificationContent,
+                            notification.content,
                             style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -198,7 +198,7 @@ class NotificationsPageState extends State<NotificationsPage> {
                 ],
               )),
           subtitle: Text(
-            'at ${notification.createdTime}',
+            'at ${notification.creationTime}',
             style: const TextStyle(fontSize: 11),
           ),
           trailing: ClipRRect(
@@ -206,7 +206,7 @@ class NotificationsPageState extends State<NotificationsPage> {
             child: SizedBox(
               height: 60.0,
               width: 60.0,
-              child: Image.network(notification.postPicture),
+              child: Image.network(notification.postPics.first),
             ),
           ),
         ));

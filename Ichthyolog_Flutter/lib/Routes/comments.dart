@@ -182,13 +182,13 @@ class OwnCommentState extends State<OwnComment> {
                                   child: Text(singaporeRecords.singleWhere(
                                       (record) =>
                                           '${record.commonNames} (${record.species})' ==
-                                          widget.comment.comment, orElse: () {
+                                          widget.comment.content, orElse: () {
                                     return SpeciesRecord(
                                         class_: '',
                                         order: '',
                                         family: '',
                                         genus: '',
-                                        species: widget.comment.comment,
+                                        species: widget.comment.content,
                                         commonNames: '');
                                   }).species))
                             ]
@@ -218,7 +218,7 @@ class OwnCommentState extends State<OwnComment> {
                                               Color.fromARGB(255, 51, 64, 113)),
                                     ))
                               ]),
-                              highlightTaggedUsers(widget.comment.comment)
+                              highlightTaggedUsers(widget.comment.content)
                             ])),
               subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,7 +421,7 @@ class OwnCommentState extends State<OwnComment> {
                                                           "Edit Comment"),
                                                       content: TextFormField(
                                                         initialValue: widget
-                                                            .comment.comment,
+                                                            .comment.content,
                                                         minLines: 1,
                                                         maxLines: 10,
                                                         decoration:
@@ -650,7 +650,7 @@ class OwnCommentState extends State<OwnComment> {
                                                             widget.comment
                                                                 .commentId,
                                                             widget.comment
-                                                                .comment,
+                                                                .content,
                                                             widget.jwt)
                                                         .then(
                                                       (response) {
@@ -1243,13 +1243,13 @@ class OtherCommentState extends State<OtherComment> {
                                 child: Text(singaporeRecords.singleWhere(
                                     (record) =>
                                         '${record.commonNames} (${record.species})' ==
-                                        widget.comment.comment, orElse: () {
+                                        widget.comment.content, orElse: () {
                                   return SpeciesRecord(
                                       class_: '',
                                       order: '',
                                       family: '',
                                       genus: '',
-                                      species: widget.comment.comment,
+                                      species: widget.comment.content,
                                       commonNames: '');
                                 }).species))
                           ]
@@ -1279,7 +1279,7 @@ class OtherCommentState extends State<OtherComment> {
                                             Color.fromARGB(255, 51, 64, 113)),
                                   ))
                             ]),
-                            highlightTaggedUsers(widget.comment.comment)
+                            highlightTaggedUsers(widget.comment.content)
                           ])),
             subtitle:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1460,7 +1460,7 @@ class OtherCommentState extends State<OtherComment> {
                                                           widget.comment
                                                               .commentId,
                                                           widget
-                                                              .comment.comment,
+                                                              .comment.content,
                                                           widget.jwt)
                                                       .then(
                                                     (response) {

@@ -5,6 +5,7 @@ import '../Helpers/helper.dart';
 import '../Helpers/http.dart';
 import '../Models/user.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class PostPage extends StatefulWidget {
   final int postid;
@@ -109,9 +110,17 @@ class PostPageState extends State<PostPage> {
                           child: FittedBox(
                               clipBehavior: Clip.hardEdge,
                               fit: BoxFit.cover,
-                              child: Image(
-                                image: NetworkImage(
-                                    snapshotPost.data!.sightingPics),
+                              child: CarouselSlider(
+                                options: CarouselOptions(height: 400.0),
+                                items: snapshotPost.data!.sightingPics.map((i) {
+                                  return Builder(
+                                    builder: (BuildContext context) {
+                                      return Image(
+                                        image: NetworkImage(i),
+                                      );
+                                    },
+                                  );
+                                }).toList(),
                               ))),
                       Container(
                           padding: const EdgeInsets.only(
@@ -225,8 +234,7 @@ class PostPageState extends State<PostPage> {
                                     comments: snapshot.data!,
                                     jwt: jwt,
                                     postid: widget.postid,
-                                    postPicture:
-                                        snapshotPost.data!.sightingPics,
+                                    postPics: snapshotPost.data!.sightingPics,
                                     currUser: widget.currUser,
                                     decodedJWT: decodedJWT,
                                     updateCallBack: changeCommentCallback);
@@ -237,7 +245,7 @@ class PostPageState extends State<PostPage> {
                                   jwt: jwt,
                                   decodedJWT: decodedJWT,
                                   postid: widget.postid,
-                                  postPic: snapshotPost.data!.sightingPics,
+                                  postPics: snapshotPost.data!.sightingPics,
                                   updateCallBack: changeCommentCallback,
                                   currUser: widget.currUser,
                                 );
@@ -245,7 +253,7 @@ class PostPageState extends State<PostPage> {
                                 return PostPageNoComment(
                                   jwt: jwt,
                                   postid: widget.postid,
-                                  postPic: snapshotPost.data!.sightingPics,
+                                  postPics: snapshotPost.data!.sightingPics,
                                   currUser: widget.currUser,
                                   addCallBack: changeCommentCallback,
                                 );
