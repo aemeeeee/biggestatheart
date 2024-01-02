@@ -7,11 +7,13 @@ class User {
   final String username;
   final String password;
   final String email;
-  final String profilepic;
+  final String pfp;
   final int level;
-  final int totalposts;
-  final int speciescount;
-  final bool expert;
+  final int postCount;
+  final int speciesCount;
+  final bool isExpert;
+  final List<int> upvotedComments;
+  final List<int> downvotedComments;
 
 //use of required keyword as none of these fields can be null
   User(
@@ -19,11 +21,13 @@ class User {
       required this.username,
       required this.password,
       required this.email,
-      required this.profilepic,
+      required this.pfp,
       required this.level,
-      required this.speciescount,
-      required this.totalposts,
-      required this.expert});
+      required this.speciesCount,
+      required this.postCount,
+      required this.isExpert,
+      required this.upvotedComments,
+      required this.downvotedComments});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -31,10 +35,12 @@ class User {
         username: json['username'],
         password: json['password'],
         email: json['email'],
-        profilepic: json['profilepic'],
+        pfp: json['pfp'],
         level: json['level'],
-        speciescount: json['speciescount'],
-        totalposts: json['totalposts'],
-        expert: json['expert']);
+        speciesCount: json['speciescount'],
+        postCount: json['postcount'],
+        isExpert: json['isexpert'],
+        upvotedComments: json['upvotedcomments'],
+        downvotedComments: json['downvotedcomments']);
   }
 }

@@ -24,14 +24,16 @@ class LoginPageState extends State<LoginPage> {
   bool loginRequestProcessing = false;
   final User guestUser = User(
       userid: -1,
-      username: 'username',
-      password: 'password',
-      email: 'email',
-      profilepic: 'profilepic',
+      username: 'dummyUsername',
+      password: 'dummyPassword',
+      email: 'dummyEmail',
+      pfp: 'dummyPfp',
       level: 0,
-      speciescount: 0,
-      totalposts: 0,
-      expert: false);
+      speciesCount: 0,
+      postCount: 0,
+      isExpert: false,
+      upvotedComments: [],
+      downvotedComments: []);
 
   loginProcessingCallback() {
     setState(() {

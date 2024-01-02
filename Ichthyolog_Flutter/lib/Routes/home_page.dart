@@ -42,7 +42,7 @@ class HomePageState extends State<HomePage> {
   final httpHelpers = HttpHelpers();
   final _formKey = GlobalKey<FormState>();
   bool editProfileRequestProcessing = false;
-  bool editProfilePicRequestProcessing = false;
+  bool editpfpRequestProcessing = false;
   bool editPostRequestProcessing = false;
   bool deletePostRequestProcessing = false;
 
@@ -117,8 +117,8 @@ class HomePageState extends State<HomePage> {
                                               18),
 
                                   // Profile picture and edit profile picture button
-                                  profilePicture(snapshotUser.data!,
-                                      editProfilePicProcessingCallback),
+                                  pfpture(snapshotUser.data!,
+                                      editpfpProcessingCallback),
 
                                   SizedBox(
                                       height:
@@ -136,8 +136,8 @@ class HomePageState extends State<HomePage> {
                                           color: Colors.white),
                                     ),
 
-                                    // Expert tag if user is an expert
-                                    snapshotUser.data!.expert
+                                    // Expert tag if user is an isExpert
+                                    snapshotUser.data!.isExpert
                                         ? Container(
                                             decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
@@ -149,7 +149,7 @@ class HomePageState extends State<HomePage> {
                                             margin:
                                                 const EdgeInsets.only(left: 5),
                                             child: const Text(
-                                              'expert',
+                                              'isExpert',
                                               style: TextStyle(
                                                   fontSize: 10,
                                                   color: Colors.white),
@@ -194,8 +194,8 @@ class HomePageState extends State<HomePage> {
                         ],
                       )),
 
-                  // Bottom navigation bar for expert and non-expert users
-                  bottomNavigationBar: snapshotUser.data!.expert
+                  // Bottom navigation bar for isExpert and non-isExpert users
+                  bottomNavigationBar: snapshotUser.data!.isExpert
                       ? BottomAppBar(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -208,8 +208,8 @@ class HomePageState extends State<HomePage> {
                                   snapshotUser.data!, refreshCallback),
                               //Visit statistics page to access sighting data
                               statsPageButton(refreshCallback),
-                              //Visit expert application page to review/submit applications
-                              expertApplicationPageButton(
+                              //Visit isExpert application page to review/submit applications
+                              isExpertApplicationPageButton(
                                   snapshotUser.data!, refreshCallback),
                               //Visit waiting list page to verify/flag posts
                               waitingListPageButton(
@@ -231,8 +231,8 @@ class HomePageState extends State<HomePage> {
                                   snapshotUser.data!, refreshCallback),
                               //Visit statistics page to access sighting data
                               statsPageButton(refreshCallback),
-                              //Visit expert application page to review/submit applications
-                              expertApplicationPageButton(
+                              //Visit isExpert application page to review/submit applications
+                              isExpertApplicationPageButton(
                                   snapshotUser.data!, refreshCallback),
                               //visit notifications to read notifications
                               notificationsPageButton(snapshotUser.data!)
@@ -256,13 +256,13 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  Widget profilePicture(User user, Function editProfilePicProcessingCallback) {
+  Widget pfpture(User user, Function editpfpProcessingCallback) {
     return Stack(
       children: [
         CircleAvatar(
           radius: 75,
           backgroundColor: Colors.white,
-          backgroundImage: NetworkImage(user.profilepic),
+          backgroundImage: NetworkImage(user.pfp),
         ),
         Positioned(
           bottom: 2,
@@ -300,7 +300,7 @@ class HomePageState extends State<HomePage> {
                           ) async {
                             final key = const Uuid().v4();
                             final file = AWSFile.fromPath(image!.path);
-                            if (editProfilePicRequestProcessing) {
+                            if (editpfpRequestProcessing) {
                               null;
                             } else {
                               try {
@@ -311,13 +311,13 @@ class HomePageState extends State<HomePage> {
                                     accessLevel: StorageAccessLevel.guest,
                                   ),
                                 );
-                                editProfilePicProcessingCallback();
+                                editpfpProcessingCallback();
                                 httpHelpers
                                     .editUserProfilePicRequest(
                                         "https://ichthyolog175756-dev.s3.ap-southeast-1.amazonaws.com/public/$key",
                                         jwt)
                                     .then((String response) {
-                                  editProfilePicProcessingCallback();
+                                  editpfpProcessingCallback();
                                   Fluttertoast.showToast(
                                     msg: response,
                                     toastLength: Toast.LENGTH_SHORT,
@@ -746,7 +746,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget expertApplicationPageButton(User user, Function refreshCallback) {
+  Widget isExpertApplicationPageButton(User user, Function refreshCallback) {
     return IconButton(
       icon:
           const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 52, 66, 117)),
@@ -867,7 +867,7 @@ class HomePageState extends State<HomePage> {
                                     color: Color.fromARGB(255, 51, 64, 113)),
                               )),
                           const Text(
-                              'Welcome to Ichthyolog! We are dedicated to the documentation of fish species sightings in Singapore. You may upload fish sightings to be verified by experts and add them to our scientific database. You may then access statistics on verified fsh records through the species search page. You may also discuss with experts on any submitted sighting and suggest species identifications for unverified posts.'),
+                              'Welcome to Ichthyolog! We are dedicated to the documentation of fish species sightings in Singapore. You may upload fish sightings to be verified by isExperts and add them to our scientific database. You may then access statistics on verified fsh records through the species search page. You may also discuss with isExperts on any submitted sighting and suggest species identifications for unverified posts.'),
                           const Padding(
                               padding: EdgeInsets.only(top: 15, bottom: 10),
                               child: Text(
@@ -896,10 +896,10 @@ class HomePageState extends State<HomePage> {
                               'Look up species statistics'),
                           iconDescription(
                               const Icon(Icons.how_to_reg),
-                              user.expert
-                                  ? 'Review expert applications'
-                                  : 'Submit expert application'),
-                          user.expert
+                              user.isExpert
+                                  ? 'Review isExpert applications'
+                                  : 'Submit isExpert application'),
+                          user.isExpert
                               ? iconDescription(const Icon(Icons.feedback),
                                   'Review unverified posts')
                               : const SizedBox.shrink(),
@@ -1490,7 +1490,8 @@ class HomePageState extends State<HomePage> {
             child: Stack(children: [
               InkWell(
                   child: Ink.image(
-                      image: NetworkImage(post.pic), fit: BoxFit.cover),
+                      image: NetworkImage(post.sightingPics),
+                      fit: BoxFit.cover),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -1690,9 +1691,9 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  editProfilePicProcessingCallback() {
+  editpfpProcessingCallback() {
     setState(() {
-      editProfilePicRequestProcessing = !editProfilePicRequestProcessing;
+      editpfpRequestProcessing = !editpfpRequestProcessing;
     });
   }
 

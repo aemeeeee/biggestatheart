@@ -103,20 +103,20 @@ class NotificationsPageState extends State<NotificationsPage> {
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: widget.currUser.expert
+          children: widget.currUser.isExpert
               ? [
                   homePageButton(refreshCallback),
                   cameraPageButton(refreshCallback),
                   galleryPageButton(widget.currUser, refreshCallback),
                   statsPageButton(refreshCallback),
-                  expertApplicationPageButton(refreshCallback),
+                  isExpertApplicationPageButton(refreshCallback),
                   waitingListPageButton(refreshCallback)
                 ]
               : [
                   homePageButton(refreshCallback),
                   cameraPageButton(refreshCallback),
                   galleryPageButton(widget.currUser, refreshCallback),
-                  expertApplicationPageButton(refreshCallback),
+                  isExpertApplicationPageButton(refreshCallback),
                   statsPageButton(refreshCallback),
                 ],
         ),
@@ -274,7 +274,7 @@ class NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  Widget expertApplicationPageButton(Function refreshCallback) {
+  Widget isExpertApplicationPageButton(Function refreshCallback) {
     return IconButton(
       icon:
           const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 52, 66, 117)),

@@ -111,16 +111,16 @@ class OwnCommentState extends State<OwnComment> {
               contentPadding: const EdgeInsets.only(left: 20, right: 20),
               leading: CircleAvatar(
                   radius: 18,
-                  backgroundImage: NetworkImage(widget.comment.authorPic)),
+                  backgroundImage: NetworkImage(widget.comment.authorPfp)),
               title: Padding(
                   padding: const EdgeInsets.only(bottom: 3),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: widget.comment.idSuggestion
+                      children: widget.comment.isIdSuggestion
                           ? [
                               Row(
                                 children: [
-                                  widget.comment.authorExpert
+                                  widget.comment.hasExpertAuthor
                                       ? const Padding(
                                           padding: EdgeInsets.only(
                                               right: 4, bottom: 2),
@@ -145,11 +145,11 @@ class OwnCommentState extends State<OwnComment> {
                                       )),
                                   Padding(
                                       padding: const EdgeInsets.only(bottom: 2),
-                                      child: widget.comment.suggestionRejected
+                                      child: widget.comment.isRejectedSuggestion
                                           ? const Text('’s ID is rejected',
                                               style: TextStyle(fontSize: 13))
-                                          : widget.comment.suggestionApproved
-                                              ? widget.comment.idReplaced
+                                          : widget.comment.isApprovedSuggestion
+                                              ? widget.comment.hasReplacedId
                                                   ? const Text(
                                                       '’s ID is revoked',
                                                       style: TextStyle(
@@ -169,10 +169,10 @@ class OwnCommentState extends State<OwnComment> {
                               ),
                               Container(
                                   padding: const EdgeInsets.all(2),
-                                  color: widget.comment.suggestionRejected
+                                  color: widget.comment.isRejectedSuggestion
                                       ? const Color.fromARGB(255, 255, 240, 240)
-                                      : widget.comment.suggestionApproved
-                                          ? widget.comment.idReplaced
+                                      : widget.comment.isApprovedSuggestion
+                                          ? widget.comment.hasReplacedId
                                               ? const Color.fromARGB(
                                                   255, 249, 240, 254)
                                               : const Color.fromARGB(
@@ -182,19 +182,19 @@ class OwnCommentState extends State<OwnComment> {
                                   child: Text(singaporeRecords.singleWhere(
                                       (record) =>
                                           '${record.commonNames} (${record.species})' ==
-                                          widget.comment.content, orElse: () {
+                                          widget.comment.comment, orElse: () {
                                     return SpeciesRecord(
                                         class_: '',
                                         order: '',
                                         family: '',
                                         genus: '',
-                                        species: widget.comment.content,
+                                        species: widget.comment.comment,
                                         commonNames: '');
                                   }).species))
                             ]
                           : [
                               Row(children: [
-                                widget.comment.authorExpert
+                                widget.comment.hasExpertAuthor
                                     ? const Padding(
                                         padding: EdgeInsets.only(
                                             right: 4, bottom: 2),
@@ -218,22 +218,23 @@ class OwnCommentState extends State<OwnComment> {
                                               Color.fromARGB(255, 51, 64, 113)),
                                     ))
                               ]),
-                              highlightTaggedUsers(widget.comment.content)
+                              highlightTaggedUsers(widget.comment.comment)
                             ])),
               subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.comment.edited
+                      widget.comment.isEdited
                           ? 'Edited at ${widget.comment.editedTime}'
-                          : 'Posted at ${widget.comment.postedTime}',
+                          : 'Posted at ${widget.comment.uploadTime}',
                       style: const TextStyle(fontSize: 11),
                     ),
-                    widget.comment.suggestionRejected || widget.comment.disputed
+                    widget.comment.isRejectedSuggestion ||
+                            widget.comment.isDisputed
                         ? const SizedBox.shrink()
-                        : widget.comment.suggestionApproved
-                            ? widget.currUser.expert &&
-                                    !widget.comment.idReplaced
+                        : widget.comment.isApprovedSuggestion
+                            ? widget.currUser.isExpert &&
+                                    !widget.comment.hasReplacedId
                                 ? TextButton(
                                     style: TextButton.styleFrom(
                                         padding: const EdgeInsets.all(3),
@@ -420,7 +421,7 @@ class OwnCommentState extends State<OwnComment> {
                                                           "Edit Comment"),
                                                       content: TextFormField(
                                                         initialValue: widget
-                                                            .comment.content,
+                                                            .comment.comment,
                                                         minLines: 1,
                                                         maxLines: 10,
                                                         decoration:
@@ -624,8 +625,8 @@ class OwnCommentState extends State<OwnComment> {
                                                   fontSize: 10,
                                                   color: Color.fromARGB(
                                                       255, 68, 95, 143)))),
-                                      widget.currUser.expert &&
-                                              widget.comment.idSuggestion
+                                      widget.currUser.isExpert &&
+                                              widget.comment.isIdSuggestion
                                           ? TextButton(
                                               style: TextButton.styleFrom(
                                                   padding:
@@ -636,7 +637,7 @@ class OwnCommentState extends State<OwnComment> {
                                                           .shrinkWrap),
                                               onPressed: () {
                                                 if (widget.comment
-                                                    .suggestionApproved) {
+                                                    .isApprovedSuggestion) {
                                                   null;
                                                 } else {
                                                   if (acceptIdRequestProcessing) {
@@ -649,7 +650,7 @@ class OwnCommentState extends State<OwnComment> {
                                                             widget.comment
                                                                 .commentId,
                                                             widget.comment
-                                                                .content,
+                                                                .comment,
                                                             widget.jwt)
                                                         .then(
                                                       (response) {
@@ -695,7 +696,7 @@ class OwnCommentState extends State<OwnComment> {
                                                       color: Color.fromARGB(
                                                           255, 68, 95, 143))))
                                           : const SizedBox.shrink(),
-                                      widget.comment.idSuggestion
+                                      widget.comment.isIdSuggestion
                                           ? TextButton(
                                               style: TextButton.styleFrom(
                                                   padding:
@@ -897,7 +898,7 @@ class OwnCommentState extends State<OwnComment> {
                                       }
                                     } else {
                                       if (widget.comment.upvotes == 19 &&
-                                          widget.comment.idSuggestion) {
+                                          widget.comment.isIdSuggestion) {
                                         if (upvoteRequestProcessing) {
                                           null;
                                         } else {
@@ -1172,16 +1173,16 @@ class OtherCommentState extends State<OtherComment> {
             contentPadding: const EdgeInsets.only(left: 20, right: 20),
             leading: CircleAvatar(
                 radius: 18,
-                backgroundImage: NetworkImage(widget.comment.authorPic)),
+                backgroundImage: NetworkImage(widget.comment.authorPfp)),
             title: Padding(
                 padding: const EdgeInsets.only(bottom: 3),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: widget.comment.idSuggestion
+                    children: widget.comment.isIdSuggestion
                         ? [
                             Row(
                               children: [
-                                widget.comment.authorExpert
+                                widget.comment.hasExpertAuthor
                                     ? const Padding(
                                         padding: EdgeInsets.only(
                                             right: 4, bottom: 2),
@@ -1206,11 +1207,11 @@ class OtherCommentState extends State<OtherComment> {
                                     )),
                                 Padding(
                                     padding: const EdgeInsets.only(bottom: 2),
-                                    child: widget.comment.suggestionRejected
+                                    child: widget.comment.isRejectedSuggestion
                                         ? const Text('’s ID is rejected',
                                             style: TextStyle(fontSize: 13))
-                                        : widget.comment.suggestionApproved
-                                            ? widget.comment.idReplaced
+                                        : widget.comment.isApprovedSuggestion
+                                            ? widget.comment.hasReplacedId
                                                 ? const Text(
                                                     '’s ID is revoked',
                                                     style:
@@ -1229,10 +1230,10 @@ class OtherCommentState extends State<OtherComment> {
                             ),
                             Container(
                                 padding: const EdgeInsets.all(2),
-                                color: widget.comment.suggestionRejected
+                                color: widget.comment.isRejectedSuggestion
                                     ? const Color.fromARGB(255, 255, 240, 240)
-                                    : widget.comment.suggestionApproved
-                                        ? widget.comment.idReplaced
+                                    : widget.comment.isApprovedSuggestion
+                                        ? widget.comment.hasReplacedId
                                             ? const Color.fromARGB(
                                                 255, 249, 240, 254)
                                             : const Color.fromARGB(
@@ -1242,19 +1243,19 @@ class OtherCommentState extends State<OtherComment> {
                                 child: Text(singaporeRecords.singleWhere(
                                     (record) =>
                                         '${record.commonNames} (${record.species})' ==
-                                        widget.comment.content, orElse: () {
+                                        widget.comment.comment, orElse: () {
                                   return SpeciesRecord(
                                       class_: '',
                                       order: '',
                                       family: '',
                                       genus: '',
-                                      species: widget.comment.content,
+                                      species: widget.comment.comment,
                                       commonNames: '');
                                 }).species))
                           ]
                         : [
                             Row(children: [
-                              widget.comment.authorExpert
+                              widget.comment.hasExpertAuthor
                                   ? const Padding(
                                       padding:
                                           EdgeInsets.only(right: 4, bottom: 2),
@@ -1278,20 +1279,21 @@ class OtherCommentState extends State<OtherComment> {
                                             Color.fromARGB(255, 51, 64, 113)),
                                   ))
                             ]),
-                            highlightTaggedUsers(widget.comment.content)
+                            highlightTaggedUsers(widget.comment.comment)
                           ])),
             subtitle:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
-                widget.comment.edited
+                widget.comment.isEdited
                     ? 'Edited at ${widget.comment.editedTime}'
-                    : 'Posted at ${widget.comment.postedTime}',
+                    : 'Posted at ${widget.comment.uploadTime}',
                 style: const TextStyle(fontSize: 11),
               ),
-              widget.comment.suggestionRejected || widget.comment.disputed
+              widget.comment.isRejectedSuggestion || widget.comment.isDisputed
                   ? const SizedBox.shrink()
-                  : widget.comment.suggestionApproved
-                      ? widget.currUser.expert && !widget.comment.idReplaced
+                  : widget.comment.isApprovedSuggestion
+                      ? widget.currUser.isExpert &&
+                              !widget.comment.hasReplacedId
                           ? TextButton(
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(3),
@@ -1435,8 +1437,8 @@ class OtherCommentState extends State<OtherComment> {
                           child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children:
-                                  widget.currUser.expert &&
-                                          widget.comment.idSuggestion
+                                  widget.currUser.isExpert &&
+                                          widget.comment.isIdSuggestion
                                       ? [
                                           TextButton(
                                               style: TextButton.styleFrom(
@@ -1448,7 +1450,7 @@ class OtherCommentState extends State<OtherComment> {
                                                           .shrinkWrap),
                                               onPressed: () {
                                                 if (widget.comment
-                                                    .suggestionApproved) {
+                                                    .isApprovedSuggestion) {
                                                   null;
                                                 } else {
                                                   acceptIdRequestProcessingCallback();
@@ -1458,7 +1460,7 @@ class OtherCommentState extends State<OtherComment> {
                                                           widget.comment
                                                               .commentId,
                                                           widget
-                                                              .comment.content,
+                                                              .comment.comment,
                                                           widget.jwt)
                                                       .then(
                                                     (response) {
@@ -1696,7 +1698,7 @@ class OtherCommentState extends State<OtherComment> {
                                     }
                                   } else {
                                     if (widget.comment.upvotes == 19 &&
-                                        widget.comment.idSuggestion) {
+                                        widget.comment.isIdSuggestion) {
                                       if (upvoteRequestProcessing) {
                                         null;
                                       } else {

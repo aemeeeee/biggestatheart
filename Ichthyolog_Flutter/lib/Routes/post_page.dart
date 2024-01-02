@@ -70,7 +70,7 @@ class PostPageState extends State<PostPage> {
                                   horizontal: 0, vertical: -4),
                               leading: CircleAvatar(
                                   backgroundImage: NetworkImage(
-                                      snapshotPost.data!.authorpic)),
+                                      snapshotPost.data!.authorPfp)),
                               title: Text(
                                 snapshotPost.data!.authorname,
                                 style: const TextStyle(
@@ -88,7 +88,7 @@ class PostPageState extends State<PostPage> {
                                           children: [
                                             const Text('Verified by: '),
                                             Text(
-                                              snapshotPost.data!.verifiedBy!,
+                                              snapshotPost.data!.verifier!,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   color: Color.fromARGB(
@@ -110,7 +110,8 @@ class PostPageState extends State<PostPage> {
                               clipBehavior: Clip.hardEdge,
                               fit: BoxFit.cover,
                               child: Image(
-                                image: NetworkImage(snapshotPost.data!.pic),
+                                image: NetworkImage(
+                                    snapshotPost.data!.sightingPics),
                               ))),
                       Container(
                           padding: const EdgeInsets.only(
@@ -224,7 +225,8 @@ class PostPageState extends State<PostPage> {
                                     comments: snapshot.data!,
                                     jwt: jwt,
                                     postid: widget.postid,
-                                    postPicture: snapshotPost.data!.pic,
+                                    postPicture:
+                                        snapshotPost.data!.sightingPics,
                                     currUser: widget.currUser,
                                     decodedJWT: decodedJWT,
                                     updateCallBack: changeCommentCallback);
@@ -235,7 +237,7 @@ class PostPageState extends State<PostPage> {
                                   jwt: jwt,
                                   decodedJWT: decodedJWT,
                                   postid: widget.postid,
-                                  postPic: snapshotPost.data!.pic,
+                                  postPic: snapshotPost.data!.sightingPics,
                                   updateCallBack: changeCommentCallback,
                                   currUser: widget.currUser,
                                 );
@@ -243,7 +245,7 @@ class PostPageState extends State<PostPage> {
                                 return PostPageNoComment(
                                   jwt: jwt,
                                   postid: widget.postid,
-                                  postPic: snapshotPost.data!.pic,
+                                  postPic: snapshotPost.data!.sightingPics,
                                   currUser: widget.currUser,
                                   addCallBack: changeCommentCallback,
                                 );

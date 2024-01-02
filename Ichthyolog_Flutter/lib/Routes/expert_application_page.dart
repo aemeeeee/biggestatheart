@@ -64,13 +64,13 @@ class ExpertApplicationPageState extends State<ExpertApplicationPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
           centerTitle: true,
-          title: widget.currUser.expert
+          title: widget.currUser.isExpert
               ? const Text('Expert Application Reviews')
               : const Text('Expert Applications'),
           backgroundColor: const Color.fromARGB(255, 65, 90, 181),
           actions: [logoutButton()]),
       body: Column(children: [
-        widget.currUser.expert
+        widget.currUser.isExpert
             ? const SizedBox.shrink()
             : Align(
                 alignment: Alignment.centerRight,
@@ -80,7 +80,7 @@ class ExpertApplicationPageState extends State<ExpertApplicationPage> {
                   child: submitApplicationButton(widget.currUser),
                 )),
         FutureBuilder(
-            future: widget.currUser.expert
+            future: widget.currUser.isExpert
                 ? httpHelpers.viewAllExpertApplicationsRequest(jwt)
                 : httpHelpers.viewOwnExpertApplicationsRequest(
                     widget.currUser.userid, jwt),
@@ -157,7 +157,7 @@ class ExpertApplicationPageState extends State<ExpertApplicationPage> {
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: widget.currUser.expert
+          children: widget.currUser.isExpert
               ? [
                   homePageButton(refreshCallback),
                   cameraPageButton(refreshCallback),
@@ -722,7 +722,7 @@ class ExpertApplicationState extends State<ExpertApplication> {
                 ],
               )),
           trailing: widget.request.approved == 'not processed'
-              ? widget.currUser.expert
+              ? widget.currUser.isExpert
                   ? Row(mainAxisSize: MainAxisSize.min, children: [
                       InkWell(
                           customBorder: const CircleBorder(),
@@ -735,7 +735,7 @@ class ExpertApplicationState extends State<ExpertApplication> {
                                           padding: EdgeInsets.only(left: 5),
                                           child: Text('Double Confirmation')),
                                       content: Text(
-                                          'Approve ${widget.request.authorName}’s expert application?'),
+                                          'Approve ${widget.request.authorName}’s isExpert application?'),
                                       actions: [
                                         Padding(
                                             padding: const EdgeInsets.only(
@@ -973,7 +973,7 @@ class ExpertApplicationState extends State<ExpertApplication> {
                                       padding: EdgeInsets.only(left: 5),
                                       child: Text('Double Confirmation')),
                                   content: const Text(
-                                      'Delete your expert application?'),
+                                      'Delete your isExpert application?'),
                                   actions: [
                                     Padding(
                                         padding: const EdgeInsets.only(

@@ -78,7 +78,7 @@ class GalleryPageState extends State<GalleryPage> {
               bottomNavigationBar: BottomAppBar(
                 child: jwt == ''
                     ? null
-                    : widget.currUser.expert
+                    : widget.currUser.isExpert
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -88,8 +88,8 @@ class GalleryPageState extends State<GalleryPage> {
                               cameraPageButton(refreshCallback),
                               //Visit statistics page to access sighting data
                               statsPageButton(refreshCallback),
-                              //Visit expert application page to review/submit applications
-                              expertApplicationPageButton(refreshCallback),
+                              //Visit isExpert application page to review/submit applications
+                              isExpertApplicationPageButton(refreshCallback),
                               //Visit waiting list page to verify/flag posts
                               waitingListPageButton(refreshCallback),
                               //visit notifications to read notifications
@@ -105,8 +105,8 @@ class GalleryPageState extends State<GalleryPage> {
                               cameraPageButton(refreshCallback),
                               //Visit statistics page to access sighting data
                               statsPageButton(refreshCallback),
-                              //Visit expert application page to review/submit applications
-                              expertApplicationPageButton(refreshCallback),
+                              //Visit isExpert application page to review/submit applications
+                              isExpertApplicationPageButton(refreshCallback),
                               //visit notifications to read notifications
                               notificationsPageButton(widget.currUser)
                             ],
@@ -171,7 +171,7 @@ class GalleryPageState extends State<GalleryPage> {
     );
   }
 
-  Widget expertApplicationPageButton(Function refreshCallback) {
+  Widget isExpertApplicationPageButton(Function refreshCallback) {
     return IconButton(
       icon:
           const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 52, 66, 117)),
@@ -662,7 +662,8 @@ class GalleryPageState extends State<GalleryPage> {
                 ? Stack(children: [
                     InkWell(
                         child: Ink.image(
-                            image: NetworkImage(post.pic), fit: BoxFit.cover),
+                            image: NetworkImage(post.sightingPics),
+                            fit: BoxFit.cover),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -685,7 +686,8 @@ class GalleryPageState extends State<GalleryPage> {
                   ])
                 : InkWell(
                     child: Ink.image(
-                        image: NetworkImage(post.pic), fit: BoxFit.cover),
+                        image: NetworkImage(post.sightingPics),
+                        fit: BoxFit.cover),
                     onTap: () {
                       Navigator.push(
                         context,

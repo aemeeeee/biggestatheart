@@ -5,43 +5,43 @@ class Dispute {
   final int authorId;
   final int commentId;
   final String authorName;
-  final String content;
-  final String authorPic;
-  final String? explanatoryPic;
-  final String postedTime;
-  final bool edited;
+  final String dispute;
+  final String authorPfp;
+  final List<String>? explanatoryPic;
+  final String uploadTime;
+  final bool isEdited;
   final String editedTime;
-  final bool disputeApproved;
+  final bool isApproved;
 
   Dispute(
       {required this.disputeId,
       required this.authorId,
       required this.commentId,
       required this.authorName,
-      required this.authorPic,
+      required this.authorPfp,
       required this.explanatoryPic,
-      required this.content,
-      required this.postedTime,
-      required this.edited,
+      required this.dispute,
+      required this.uploadTime,
+      required this.isEdited,
       required this.editedTime,
-      required this.disputeApproved});
+      required this.isApproved});
 
   factory Dispute.fromJson(Map<String, dynamic> json) {
     return Dispute(
         disputeId: json['disputeid'],
         commentId: json['commentid'],
         authorId: json['authorid'],
-        authorName: json['authorname'],
-        content: json['content'],
-        authorPic: json['authorpicurl'],
-        explanatoryPic: json['explanatorypic'],
-        postedTime: DateFormat("hh:mm a, dd/MM/yyyy")
-            .format(DateTime.parse(json['postedtime'])),
-        edited: json['edited'],
+        authorName: json['username'],
+        dispute: json['content'],
+        authorPfp: json['pfp'],
+        explanatoryPic: json['explanatorypics'],
+        uploadTime: DateFormat("hh:mm a, dd/MM/yyyy")
+            .format(DateTime.parse(json['uploadtime'])),
+        isEdited: json['isedited'],
         editedTime: json['editedtime'] == null
             ? 'Null'
             : DateFormat("hh:mm a, dd/MM/yyyy")
                 .format(DateTime.parse(json['editedtime'])),
-        disputeApproved: json['disputeapproved']);
+        isApproved: json['isapproved']);
   }
 }

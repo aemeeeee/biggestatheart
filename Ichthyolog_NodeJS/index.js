@@ -9,7 +9,7 @@ dotenv.config()
 
 //CORS configuration
 var corsOptions = {
-  origin: 'https://ichthyolog-nodejs.onrender.com',
+  origin: 'https://ichthyolog.onrender.com/',
 }
 
 //middleware bodyParser to help process data sent in an HTTP request body 

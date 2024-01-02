@@ -9,11 +9,12 @@ class Post {
   final String authorname;
   final String title;
   final String description;
-  final String pic;
+  final List<String> sightingPics;
   final String uploadTime;
   final String sightingTime;
   final String sightingLocation;
-  final String authorpic;
+  final String? sightingCoordinates;
+  final String authorPfp;
   final String? class_;
   final String? order;
   final String? family;
@@ -21,7 +22,7 @@ class Post {
   final String? species;
   final bool verified;
   final bool flagged;
-  final String? verifiedBy;
+  final String? verifier;
 
 //use of required keyword as none of these fields can be null
   Post(
@@ -30,11 +31,12 @@ class Post {
       required this.authorname,
       required this.title,
       required this.description,
-      required this.pic,
+      required this.sightingPics,
       required this.uploadTime,
       required this.sightingTime,
       required this.sightingLocation,
-      required this.authorpic,
+      this.sightingCoordinates,
+      required this.authorPfp,
       this.class_,
       this.order,
       this.family,
@@ -42,22 +44,23 @@ class Post {
       this.species,
       required this.verified,
       required this.flagged,
-      this.verifiedBy});
+      this.verifier});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
       postid: json['postid'],
       userid: json['userid'],
-      authorname: json['authorname'],
+      authorname: json['username'],
       title: json['title'],
       description: json['description'] ?? 'Not specified',
-      pic: json['imageurl'],
+      sightingPics: json['sightingimages'],
       uploadTime: DateFormat("hh:mm a, dd/MM/yyyy")
           .format(DateTime.parse(json['time'])),
       sightingLocation: json['sightinglocation'] ?? 'Not specified',
+      sightingCoordinates: json['sightinglocation'] ?? 'Not specified',
       sightingTime: DateFormat("hh:mm a, dd/MM/yyyy")
           .format(DateTime.parse(json['sightingtime'])),
-      authorpic: json['authorpicurl'],
+      authorPfp: json['pfp'],
       class_: json['class'],
       order: json['_order'],
       family: json['family'],
@@ -65,7 +68,7 @@ class Post {
       species: json['species'],
       verified: json['verified'],
       flagged: json['flagged'],
-      verifiedBy: json['verifiedby'],
+      verifier: json['verifier'],
     );
   }
 }

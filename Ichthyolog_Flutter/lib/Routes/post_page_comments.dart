@@ -228,18 +228,19 @@ class PostPageSingleCommentState extends State<PostPageSingleComment> {
                     postid: widget.postid,
                     currUser: widget.currUser,
                   ),
-            widget.comments[widget.comments.length - 1].idSuggestion &&
-                    (widget.comments[widget.comments.length - 1].disputed ||
-                        widget.comments[widget.comments.length - 1].idReplaced)
+            widget.comments[widget.comments.length - 1].isIdSuggestion &&
+                    (widget.comments[widget.comments.length - 1].isDisputed ||
+                        widget
+                            .comments[widget.comments.length - 1].hasReplacedId)
                 ? CommentDisputes(
                     currUser: widget.currUser,
                     comment: widget.comments[widget.comments.length - 1],
                     postid: widget.postid,
                     jwt: widget.jwt,
                     updateCallback: widget.updateCallBack)
-                : widget.comments[widget.comments.length - 1].idSuggestion &&
+                : widget.comments[widget.comments.length - 1].isIdSuggestion &&
                         widget.comments[widget.comments.length - 1]
-                            .suggestionRejected
+                            .isRejectedSuggestion
                     ? Padding(
                         padding: const EdgeInsets.only(left: 76, bottom: 15),
                         child: Align(
@@ -408,7 +409,7 @@ class PostPageSingleCommentState extends State<PostPageSingleComment> {
                               .addCommentRequest(
                                   widget.postid,
                                   contentText.text,
-                                  widget.currUser.expert,
+                                  widget.currUser.isExpert,
                                   widget.jwt)
                               .then((response) {
                             addCommentRequestProcessingCallback();
@@ -427,7 +428,7 @@ class PostPageSingleCommentState extends State<PostPageSingleComment> {
                                       .createNotificationRequest(
                                           everyUser.substring(1),
                                           contentText.text,
-                                          widget.currUser.profilepic,
+                                          widget.currUser.pfp,
                                           widget.postPic,
                                           widget.postid,
                                           widget.jwt)
@@ -743,7 +744,7 @@ class PostPageNoCommentState extends State<PostPageNoComment> {
                               .addCommentRequest(
                                   widget.postid,
                                   contentText.text,
-                                  widget.currUser.expert,
+                                  widget.currUser.isExpert,
                                   widget.jwt)
                               .then((response) {
                             addCommentRequestProcessingCallback();
@@ -762,7 +763,7 @@ class PostPageNoCommentState extends State<PostPageNoComment> {
                                       .createNotificationRequest(
                                           everyUser.substring(1),
                                           contentText.text,
-                                          widget.currUser.profilepic,
+                                          widget.currUser.pfp,
                                           widget.postPic,
                                           widget.postid,
                                           widget.jwt)

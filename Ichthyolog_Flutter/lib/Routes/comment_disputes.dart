@@ -154,8 +154,8 @@ class CommentDisputesState extends State<CommentDisputes> {
                       // Displays the 'Add a dispute' section.
                       !expanded
                           ? const SizedBox.shrink()
-                          // If the comment is idReplaced, the 'Add a dispute' section is hidden, otherwise it is displayed.
-                          : widget.comment.idReplaced
+                          // If the comment is hasReplacedId, the 'Add a dispute' section is hidden, otherwise it is displayed.
+                          : widget.comment.hasReplacedId
                               ? const Padding(
                                   padding: EdgeInsets.only(
                                       left: 18, top: 6, bottom: 8),
@@ -165,7 +165,7 @@ class CommentDisputesState extends State<CommentDisputes> {
                                         color: Color.fromARGB(255, 51, 64, 113),
                                         fontSize: 12),
                                   ))
-                              : widget.currUser.expert
+                              : widget.currUser.isExpert
                                   ? Row(children: [
                                       Container(
                                           width: MediaQuery.of(context)
@@ -331,7 +331,7 @@ Widget ownDispute(
   return ListTile(
       horizontalTitleGap: 0,
       leading: CircleAvatar(
-          radius: 14, backgroundImage: NetworkImage(dispute.authorPic)),
+          radius: 14, backgroundImage: NetworkImage(dispute.authorPfp)),
       title: Padding(
           padding: const EdgeInsets.only(bottom: 3),
           child: Column(
@@ -339,7 +339,7 @@ Widget ownDispute(
             children: [
               Row(
                 children: [
-                  // Displays the 'Expert' tag if the author is an expert.
+                  // Displays the 'Expert' tag if the author is an isExpert.
                   const Padding(
                       padding: EdgeInsets.only(right: 4, bottom: 2),
                       child: Text(
@@ -364,7 +364,7 @@ Widget ownDispute(
                   // Displays the 'dispute approved' tag if the dispute is approved.
                   Padding(
                       padding: const EdgeInsets.only(bottom: 2),
-                      child: dispute.disputeApproved
+                      child: dispute.isApproved
                           ? const Text(
                               '’s dispute is accepted',
                               style: TextStyle(fontSize: 11),
@@ -377,25 +377,25 @@ Widget ownDispute(
               ),
 
               // Displays the explanatory picture if there is one.
-              dispute.explanatoryPic == null
+              dispute.explanatoryPics == null
                   ? const SizedBox.shrink()
                   : Image(
-                      image: NetworkImage(dispute.explanatoryPic!),
+                      image: NetworkImage(dispute.explanatoryPicss!),
                       fit: BoxFit.cover),
               Container(
                   padding: const EdgeInsets.all(2),
-                  color: dispute.disputeApproved
+                  color: dispute.isApproved
                       ? const Color.fromARGB(255, 231, 250, 237)
                       : null,
                   child: Text(
-                    dispute.content,
+                    dispute.dispute,
                     style: const TextStyle(fontSize: 13),
                   ))
             ],
           )),
 
-      // Displays the 'Edit', 'Delete' and 'Accept Dispute' buttons if the current user is an expert or the author of the comment.
-      subtitle: comment.idReplaced
+      // Displays the 'Edit', 'Delete' and 'Accept Dispute' buttons if the current user is an isExpert or the author of the comment.
+      subtitle: comment.hasReplacedId
           ? null
           : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
@@ -413,7 +413,7 @@ Widget ownDispute(
                                 return AlertDialog(
                                     title: const Text("Edit Dispute"),
                                     content: TextFormField(
-                                      initialValue: dispute.content,
+                                      initialValue: dispute.dispute,
                                       minLines: 1,
                                       maxLines: 10,
                                       decoration: const InputDecoration(
@@ -539,9 +539,10 @@ Widget ownDispute(
                             style: TextStyle(
                                 fontSize: 10,
                                 color: Color.fromARGB(255, 68, 95, 143)))),
-                    ((currUser.expert && currUser.userid != dispute.authorId) ||
+                    ((currUser.isExpert &&
+                                    currUser.userid != dispute.authorId) ||
                                 currUser.userid == comment.authorId) &&
-                            comment.disputed
+                            comment.isDisputed
                         ? TextButton(
                             style: TextButton.styleFrom(
                                 padding: const EdgeInsets.all(3),
@@ -629,7 +630,7 @@ Widget otherDispute(
   return ListTile(
       horizontalTitleGap: 0,
       leading: CircleAvatar(
-          radius: 14, backgroundImage: NetworkImage(dispute.authorPic)),
+          radius: 14, backgroundImage: NetworkImage(dispute.authorPfp)),
       title: Padding(
           padding: const EdgeInsets.only(bottom: 3),
           child: Column(
@@ -637,7 +638,7 @@ Widget otherDispute(
             children: [
               Row(
                 children: [
-                  // Displays the 'Expert' tag if the author is an expert.
+                  // Displays the 'Expert' tag if the author is an isExpert.
                   const Padding(
                       padding: EdgeInsets.only(right: 4, bottom: 2),
                       child: Text(
@@ -662,7 +663,7 @@ Widget otherDispute(
                   // Displays the 'dispute approved' tag if the dispute is approved.
                   Padding(
                       padding: const EdgeInsets.only(bottom: 2),
-                      child: dispute.disputeApproved
+                      child: dispute.isApproved
                           ? const Text(
                               '’s dispute is accepted',
                               style: TextStyle(fontSize: 11),
@@ -675,34 +676,34 @@ Widget otherDispute(
               ),
 
               // Displays the explanatory picture if there is one.
-              dispute.explanatoryPic == null
+              dispute.explanatoryPics == null
                   ? const SizedBox.shrink()
                   : Image(
-                      image: NetworkImage(dispute.explanatoryPic!),
+                      image: NetworkImage(dispute.explanatoryPics!),
                       fit: BoxFit.cover),
               Container(
                   padding: const EdgeInsets.all(2),
-                  color: dispute.disputeApproved
+                  color: dispute.isApproved
                       ? const Color.fromARGB(255, 231, 250, 237)
                       : null,
                   child: Text(
-                    dispute.content,
+                    dispute.dispute,
                     style: const TextStyle(fontSize: 13),
                   ))
             ],
           )),
 
-      // Displays the 'Accept Dispute' button if the current user is an expert or the author of the comment.
+      // Displays the 'Accept Dispute' button if the current user is an isExpert or the author of the comment.
       subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
-          dispute.edited
+          dispute.isEdited
               ? 'Edited at ${dispute.editedTime}'
-              : 'Posted at ${dispute.postedTime}',
+              : 'Posted at ${dispute.uploadTime}',
           style: const TextStyle(fontSize: 11),
         ),
-        ((currUser.expert && currUser.userid != dispute.authorId) ||
+        ((currUser.isExpert && currUser.userid != dispute.authorId) ||
                     currUser.userid == comment.authorId) &&
-                comment.disputed
+                comment.isDisputed
             ? TextButton(
                 style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(3),

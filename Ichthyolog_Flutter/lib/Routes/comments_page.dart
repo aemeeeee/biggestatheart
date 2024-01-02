@@ -162,17 +162,18 @@ class CommentPageState extends State<CommentPage> {
                                         postid: widget.postid,
                                         currUser: widget.currUser,
                                       ),
-                            snapshot.data![index].idSuggestion &&
-                                    (snapshot.data![index].disputed ||
-                                        snapshot.data![index].idReplaced)
+                            snapshot.data![index].isIdSuggestion &&
+                                    (snapshot.data![index].isDisputed ||
+                                        snapshot.data![index].hasReplacedId)
                                 ? CommentDisputes(
                                     currUser: widget.currUser,
                                     comment: snapshot.data![index],
                                     postid: widget.postid,
                                     jwt: jwt,
                                     updateCallback: updateCommentCallback)
-                                : snapshot.data![index].idSuggestion &&
-                                        snapshot.data![index].suggestionRejected
+                                : snapshot.data![index].isIdSuggestion &&
+                                        snapshot
+                                            .data![index].isRejectedSuggestion
                                     ? Padding(
                                         padding: const EdgeInsets.only(
                                             left: 76, bottom: 15, right: 20),
@@ -366,7 +367,7 @@ class CommentPageState extends State<CommentPage> {
                                               .addCommentRequest(
                                                   widget.postid,
                                                   contentText.text,
-                                                  widget.currUser.expert,
+                                                  widget.currUser.isExpert,
                                                   jwt)
                                               .then((response) {
                                             addCommentRequestProcessingCallback();
@@ -390,8 +391,7 @@ class CommentPageState extends State<CommentPage> {
                                                           everyUser
                                                               .substring(1),
                                                           contentText.text,
-                                                          widget.currUser
-                                                              .profilepic,
+                                                          widget.currUser.pfp,
                                                           widget.postPic,
                                                           widget.postid,
                                                           jwt)
