@@ -6,7 +6,7 @@ dotenv.config()
 
 const viewAllPosts = async (request, response) => {
   try{
-    db.clientPool.query('SELECT * FROM posts ORDER BY flagged desc, time desc ', (error, result) => {
+    db.clientPool.query('SELECT * FROM posts INNER JOIN users ON posts.userid = users.userid ORDER BY flagged desc, time desc ', (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -25,7 +25,7 @@ const viewAllPosts = async (request, response) => {
 
 const viewAllVerifiedPosts = async (request, response) => {
   try{
-    db.clientPool.query('SELECT * FROM posts WHERE verified ORDER BY flagged desc, time desc', (error, result) => {
+    db.clientPool.query('SELECT * FROM posts WHERE verified INNER JOIN users ON posts.userid = users.userid ORDER BY flagged desc, time desc', (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -44,7 +44,7 @@ const viewAllVerifiedPosts = async (request, response) => {
 
 const viewAllUnverifiedPosts = async (request, response) => {
   try{
-    db.clientPool.query('SELECT * FROM posts WHERE NOT verified ORDER BY flagged desc, time desc', (error, result) => {
+    db.clientPool.query('SELECT * FROM posts WHERE NOT verified INNER JOIN users ON posts.userid = users.userid ORDER BY flagged desc, time desc', (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -67,7 +67,7 @@ const viewUserPosts = async (request, response) => {
   try {
     const result = jwt.verify(jwt_auth, process.env.SECRETKEY, { algorithm: 'HS256' })
     const userid = result.userid
-    db.clientPool.query('SELECT * FROM posts WHERE userid = $1 ORDER BY flagged desc, time desc', [userid], (error, result) => {
+    db.clientPool.query('SELECT * FROM posts WHERE userid = $1 INNER JOIN users ON posts.userid = users.userid ORDER BY flagged desc, time desc', [userid], (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -85,7 +85,7 @@ const viewUserPosts = async (request, response) => {
 
   const viewPost = async(request, response) => {
     const postid = request.params.postid
-    db.clientPool.query('SELECT * FROM posts WHERE postid = $1', [postid], (error, result) => {
+    db.clientPool.query('SELECT * FROM posts  WHERE postid = $1 INNER JOIN users ON posts.userid = users.userid', [postid], (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -100,7 +100,7 @@ const viewUserPosts = async (request, response) => {
 
   const viewPostIdByTitle = async(request, response) => {
     const title = request.params.title
-    db.clientPool.query('SELECT postid FROM posts WHERE title = $1', [title], (error, result) => {
+    db.clientPool.query('SELECT postid FROM posts WHERE title = $1 INNER JOIN users ON posts.userid = users.userid', [title], (error, result) => {
       if (error) {
         throw error
       }
@@ -134,7 +134,7 @@ const viewUserPosts = async (request, response) => {
             console.log(totalposts)
             console.log(level)
 
-            db.clientPool.query('INSERT INTO posts (userid, authorname, title, description, time, sightinglocation, sightingtime, imageurl, authorpicurl, class, _order, family, genus, species) VALUES ($1, $2, $3, NULLIF($4, $14), now(), NULLIF($5, $14), $6, $7, $8, NULLIF($9,$14), NULLIF($10,$14), NULLIF($11,$14), NULLIF($12,$14), NULLIF($13,$14))', 
+            db.clientPool.query('INSERT INTO posts (authorid, title, description, uploadtime, sightinglocation, sightingtime, sightingimages, speciesid) VALUES ($1, $2, $3, NULLIF($4, $14), now(), NULLIF($5, $14), $6, $7, $8, NULLIF($9,$14), NULLIF($10,$14), NULLIF($11,$14), NULLIF($12,$14), NULLIF($13,$14))', 
               [userid, authorname, title, description, sightingLocation, sightingTime, imageURL, picture, _class, order, family, genus, species, blank], 
               (error, result) => {
               if (error) {

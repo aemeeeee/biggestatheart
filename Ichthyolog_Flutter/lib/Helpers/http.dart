@@ -14,7 +14,7 @@ class HttpHelpers {
   //the string can be used for pop-up display etc.
   Future<String> signupRequest(
       String username, String password, String email) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/user';
+    String url = 'https://ichthyolog.onrender.com/user';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -41,7 +41,7 @@ class HttpHelpers {
 
   Future<String> loginRequest(
       String email, String username, String password) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/user/login';
+    String url = 'https://ichthyolog.onrender.com/user/login';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -65,7 +65,7 @@ class HttpHelpers {
   }
 
   Future<String> logoutRequest(String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/user/logout';
+    String url = 'https://ichthyolog.onrender.com/user/logout';
     var response = await http.post(Uri.parse(url), headers: <String, String>{
       'Content-type': 'application/json; charset=UTF-8',
       'Authorisation': jwt
@@ -78,7 +78,7 @@ class HttpHelpers {
   }
 
   Future<User> viewOwnUserProfileRequest(String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/user';
+    String url = 'https://ichthyolog.onrender.com/user';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -98,7 +98,7 @@ class HttpHelpers {
   }
 
   Future<List<String>> viewAllUsernamesRequest(String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/usernames';
+    String url = 'https://ichthyolog.onrender.com/usernames';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -123,7 +123,7 @@ class HttpHelpers {
   }
 
   Future<User> viewAnyUserProfileRequest(int userid) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/user/$userid';
+    String url = 'https://ichthyolog.onrender.com/user/$userid';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -141,9 +141,9 @@ class HttpHelpers {
 
   Future<String> editUserProfileRequest(String email, String username,
       String oldPassword, String newPassword, String jwt) async {
-    String urlUsername = 'https://ichthyolog-nodejs.onrender.com/user/username';
-    String urlEmail = 'https://ichthyolog-nodejs.onrender.com/user/email';
-    String urlPassword = 'https://ichthyolog-nodejs.onrender.com/user/password';
+    String urlUsername = 'https://ichthyolog.onrender.com/user/username';
+    String urlEmail = 'https://ichthyolog.onrender.com/user/email';
+    String urlPassword = 'https://ichthyolog.onrender.com/user/password';
     var responseUsername = await http.put(
       Uri.parse(urlUsername),
       headers: <String, String>{
@@ -201,7 +201,7 @@ class HttpHelpers {
   }
 
   Future<String> editUserProfilePicRequest(String imageurl, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/user/profilepic';
+    String url = 'https://ichthyolog.onrender.com/user/profilepic';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -224,7 +224,7 @@ class HttpHelpers {
   }
 
   Future<List<Post>> viewAllPostsRequest() async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/posts';
+    String url = 'https://ichthyolog.onrender.com/posts';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -247,7 +247,7 @@ class HttpHelpers {
   }
 
   Future<List<Post>> viewAllVerifiedPostsRequest() async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/posts/verified';
+    String url = 'https://ichthyolog.onrender.com/posts/verified';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -270,7 +270,7 @@ class HttpHelpers {
   }
 
   Future<List<Post>> viewAllUnverifiedPostsRequest() async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/posts/unverified';
+    String url = 'https://ichthyolog.onrender.com/posts/unverified';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -293,7 +293,7 @@ class HttpHelpers {
   }
 
   Future<List<Post>> viewOwnPostsRequest(String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/posts/user';
+    String url = 'https://ichthyolog.onrender.com/posts/user';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -319,7 +319,7 @@ class HttpHelpers {
   }
 
   Future<Post> viewPostRequest(int postid) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/post/$postid';
+    String url = 'https://ichthyolog.onrender.com/post/$postid';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -336,7 +336,7 @@ class HttpHelpers {
   }
 
   Future<int> viewPostIdByTitleRequest(String title) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/postid/$title';
+    String url = 'https://ichthyolog.onrender.com/postid/$title';
     var response = await http.get(Uri.parse(url), headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     });
@@ -361,7 +361,7 @@ class HttpHelpers {
       String family,
       String genus,
       String species) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/post';
+    String url = 'https://ichthyolog.onrender.com/post';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -401,22 +401,16 @@ class HttpHelpers {
       String family,
       String genus,
       String species) async {
-    String urlTitle =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/title';
+    String urlTitle = 'https://ichthyolog.onrender.com/post/$postid/title';
     String urlDescription =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/description';
+        'https://ichthyolog.onrender.com/post/$postid/description';
     String urlSightingLocation =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/sightinglocation';
-    String urlClass =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/class';
-    String urlOrder =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/order';
-    String urlFamily =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/family';
-    String urlGenus =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/genus';
-    String urlSpecies =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/species';
+        'https://ichthyolog.onrender.com/post/$postid/sightinglocation';
+    String urlClass = 'https://ichthyolog.onrender.com/post/$postid/class';
+    String urlOrder = 'https://ichthyolog.onrender.com/post/$postid/order';
+    String urlFamily = 'https://ichthyolog.onrender.com/post/$postid/family';
+    String urlGenus = 'https://ichthyolog.onrender.com/post/$postid/genus';
+    String urlSpecies = 'https://ichthyolog.onrender.com/post/$postid/species';
     var responseTitle = await http.put(Uri.parse(urlTitle),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -508,7 +502,7 @@ class HttpHelpers {
   }
 
   Future<List<Comment>> viewPostCommentsRequest(int postid) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/comments/$postid';
+    String url = 'https://ichthyolog.onrender.com/comments/$postid';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -531,7 +525,7 @@ class HttpHelpers {
   }
 
   Future<List<Comment>> viewUserCommentsRequest(String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/comments/user';
+    String url = 'https://ichthyolog.onrender.com/comments/user';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -557,7 +551,7 @@ class HttpHelpers {
   }
 
   Future<Comment> viewCommentRequest(int commentid) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/comments/$commentid';
+    String url = 'https://ichthyolog.onrender.com/comments/$commentid';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -575,7 +569,7 @@ class HttpHelpers {
 
   Future<String> addCommentRequest(
       int postid, String content, bool authorexpert, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/comment';
+    String url = 'https://ichthyolog.onrender.com/comment';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -599,7 +593,7 @@ class HttpHelpers {
 
   Future<String> addIdSuggestionRequest(
       int postid, String content, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/comment/idsuggestion';
+    String url = 'https://ichthyolog.onrender.com/comment/idsuggestion';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -655,17 +649,12 @@ class HttpHelpers {
     }
 
     String urlComment =
-        'https://ichthyolog-nodejs.onrender.com/comment/$commentid/idsuggestion/accept';
-    String urlClass =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/class';
-    String urlOrder =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/order';
-    String urlFamily =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/family';
-    String urlGenus =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/genus';
-    String urlSpecies =
-        'https://ichthyolog-nodejs.onrender.com/post/$postid/species';
+        'https://ichthyolog.onrender.com/comment/$commentid/idsuggestion/accept';
+    String urlClass = 'https://ichthyolog.onrender.com/post/$postid/class';
+    String urlOrder = 'https://ichthyolog.onrender.com/post/$postid/order';
+    String urlFamily = 'https://ichthyolog.onrender.com/post/$postid/family';
+    String urlGenus = 'https://ichthyolog.onrender.com/post/$postid/genus';
+    String urlSpecies = 'https://ichthyolog.onrender.com/post/$postid/species';
 
     var responseClass = await http.put(Uri.parse(urlClass),
         headers: <String, String>{
@@ -744,7 +733,7 @@ class HttpHelpers {
   Future<String> rejectIdSuggestionRequest(
       int commentid, String jwt, String rejectionReason) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/comment/$commentid/idsuggestion/reject';
+        'https://ichthyolog.onrender.com/comment/$commentid/idsuggestion/reject';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -766,7 +755,7 @@ class HttpHelpers {
 
   Future<String> editCommentRequest(
       int commentid, String content, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/comment/$commentid';
+    String url = 'https://ichthyolog.onrender.com/comment/$commentid';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -785,7 +774,7 @@ class HttpHelpers {
   }
 
   Future<String> deleteUserRequest(String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/user';
+    String url = 'https://ichthyolog.onrender.com/user';
     var response = await http.delete(
       Uri.parse(url),
       headers: <String, String>{
@@ -801,7 +790,7 @@ class HttpHelpers {
   }
 
   Future<String> deletePostRequest(int postid, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/post/$postid';
+    String url = 'https://ichthyolog.onrender.com/post/$postid';
     var response = await http.delete(
       Uri.parse(url),
       headers: <String, String>{
@@ -817,7 +806,7 @@ class HttpHelpers {
   }
 
   Future<String> deleteCommentRequest(int commentid, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/comment/$commentid';
+    String url = 'https://ichthyolog.onrender.com/comment/$commentid';
     var response = await http.delete(
       Uri.parse(url),
       headers: <String, String>{
@@ -833,7 +822,7 @@ class HttpHelpers {
   }
 
   Future<String> verifyPostRequest(int postid, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/post/$postid/verify';
+    String url = 'https://ichthyolog.onrender.com/post/$postid/verify';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -849,7 +838,7 @@ class HttpHelpers {
   }
 
   Future<String> flagPostRequest(int postid, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/post/$postid/flag';
+    String url = 'https://ichthyolog.onrender.com/post/$postid/flag';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -865,7 +854,7 @@ class HttpHelpers {
   }
 
   Future<String> unFlagPostRequest(int postid, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/post/$postid/unflag';
+    String url = 'https://ichthyolog.onrender.com/post/$postid/unflag';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -883,7 +872,7 @@ class HttpHelpers {
   Future<String> upVoteCommentRequest(
       int commentid, int authorid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/comment/$commentid/$authorid/upvote';
+        'https://ichthyolog.onrender.com/comment/$commentid/$authorid/upvote';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -901,7 +890,7 @@ class HttpHelpers {
   Future<String> unUpVoteCommentRequest(
       int commentid, int authorid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/comment/$commentid/$authorid/unupvote';
+        'https://ichthyolog.onrender.com/comment/$commentid/$authorid/unupvote';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -919,7 +908,7 @@ class HttpHelpers {
   Future<String> downVoteCommentRequest(
       int commentid, int authorid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/comment/$commentid/$authorid/downvote';
+        'https://ichthyolog.onrender.com/comment/$commentid/$authorid/downvote';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -937,7 +926,7 @@ class HttpHelpers {
   Future<String> unDownVoteCommentRequest(
       int commentid, int authorid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/comment/$commentid/$authorid/undownvote';
+        'https://ichthyolog.onrender.com/comment/$commentid/$authorid/undownvote';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -954,8 +943,7 @@ class HttpHelpers {
 
   Future<bool> checkUpvoteStatus(
       int commentid, String jwt, int authorid) async {
-    String url =
-        'https://ichthyolog-nodejs.onrender.com/upvotes/$commentid/$authorid';
+    String url = 'https://ichthyolog.onrender.com/upvotes/$commentid/$authorid';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -975,7 +963,7 @@ class HttpHelpers {
   Future<bool> checkDownvoteStatus(
       int commentid, String jwt, int authorid) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/downvotes/$commentid/$authorid';
+        'https://ichthyolog.onrender.com/downvotes/$commentid/$authorid';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -993,7 +981,7 @@ class HttpHelpers {
   }
 
   Future<List<Dispute>> viewDisputesRequest(int commentid) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/$commentid/disputes';
+    String url = 'https://ichthyolog.onrender.com/$commentid/disputes';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1018,7 +1006,7 @@ class HttpHelpers {
 
   Future<String> addDisputeRequest(
       int commentid, String content, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/disputes';
+    String url = 'https://ichthyolog.onrender.com/disputes';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -1040,7 +1028,7 @@ class HttpHelpers {
 
   Future<String> editDisputeRequest(
       int disputeid, String content, String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/disputes/$disputeid';
+    String url = 'https://ichthyolog.onrender.com/disputes/$disputeid';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -1064,7 +1052,7 @@ class HttpHelpers {
   Future<String> deleteDisputeRequest(
       int commentid, int disputeid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/$commentid/disputes/$disputeid';
+        'https://ichthyolog.onrender.com/$commentid/disputes/$disputeid';
     var response = await http.delete(
       Uri.parse(url),
       headers: <String, String>{
@@ -1084,7 +1072,7 @@ class HttpHelpers {
   Future<String> approveDisputeRequest(
       int commentid, int disputeid, int postid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/$commentid/disputes/$disputeid/approve';
+        'https://ichthyolog.onrender.com/$commentid/disputes/$disputeid/approve';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
@@ -1108,7 +1096,7 @@ class HttpHelpers {
 
   Future<List<ExpertApplicationRequest>> viewAllExpertApplicationsRequest(
       String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/expertapplications';
+    String url = 'https://ichthyolog.onrender.com/expertapplications';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1135,8 +1123,7 @@ class HttpHelpers {
 
   Future<List<ExpertApplicationRequest>> viewOwnExpertApplicationsRequest(
       int authorid, String jwt) async {
-    String url =
-        'https://ichthyolog-nodejs.onrender.com/$authorid/expertapplications';
+    String url = 'https://ichthyolog.onrender.com/$authorid/expertapplications';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1171,7 +1158,7 @@ class HttpHelpers {
       int contact,
       String credentials,
       String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/expertapplications';
+    String url = 'https://ichthyolog.onrender.com/expertapplications';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -1203,7 +1190,7 @@ class HttpHelpers {
   Future<String> approveExpertApplicationRequest(
       int authorid, int applicationid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/$authorid/expertapplications/$applicationid';
+        'https://ichthyolog.onrender.com/$authorid/expertapplications/$applicationid';
     var response = await http.put(Uri.parse(url), headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorisation': jwt
@@ -1222,7 +1209,7 @@ class HttpHelpers {
   Future<String> rejectExpertApplicationRequest(
       int applicationid, String rejectionReason, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/expertapplications/$applicationid';
+        'https://ichthyolog.onrender.com/expertapplications/$applicationid';
     var response = await http.put(Uri.parse(url),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -1245,7 +1232,7 @@ class HttpHelpers {
   Future<String> deleteExpertApplicationRequest(
       int applicationid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/expertapplications/$applicationid';
+        'https://ichthyolog.onrender.com/expertapplications/$applicationid';
     var response = await http.delete(
       Uri.parse(url),
       headers: <String, String>{
@@ -1267,7 +1254,7 @@ class HttpHelpers {
 // statistics request
   Future<List<String>> searchAll(
       String startTime, String endTime, String sightinglocation) async {
-    var url = Uri.https('ichthyolog-nodejs.onrender.com', '/statistics/all', {
+    var url = Uri.https('ichthyolog.onrender.com', '/statistics/all', {
       'sightingLocation': sightinglocation,
     });
     var response = await http.get(url, headers: <String, String>{
@@ -1292,7 +1279,7 @@ class HttpHelpers {
       return searchAll(startTime, endTime, sightinglocation);
     }
     String url =
-        'https://ichthyolog-nodejs.onrender.com/statistics/speciesName/$species';
+        'https://ichthyolog.onrender.com/statistics/speciesName/$species';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1313,8 +1300,8 @@ class HttpHelpers {
 
   Future<List<String>> searchSpecies(String species, String startTime,
       String endTime, String sightinglocation) async {
-    var uri = Uri.https(
-        'ichthyolog-nodejs.onrender.com', '/statistics/species/$species', {
+    var uri =
+        Uri.https('ichthyolog.onrender.com', '/statistics/species/$species', {
       'species': species,
       'startTime': startTime,
       'endTime': endTime,
@@ -1362,8 +1349,8 @@ class HttpHelpers {
 
   Future<List<String>> searchClass(String class_, String startTime,
       String endTime, String sightinglocation) async {
-    var url = Uri.https(
-        'ichthyolog-nodejs.onrender.com', '/statistics/class/$class_', {
+    var url =
+        Uri.https('ichthyolog.onrender.com', '/statistics/class/$class_', {
       'class_': class_,
       'sightingLocation': sightinglocation,
     });
@@ -1384,8 +1371,7 @@ class HttpHelpers {
 
   Future<List<String>> searchOrder(String order, String startTime,
       String endTime, String sightinglocation) async {
-    var url = Uri.https(
-        'ichthyolog-nodejs.onrender.com', '/statistics/order/$order', {
+    var url = Uri.https('ichthyolog.onrender.com', '/statistics/order/$order', {
       'order': order,
       'sightingLocation': sightinglocation,
     });
@@ -1406,8 +1392,8 @@ class HttpHelpers {
 
   Future<List<String>> searchFamily(String family, String startTime,
       String endTime, String sightinglocation) async {
-    var url = Uri.https(
-        'ichthyolog-nodejs.onrender.com', '/statistics/family/$family', {
+    var url =
+        Uri.https('ichthyolog.onrender.com', '/statistics/family/$family', {
       'family': family,
       'sightingLocation': sightinglocation,
     });
@@ -1428,8 +1414,7 @@ class HttpHelpers {
 
   Future<List<String>> searchGenus(String genus, String startTime,
       String endTime, String sightinglocation) async {
-    var url = Uri.https(
-        'ichthyolog-nodejs.onrender.com', '/statistics/genus/$genus', {
+    var url = Uri.https('ichthyolog.onrender.com', '/statistics/genus/$genus', {
       'genus': genus,
       'sightingLocation': sightinglocation,
     });
@@ -1449,7 +1434,7 @@ class HttpHelpers {
   }
 
   Future<List<List<String>>> searchFamilyCatalogue() async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/catalogue/family';
+    String url = 'https://ichthyolog.onrender.com/catalogue/family';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1477,7 +1462,7 @@ class HttpHelpers {
   }
 
   Future<List<List<String>>> searchGenusCatalogue() async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/catalogue/genus';
+    String url = 'https://ichthyolog.onrender.com/catalogue/genus';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1505,7 +1490,7 @@ class HttpHelpers {
   }
 
   Future<List<List<String>>> searchOrderCatalogue() async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/catalogue/order';
+    String url = 'https://ichthyolog.onrender.com/catalogue/order';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1533,7 +1518,7 @@ class HttpHelpers {
   }
 
   Future<List<List<String>>> searchClassCatalogue() async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/catalogue/class';
+    String url = 'https://ichthyolog.onrender.com/catalogue/class';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1561,8 +1546,7 @@ class HttpHelpers {
   }
 
   Future<List<List<String>>> speciesCountByDay(String species) async {
-    String url =
-        'https://ichthyolog-nodejs.onrender.com/statistics/hour/$species';
+    String url = 'https://ichthyolog.onrender.com/statistics/hour/$species';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1589,8 +1573,7 @@ class HttpHelpers {
   }
 
   Future<List<List<String>>> speciesCountByWeek(String species) async {
-    String url =
-        'https://ichthyolog-nodejs.onrender.com/statistics/week/$species';
+    String url = 'https://ichthyolog.onrender.com/statistics/week/$species';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1615,8 +1598,7 @@ class HttpHelpers {
   }
 
   Future<List<List<String>>> speciesCountByMonth(String species) async {
-    String url =
-        'https://ichthyolog-nodejs.onrender.com/statistics/month/$species';
+    String url = 'https://ichthyolog.onrender.com/statistics/month/$species';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1650,7 +1632,7 @@ class HttpHelpers {
   }
 
   Future<List<CommentNotification>> viewNotificationsRequest(String jwt) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/notifications';
+    String url = 'https://ichthyolog.onrender.com/notifications';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1676,8 +1658,7 @@ class HttpHelpers {
   }
 
   Future<int> countUnviewedNotificationsRequest(String jwt) async {
-    String url =
-        'https://ichthyolog-nodejs.onrender.com/notifications/unviewed';
+    String url = 'https://ichthyolog.onrender.com/notifications/unviewed';
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -1700,7 +1681,7 @@ class HttpHelpers {
     int postid,
     String jwt,
   ) async {
-    String url = 'https://ichthyolog-nodejs.onrender.com/notifications';
+    String url = 'https://ichthyolog.onrender.com/notifications';
     var response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -1724,7 +1705,7 @@ class HttpHelpers {
 
   Future<String> openNotificationRequest(int notificationid, String jwt) async {
     String url =
-        'https://ichthyolog-nodejs.onrender.com/notifications/$notificationid';
+        'https://ichthyolog.onrender.com/notifications/$notificationid';
     var response = await http.put(
       Uri.parse(url),
       headers: <String, String>{
