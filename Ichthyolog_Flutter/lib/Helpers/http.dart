@@ -86,7 +86,6 @@ class HttpHelpers {
         'Authorisation': jwt
       },
     );
-    print(response.body);
     if (response.body == 'User not found') {
       return Future.error('User Not Found');
     } else if (response.body == 'jwt expired') {
@@ -232,6 +231,7 @@ class HttpHelpers {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     if (response.body == 'Posts not found') {
       return Future.error('Posts Not Found');
     } else if (response.statusCode != 200) {
@@ -302,7 +302,6 @@ class HttpHelpers {
         'Authorisation': jwt
       },
     );
-    print(response.body);
     if (response.body == 'Posts not found') {
       return Future.error('Posts Not Found');
     } else if (response.body == 'jwt expired') {
@@ -356,7 +355,7 @@ class HttpHelpers {
       String description,
       String sightingLocation,
       String sightingTime,
-      String imageURL,
+      String imageURLs,
       String jwt,
       String class_,
       String order,
@@ -375,7 +374,7 @@ class HttpHelpers {
         'description': description,
         'sightingLocation': sightingLocation,
         'sightingTime': sightingTime,
-        'imageURL': imageURL,
+        'imageURL': imageURLs,
         '_class': class_,
         'order': order,
         'family': family,
@@ -383,6 +382,7 @@ class HttpHelpers {
         'species': species
       }),
     );
+    print(response.body);
     if (response.statusCode == 201) {
       return ('Post Uploaded');
     } else if (response.body == 'jwt expired') {

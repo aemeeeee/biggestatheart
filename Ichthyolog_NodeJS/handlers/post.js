@@ -116,13 +116,12 @@ const viewUserPosts = async (request, response) => {
   
   const addPost= async(request, response) => {
     const jwt_auth = request.get('Authorisation')
-    const { title, description, sightingLocation, sightingTime, imageURL, _class, order, family, genus, species } = request.body
+    const { title, description, sightingLocation, sightingTime, imageURLs, _class, order, family, genus, species } = request.body
   
     try {
         const result = jwt.verify(jwt_auth, process.env.SECRETKEY, {algorithm: 'HS256'})
         const userid = result.userid  
-        const authorname = result.username
-        db.clientPool.query('SELECT profilepic, totalposts, level FROM users WHERE userid = $1', [userid], (error, result) => {
+        db.clientPool.query('SELECT pfp, postcount, level FROM users WHERE userid = $1', [userid], (error, result) => {
           if (error) {
             response.send(error.message)
           }
@@ -134,8 +133,8 @@ const viewUserPosts = async (request, response) => {
             console.log(totalposts)
             console.log(level)
 
-            db.clientPool.query('INSERT INTO posts (authorid, title, description, uploadtime, sightinglocation, sightingtime, sightingimages, speciesid) VALUES ($1, $2, $3, NULLIF($4, $14), now(), NULLIF($5, $14), $6, $7, $8, NULLIF($9,$14), NULLIF($10,$14), NULLIF($11,$14), NULLIF($12,$14), NULLIF($13,$14))', 
-              [userid, authorname, title, description, sightingLocation, sightingTime, imageURL, picture, _class, order, family, genus, species, blank], 
+            db.clientPool.query('INSERT INTO posts (authorid, title, description, uploadtime, sightinglocation, sightingtime, sightingimages, class, _order, family, genus, species) VALUES ($1, $2, $3, now(), NULLIF($4, $14), NULLIF($5, $14), $6, NULLIF($7,$14), NULLIF($8,$14), NULLIF($9,$14), NULLIF($10,$14), NULLIF($11,$14))', 
+              [userid, title, description, sightingLocation, sightingTime, imageURLs, _class, order, family, genus, species, blank], 
               (error, result) => {
               if (error) {
                 response.send(error.message)
