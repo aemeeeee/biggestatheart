@@ -25,7 +25,7 @@ const viewAllPosts = async (request, response) => {
 
 const viewAllVerifiedPosts = async (request, response) => {
   try{
-    db.clientPool.query('SELECT * FROM posts WHERE verified INNER JOIN users ON posts.userid = users.userid ORDER BY flagged desc, time desc', (error, result) => {
+    db.clientPool.query('SELECT * FROM posts INNER JOIN users ON posts.userid = users.userid WHERE verified ORDER BY flagged desc, time desc', (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -44,7 +44,7 @@ const viewAllVerifiedPosts = async (request, response) => {
 
 const viewAllUnverifiedPosts = async (request, response) => {
   try{
-    db.clientPool.query('SELECT * FROM posts WHERE NOT verified INNER JOIN users ON posts.userid = users.userid ORDER BY flagged desc, time desc', (error, result) => {
+    db.clientPool.query('SELECT * FROM posts INNER JOIN users ON posts.userid = users.userid WHERE NOT verified ORDER BY flagged desc, time desc', (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -67,7 +67,7 @@ const viewUserPosts = async (request, response) => {
   try {
     const result = jwt.verify(jwt_auth, process.env.SECRETKEY, { algorithm: 'HS256' })
     const userid = result.userid
-    db.clientPool.query('SELECT * FROM posts WHERE userid = $1 INNER JOIN users ON posts.userid = users.userid ORDER BY flagged desc, time desc', [userid], (error, result) => {
+    db.clientPool.query('SELECT * FROM posts INNER JOIN users ON posts.userid = users.userid WHERE userid = $1 ORDER BY flagged desc, time desc', [userid], (error, result) => {
       if (error) {
         response.send(error.message)
       }
@@ -85,7 +85,7 @@ const viewUserPosts = async (request, response) => {
 
   const viewPost = async(request, response) => {
     const postid = request.params.postid
-    db.clientPool.query('SELECT * FROM posts  WHERE postid = $1 INNER JOIN users ON posts.userid = users.userid', [postid], (error, result) => {
+    db.clientPool.query('SELECT * FROM posts INNER JOIN users ON posts.userid = users.userid WHERE postid = $1', [postid], (error, result) => {
       if (error) {
         response.send(error.message)
       }

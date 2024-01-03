@@ -867,7 +867,7 @@ class HomePageState extends State<HomePage> {
                                     color: Color.fromARGB(255, 51, 64, 113)),
                               )),
                           const Text(
-                              'Welcome to Ichthyolog! We are dedicated to the documentation of fish species sightings in Singapore. You may upload fish sightings to be verified by isExperts and add them to our scientific database. You may then access statistics on verified fsh records through the species search page. You may also discuss with isExperts on any submitted sighting and suggest species identifications for unverified posts.'),
+                              'Welcome to Ichthyolog! We are dedicated to the documentation of fish species sightings in Singapore. You may upload fish sightings to be verified by experts and add them to our scientific database. You may then access statistics on verified fsh records through the species search page. You may also discuss with experts on any submitted sighting and suggest species identifications for unverified posts.'),
                           const Padding(
                               padding: EdgeInsets.only(top: 15, bottom: 10),
                               child: Text(
@@ -897,8 +897,8 @@ class HomePageState extends State<HomePage> {
                           iconDescription(
                               const Icon(Icons.how_to_reg),
                               user.isExpert
-                                  ? 'Review isExpert applications'
-                                  : 'Submit isExpert application'),
+                                  ? 'Review expert applications'
+                                  : 'Submit expert application'),
                           user.isExpert
                               ? iconDescription(const Icon(Icons.feedback),
                                   'Review unverified posts')

@@ -86,6 +86,7 @@ class HttpHelpers {
         'Authorisation': jwt
       },
     );
+    print(response.body);
     if (response.body == 'User not found') {
       return Future.error('User Not Found');
     } else if (response.body == 'jwt expired') {
@@ -301,6 +302,7 @@ class HttpHelpers {
         'Authorisation': jwt
       },
     );
+    print(response.body);
     if (response.body == 'Posts not found') {
       return Future.error('Posts Not Found');
     } else if (response.body == 'jwt expired') {

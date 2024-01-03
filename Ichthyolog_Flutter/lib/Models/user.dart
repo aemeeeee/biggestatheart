@@ -12,8 +12,8 @@ class User {
   final int postCount;
   final int speciesCount;
   final bool isExpert;
-  final List<int> upvotedComments;
-  final List<int> downvotedComments;
+  final List<int>? upvotedComments;
+  final List<int>? downvotedComments;
 
 //use of required keyword as none of these fields can be null
   User(
@@ -26,8 +26,8 @@ class User {
       required this.speciesCount,
       required this.postCount,
       required this.isExpert,
-      required this.upvotedComments,
-      required this.downvotedComments});
+      this.upvotedComments,
+      this.downvotedComments});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
