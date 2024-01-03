@@ -127,7 +127,6 @@ const viewUserPosts = async (request, response) => {
           }
           else if(result.rowCount == 1){
             var blank = ''
-            const picture = result.rows[0].profilepic
             var totalposts = result.rows[0].totalposts + 1
             var level = result.rows[0].level + 1
             console.log(totalposts)
