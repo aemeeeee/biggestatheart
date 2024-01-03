@@ -133,7 +133,7 @@ const viewUserPosts = async (request, response) => {
             console.log(totalposts)
             console.log(level)
 
-            db.clientPool.query('INSERT INTO posts (authorid, title, description, uploadtime, sightinglocation, sightingtime, sightingimages, class, _order, family, genus, species) VALUES ($1, $2, $3, now(), NULLIF($4, $14), NULLIF($5, $14), $6, NULLIF($7,$14), NULLIF($8,$14), NULLIF($9,$14), NULLIF($10,$14), NULLIF($11,$14))', 
+            db.clientPool.query('INSERT INTO posts (authorid, title, description, uploadtime, sightinglocation, sightingtime, sightingimages, class, _order, family, genus, species) VALUES ($1, $2, $3, now(), NULLIF($4, $12), NULLIF($5, $12), $6, NULLIF($7,$12), NULLIF($8,$12), NULLIF($9,$12), NULLIF($10,$12), NULLIF($11,$12))', 
               [userid, title, description, sightingLocation, sightingTime, imageURLs, _class, order, family, genus, species, blank], 
               (error, result) => {
               if (error) {

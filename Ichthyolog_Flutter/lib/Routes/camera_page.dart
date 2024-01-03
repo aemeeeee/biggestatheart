@@ -400,7 +400,7 @@ class CameraPageState extends State<CameraPage> {
                 title,
                 description,
                 sightingLocation,
-                sightingTime == ' '
+                sightingTime == ''
                     ? DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())
                     : sightingTime,
                 "https://ichthyolog175756-dev.s3.ap-southeast-1.amazonaws.com/public/$key",

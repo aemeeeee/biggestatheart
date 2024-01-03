@@ -382,6 +382,7 @@ class HttpHelpers {
         'species': species
       }),
     );
+    print(sightingTime);
     print(response.body);
     if (response.statusCode == 201) {
       return ('Post Uploaded');
