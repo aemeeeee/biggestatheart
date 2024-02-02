@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ichthyolog/Routes/home_page.dart';
 import 'package:ichthyolog/Routes/login.dart';
 import 'login_background.dart';
 import '../Helpers/http.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../Helpers/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -13,6 +17,15 @@ class SignUpPageState extends State<SignUpPage> {
   String _userName = '';
   String _userEmail = '';
   String _password = '';
+  String _name = '';
+  int _age = 0;
+  String _ethnicity = '';
+  String _gender = '';
+  String _education = '';
+  String _occupation = '';
+  String _interets = '';
+  String _skills = '';
+  String _preferences = '';
   String _confirmPassword = '';
   final _formKey = GlobalKey<FormState>();
   final httpHelpers = HttpHelpers();
@@ -71,6 +84,24 @@ class SignUpPageState extends State<SignUpPage> {
       singupRequestProcessing = !singupRequestProcessing;
     });
     print("CHNAGED");
+  }
+
+  void addUser() {
+    var db = FirebaseFirestore.instance;
+    db.collection('users').add({
+      'email': _userEmail,
+      'username': _userName,
+      'name': _name,
+      'age': _age,
+      'ethnicity': _ethnicity,
+      'gender': _gender,
+      'education': _education,
+      'occupation': _occupation,
+      'interests': _interets,
+      'skills': _skills,
+      'preferences': _preferences
+    }).then((documentSnapshot) =>
+        print("Added Data with ID: ${documentSnapshot.id}"));
   }
 
   void validateForm(Function signupProcessingCallback) {
@@ -147,8 +178,23 @@ class SignUpPageState extends State<SignUpPage> {
       width: 250,
       height: 36,
       child: ElevatedButton(
-        onPressed: () {
-          validateForm(signupProcessingCallback);
+        onPressed: () async {
+          final message = await AuthService().registration(
+            email: _userEmail,
+            password: _password,
+          );
+          if (message!.contains('Success')) {
+            addUser();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+            ),
+          );
         },
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
