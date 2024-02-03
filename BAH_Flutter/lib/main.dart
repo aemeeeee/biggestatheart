@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Routes/login.dart';
-import 'Routes/home_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
