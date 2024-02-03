@@ -4,7 +4,10 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   amplify_db_common
+  cloud_firestore
   file_selector_windows
+  firebase_auth
+  firebase_core
   flutter_secure_storage_windows
 )
 

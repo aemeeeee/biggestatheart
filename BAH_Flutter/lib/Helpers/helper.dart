@@ -22,7 +22,7 @@ class Helpers {
     httpHelpers.logoutRequest(jwt).then((response) async {
       if (response == 'Logged out' ||
           response == 'Logged out with expired token') {
-        storage.delete(key: 'jwt');
+        // storage.delete(key: 'jwt');
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.remove("jwt");
         if (context.mounted) {

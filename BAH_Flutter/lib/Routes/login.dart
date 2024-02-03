@@ -8,6 +8,7 @@ import '../Models/user.dart';
 import 'gallery_page.dart';
 import 'home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Helpers/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -172,7 +173,23 @@ class LoginPageState extends State<LoginPage> {
       height: 36,
       child: ElevatedButton(
         onPressed: () {
-          validateForm(loginProcessingCallback);
+          () async {
+            final message = await AuthService().login(
+              email: emailUsernameController.text,
+              password: passwordController.text,
+            );
+            if (message!.contains('Success')) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            }
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(message),
+              ),
+            );
+          };
         },
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
