@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import '../Helpers/Widgets/standard_widgets.dart';
 import 'login_background.dart';
-import 'signup.dart';
+import 'signup_page_1.dart';
 import '../Helpers/Firebase_Services/signup.dart';
-import '../Models/user.dart';
-import 'gallery_page.dart';
 import 'home_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/Authentication/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -205,7 +201,7 @@ class LoginPageState extends State<LoginPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SignUpPage()),
+            MaterialPageRoute(builder: (context) => const SignUpPage1()),
           );
         },
         child: const Text('Sign up'),
