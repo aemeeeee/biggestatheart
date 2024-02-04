@@ -4,6 +4,7 @@ import '../Routes/login.dart';
 import 'login_background.dart';
 import '../Helpers/firebase_service.dart';
 import '../Helpers/auth_service.dart';
+import '../Helpers/standard_widgets.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -27,6 +28,9 @@ class SignUpPageState extends State<SignUpPage> {
   String _confirmPassword = '';
   final _formKey = GlobalKey<FormState>();
   final firebaseService = FirebaseService();
+  final TextEditingController ethnicityController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController educationController = TextEditingController();
   bool singupRequestProcessing = false;
 
   @override
@@ -45,8 +49,8 @@ class SignUpPageState extends State<SignUpPage> {
                   backButton(),
                   //Logo up top
                   logo(),
-                  //Project name
-                  projectName(),
+                  //App Title
+                  appTitle(),
                   //Username field
                   usernameField(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 40),
@@ -101,22 +105,8 @@ class SignUpPageState extends State<SignUpPage> {
     return hasCapitalLetter && hasSpecialCharacter;
   }
 
-  bool isValidAge(String username) {
-    if (username.isEmpty || username.length > 25) {
-      return false;
-    }
-    return true;
-  }
-
-  bool isValidGender(String username) {
-    if (username.isEmpty || username.length > 25) {
-      return false;
-    }
-    return true;
-  }
-
-  bool isValidEducation(String username) {
-    if (username.isEmpty || username.length > 25) {
+  bool isValidAge(int age) {
+    if (age < 0 || age > 122) {
       return false;
     }
     return true;
@@ -206,90 +196,7 @@ class SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget confirmPasswordField() {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Colors.white),
-      margin: const EdgeInsets.only(right: 40, left: 40),
-      child: TextFormField(
-        obscureText: true,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please confirm your password';
-          } else if (value != _password) {
-            return 'Passwords do not match';
-          } else {
-            return null;
-          }
-        },
-        onChanged: (value) => _confirmPassword = value,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Confirm your password',
-          contentPadding: EdgeInsets.only(left: 10, right: 10),
-        ),
-      ),
-    );
-  }
-
-  Widget passwordField() {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Colors.white),
-      margin: const EdgeInsets.only(right: 40, left: 40),
-      child: TextFormField(
-        obscureText: true,
-        onChanged: (value) {
-          _password = value;
-        },
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'Please enter a password';
-          } else if (value.length < 6 || value.length > 20) {
-            return 'Password must be 6-20 characters';
-          } else if (!isValidPassword(value)) {
-            return 'Require at least 1 capital letter and 1 special character';
-          }
-          return null;
-        },
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Enter your password',
-          contentPadding: EdgeInsets.only(left: 10, right: 10),
-        ),
-      ),
-    );
-  }
-
-  Widget emailField() {
-    return Container(
-      margin: const EdgeInsets.only(right: 40, left: 40),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Colors.white),
-      child: TextFormField(
-        keyboardType: TextInputType.emailAddress,
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'Please enter an email';
-          } else if (!isValidEmail(value)) {
-            return 'Please enter a valid email';
-          } else {
-            return null;
-          }
-        },
-        onChanged: (value) {
-          _userEmail = value;
-        },
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Enter your email',
-          contentPadding: EdgeInsets.only(left: 10, right: 10),
-        ),
-      ),
-    );
-  }
-
-  Widget projectName() {
+  Widget appTitle() {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: const Text(
@@ -328,45 +235,183 @@ class SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget ethnicityField() 
-  {
-    return selectableTextForm(
-                        locationController,
-                        'Enter the location of sighting',
-                        const Icon(
-                          Icons.pin_drop,
-                          color: Color.fromARGB(255, 51, 64, 113),
-                        ),
-                        locations,
-                        locationCallback,
-                        locationClearCallback),
-    return SelectableList<String, String?>(
-      items: const [
-        "Chinese",
-        "Malay",
-        "Indian",
-        "Pakistani",
-        "Bangladeshi",
-        "Caribbean",
-        "African",
-        "Any other Asian background"
-            "Any other Black, Black British, or Caribbean background"
-            "Any other Mixed or multiple ethnic background"
-      ],
-      itemBuilder: (context, ethnicity, selected, onTap) =>
-          ListTile(title: Text(ethnicity), selected: selected, onTap: onTap),
-      selectedValue: _ethnicity,
-      onItemSelected: (ethnicity) {
-        setState(() {
-          _ethnicity = ethnicity;
-        });
-      },
-      onItemDeselected: (ethnicity) {
-        setState(() {
-          _ethnicity = '';
-        });
-      },
+  Widget emailField() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15), color: Colors.white),
+      margin: const EdgeInsets.only(right: 40, left: 40),
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return 'Please enter an email';
+          } else if (!isValidEmail(value)) {
+            return 'Please enter a valid email';
+          } else {
+            return null;
+          }
+        },
+        onChanged: (value) {
+          _userEmail = value;
+        },
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Enter your email',
+          contentPadding: EdgeInsets.only(left: 10, right: 10),
+        ),
+      ),
     );
+  }
+
+  Widget passwordField() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15), color: Colors.white),
+      margin: const EdgeInsets.only(right: 40, left: 40),
+      child: TextFormField(
+        obscureText: true,
+        onChanged: (value) {
+          _password = value;
+        },
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return 'Please enter a password';
+          } else if (value.length < 6 || value.length > 20) {
+            return 'Password must be 6-20 characters';
+          } else if (!isValidPassword(value)) {
+            return 'Require at least 1 capital letter and 1 special character';
+          }
+          return null;
+        },
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Enter your password',
+          contentPadding: EdgeInsets.only(left: 10, right: 10),
+        ),
+      ),
+    );
+  }
+
+  Widget confirmPasswordField() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15), color: Colors.white),
+      margin: const EdgeInsets.only(right: 40, left: 40),
+      child: TextFormField(
+        obscureText: true,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please confirm your password';
+          } else if (value != _password) {
+            return 'Passwords do not match';
+          } else {
+            return null;
+          }
+        },
+        onChanged: (value) => _confirmPassword = value,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Confirm your password',
+          contentPadding: EdgeInsets.only(left: 10, right: 10),
+        ),
+      ),
+    );
+  }
+
+  Widget ethnicityField() {
+    return SelectableTextForm(
+        controller: ethnicityController,
+        labelText: 'Enter your ethnicity',
+        leadingIcon: const Icon(null),
+        options: const [
+          "Chinese",
+          "Malay",
+          "Indian",
+          "Pakistani",
+          "Bangladeshi",
+          "Caribbean",
+          "African",
+          "Any other Asian background"
+              "Any other Black, Black British, or Caribbean background"
+              "Any other Mixed or multiple ethnic background"
+        ],
+        updateCallback: ethnicityCallback,
+        clearCallback: ethnicityClearCallback);
+  }
+
+  ethnicityCallback(newValue) {
+    setState(() {
+      _ethnicity = newValue;
+    });
+  }
+
+  ethnicityClearCallback() {
+    setState(() {
+      _ethnicity = '';
+      ethnicityController.clear();
+    });
+  }
+
+  Widget genderField() {
+    return SelectableTextForm(
+        controller: genderController,
+        labelText: 'Enter your gender',
+        leadingIcon: const Icon(null),
+        options: const [
+          "Male",
+          "Female",
+          "Nonbinary",
+          "Bigender",
+          "Transgender",
+          "Cisgender",
+          "Gender Neutral"
+        ],
+        updateCallback: ethnicityCallback,
+        clearCallback: ethnicityClearCallback);
+  }
+
+  genderCallback(newValue) {
+    setState(() {
+      _gender = newValue;
+    });
+  }
+
+  genderClearCallback() {
+    setState(() {
+      _gender = '';
+      genderController.clear();
+    });
+  }
+
+  Widget educationField() {
+    return SelectableTextForm(
+        controller: educationController,
+        labelText: 'Enter your highest education level',
+        leadingIcon: const Icon(null),
+        options: const [
+          "Preschool",
+          "Primary School",
+          "Secondary School",
+          "Polytechnic",
+          "Junior College",
+          "University",
+          "Homeschooled"
+        ],
+        updateCallback: educationCallback,
+        clearCallback: educationClearCallback);
+  }
+
+  educationCallback(newValue) {
+    setState(() {
+      _education = newValue;
+    });
+  }
+
+  educationClearCallback() {
+    setState(() {
+      _education = '';
+      educationController.clear();
+    });
   }
 
   Widget logo() {

@@ -267,7 +267,7 @@ class CommentDisputesState extends State<CommentDisputes> {
               return NoticeDialog(content: '${snapshot.error}');
             }
           } else {
-            return loadingComment();
+            return const LoadingComment();
           }
         }));
   }

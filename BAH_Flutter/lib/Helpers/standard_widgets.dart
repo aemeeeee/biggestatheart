@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});
@@ -48,82 +49,95 @@ class NoticeDialog extends StatelessWidget {
   }
 }
 
-Widget loadingComment() {
-  return Container(
-    padding: const EdgeInsets.only(top: 10, bottom: 10),
-    child: const Center(
-      child: SizedBox(
-        height: 10.0,
-        width: 10.0,
-        child: CircularProgressIndicator(
-            backgroundColor: Color.fromARGB(255, 187, 187, 187),
-            valueColor: AlwaysStoppedAnimation<Color>(
-                Color.fromARGB(255, 236, 236, 236)),
-            strokeWidth: 3),
+class LoadingComment extends StatelessWidget {
+  const LoadingComment({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      child: const Center(
+        child: SizedBox(
+          height: 10.0,
+          width: 10.0,
+          child: CircularProgressIndicator(
+              backgroundColor: Color.fromARGB(255, 187, 187, 187),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  Color.fromARGB(255, 236, 236, 236)),
+              strokeWidth: 3),
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
-Widget selectableTextForm(
-    TextEditingController controller,
-    String labelText,
-    Icon leadingIcon,
-    List<String> options,
-    Function updateCallback,
-    Function clearCallback) {
-  return Container(
-      margin: const EdgeInsets.only(top: 12, left: 12, right: 12),
-      padding: const EdgeInsets.only(
-        left: 15,
-        right: 15,
-      ),
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 225, 235, 248),
-          borderRadius: BorderRadius.circular(16)),
-      child: TypeAheadFormField(
-        hideOnLoading: true,
-        hideOnEmpty: true,
-        textFieldConfiguration: TextFieldConfiguration(
-            onChanged: (value) => updateCallback(value),
-            controller: controller,
-            decoration: InputDecoration(
-              focusColor: const Color.fromARGB(255, 51, 64, 113),
-              icon: leadingIcon,
-              border: InputBorder.none,
-              labelText: labelText,
-              suffixIcon: IconButton(
-                onPressed: () {
-                  clearCallback();
-                },
-                icon: const Icon(Icons.clear),
+class SelectableTextForm extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final Icon leadingIcon;
+  final List<String> options;
+  final Function updateCallback;
+  final Function clearCallback;
+  const SelectableTextForm(
+      {Key? key,
+      required this.controller,
+      required this.labelText,
+      required this.leadingIcon,
+      required this.options,
+      required this.updateCallback,
+      required this.clearCallback})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15), color: Colors.white),
+        margin: const EdgeInsets.only(right: 40, left: 40),
+        child: TypeAheadFormField(
+          hideOnLoading: true,
+          hideOnEmpty: true,
+          textFieldConfiguration: TextFieldConfiguration(
+              onChanged: (value) => updateCallback(value),
+              controller: controller,
+              decoration: InputDecoration(
+                focusColor: const Color.fromARGB(255, 51, 64, 113),
+                icon: leadingIcon,
+                border: InputBorder.none,
+                labelText: labelText,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    clearCallback();
+                  },
+                  icon: const Icon(Icons.clear),
+                ),
               ),
-            ),
-            autofocus: true,
-            style: const TextStyle(color: Color.fromARGB(255, 51, 64, 113))),
-        itemBuilder: (context, suggestion) {
-          return ListTile(
-            title: Text(suggestion),
-          );
-        },
-        errorBuilder: (context, error) {
-          return NoticeDialog(content: '$error');
-        },
-        suggestionsCallback: (pattern) {
-          List<String> matches = [];
-          if (pattern == '') {
-            return matches;
-          } else {
-            matches.addAll(options);
-            matches.retainWhere((matches) {
-              return matches.toLowerCase().contains(pattern.toLowerCase());
-            });
-            return matches;
-          }
-        },
-        onSuggestionSelected: (suggestion) {
-          updateCallback(suggestion);
-          controller.text = suggestion;
-        },
-      ));
+              autofocus: true,
+              style: const TextStyle(color: Color.fromARGB(255, 51, 64, 113))),
+          itemBuilder: (context, suggestion) {
+            return ListTile(
+              title: Text(suggestion),
+            );
+          },
+          errorBuilder: (context, error) {
+            return NoticeDialog(content: '$error');
+          },
+          suggestionsCallback: (pattern) {
+            List<String> matches = [];
+            if (pattern == '') {
+              return matches;
+            } else {
+              matches.addAll(options);
+              matches.retainWhere((matches) {
+                return matches.toLowerCase().contains(pattern.toLowerCase());
+              });
+              return matches;
+            }
+          },
+          onSuggestionSelected: (suggestion) {
+            updateCallback(suggestion);
+            controller.text = suggestion;
+          },
+        ));
+  }
 }

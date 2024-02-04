@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 //class which stores the functions responsible for Firebase backend communication
 class FirebaseService {
@@ -18,25 +19,29 @@ class FirebaseService {
     String availability,
   ) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    return users.add({
-      'username': username,
-      'password': password,
-      'email': email,
-      'pfp': "",
-      'name': name,
-      'age': age,
-      'ethnicity': ethnicity,
-      'gender': gender,
-      'educationLevel': educationLevel,
-      'occupation': occupation,
-      'interests': interests,
-      'skills': skills,
-      'preferences': preferences,
-      'availability': availability,
-      'pastActivities': [],
-      'currentActivities': [],
-    }).then((documentSnapshot) =>
-        print("Added Data with ID: ${documentSnapshot.id}"));
+    return users
+        .doc('$username | $name')
+        .set({
+          'username': username,
+          'password': password,
+          'email': email,
+          'pfp': "",
+          'name': name,
+          'age': age,
+          'ethnicity': ethnicity,
+          'gender': gender,
+          'educationLevel': educationLevel,
+          'occupation': occupation,
+          'interests': interests,
+          'skills': skills,
+          'preferences': preferences,
+          'availability': availability,
+          'pastActivities': [],
+          'currentActivities': [],
+          'createdAt': DateTime.now()
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 }
 

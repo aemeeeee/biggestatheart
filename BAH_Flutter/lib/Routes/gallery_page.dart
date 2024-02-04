@@ -15,7 +15,6 @@ import 'statistics_page.dart';
 import 'notifications_page.dart';
 import 'expert_application_page.dart';
 import 'waiting_list_page.dart';
-import '../Models/species.dart';
 
 class GalleryPage extends StatefulWidget {
   final User currUser;
