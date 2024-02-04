@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'stats_result_page.dart';
 
 class SearchResultPage extends StatefulWidget {

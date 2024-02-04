@@ -64,3 +64,66 @@ Widget loadingComment() {
     ),
   );
 }
+
+Widget selectableTextForm(
+    TextEditingController controller,
+    String labelText,
+    Icon leadingIcon,
+    List<String> options,
+    Function updateCallback,
+    Function clearCallback) {
+  return Container(
+      margin: const EdgeInsets.only(top: 12, left: 12, right: 12),
+      padding: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+      ),
+      decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 225, 235, 248),
+          borderRadius: BorderRadius.circular(16)),
+      child: TypeAheadFormField(
+        hideOnLoading: true,
+        hideOnEmpty: true,
+        textFieldConfiguration: TextFieldConfiguration(
+            onChanged: (value) => updateCallback(value),
+            controller: controller,
+            decoration: InputDecoration(
+              focusColor: const Color.fromARGB(255, 51, 64, 113),
+              icon: leadingIcon,
+              border: InputBorder.none,
+              labelText: labelText,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  clearCallback();
+                },
+                icon: const Icon(Icons.clear),
+              ),
+            ),
+            autofocus: true,
+            style: const TextStyle(color: Color.fromARGB(255, 51, 64, 113))),
+        itemBuilder: (context, suggestion) {
+          return ListTile(
+            title: Text(suggestion),
+          );
+        },
+        errorBuilder: (context, error) {
+          return NoticeDialog(content: '$error');
+        },
+        suggestionsCallback: (pattern) {
+          List<String> matches = [];
+          if (pattern == '') {
+            return matches;
+          } else {
+            matches.addAll(options);
+            matches.retainWhere((matches) {
+              return matches.toLowerCase().contains(pattern.toLowerCase());
+            });
+            return matches;
+          }
+        },
+        onSuggestionSelected: (suggestion) {
+          updateCallback(suggestion);
+          controller.text = suggestion;
+        },
+      ));
+}

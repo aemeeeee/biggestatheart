@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'search_result_page.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class CataloguePage extends StatefulWidget {

@@ -3,7 +3,7 @@ import '../Helpers/standard_widgets.dart';
 import 'login_background.dart';
 import 'signup.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import '../Models/user.dart';
 import 'gallery_page.dart';
 import 'home_page.dart';
@@ -20,7 +20,7 @@ class LoginPageState extends State<LoginPage> {
   final emailUsernameController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final httpHelpers = HttpHelpers();
+  final firebaseService = FirebaseService();
   final helpers = Helpers();
   bool loginRequestProcessing = false;
   final User guestUser = User(

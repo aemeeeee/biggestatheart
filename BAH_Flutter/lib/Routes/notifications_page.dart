@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'comments_page.dart';
 import '../Helpers/standard_widgets.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import '../Models/user.dart';
 import '../Models/notifications.dart';
 import 'camera_page.dart';

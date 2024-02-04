@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Helpers/standard_widgets.dart';
 import 'post_page_comments.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import '../Models/user.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:carousel_slider/carousel_slider.dart';

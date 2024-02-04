@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../Helpers/standard_widgets.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'comments.dart';
 import '../Models/species.dart';

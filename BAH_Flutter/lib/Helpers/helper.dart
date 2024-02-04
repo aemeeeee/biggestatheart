@@ -1,11 +1,10 @@
-import 'package:ichthyolog/main.dart';
-import 'http.dart';
+import 'firebase_service.dart';
 import 'package:flutter/material.dart';
 import '../Routes/login.dart';
 import 'standard_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final httpHelpers = HttpHelpers();
+final httpHelpers = FirebaseService();
 
 class Helpers {
   Future<String> checkJwt() async {

@@ -3,7 +3,7 @@ import 'dart:io';
 import '../Models/user.dart';
 import '../Models/comment.dart';
 import '../Models/dispute.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import '../Helpers/helper.dart';
 import '../Helpers/standard_widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';

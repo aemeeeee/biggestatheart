@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ichthyolog/Routes/home_page.dart';
-import 'package:ichthyolog/Routes/login.dart';
+import 'package:selectable_list/selectable_list.dart';
+import '../Routes/login.dart';
 import 'login_background.dart';
-import '../Helpers/http.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../Helpers/firebase_service.dart';
 import '../Helpers/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -23,12 +21,12 @@ class SignUpPageState extends State<SignUpPage> {
   String _gender = '';
   String _education = '';
   String _occupation = '';
-  String _interets = '';
-  String _skills = '';
+  List<String> _interets = [''];
+  List<String> _skills = [''];
   String _preferences = '';
   String _confirmPassword = '';
   final _formKey = GlobalKey<FormState>();
-  final httpHelpers = HttpHelpers();
+  final firebaseService = FirebaseService();
   bool singupRequestProcessing = false;
 
   @override
@@ -79,29 +77,56 @@ class SignUpPageState extends State<SignUpPage> {
     return true;
   }
 
+  bool isValidEmail(String email) {
+    return RegExp(
+            r'^[\w-]+(.[\w-]+)@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)(.[a-zA-Z]{2,})$')
+        .hasMatch(email);
+  }
+
+  bool isValidPassword(String password) {
+    // Check if the password meets the criteria
+    bool hasCapitalLetter = false;
+    bool hasSpecialCharacter = false;
+
+    for (int i = 0; i < password.length; i++) {
+      var char = password[i];
+      if (char == char.toUpperCase()) {
+        hasCapitalLetter = true;
+      }
+      if (char.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+        hasSpecialCharacter = true;
+      }
+    }
+
+    return hasCapitalLetter && hasSpecialCharacter;
+  }
+
+  bool isValidAge(String username) {
+    if (username.isEmpty || username.length > 25) {
+      return false;
+    }
+    return true;
+  }
+
+  bool isValidGender(String username) {
+    if (username.isEmpty || username.length > 25) {
+      return false;
+    }
+    return true;
+  }
+
+  bool isValidEducation(String username) {
+    if (username.isEmpty || username.length > 25) {
+      return false;
+    }
+    return true;
+  }
+
   signupProcessingCallback() {
     setState(() {
       singupRequestProcessing = !singupRequestProcessing;
     });
-    print("CHNAGED");
-  }
-
-  void addUser() {
-    var db = FirebaseFirestore.instance;
-    db.collection('users').add({
-      'email': _userEmail,
-      'username': _userName,
-      'name': _name,
-      'age': _age,
-      'ethnicity': _ethnicity,
-      'gender': _gender,
-      'education': _education,
-      'occupation': _occupation,
-      'interests': _interets,
-      'skills': _skills,
-      'preferences': _preferences
-    }).then((documentSnapshot) =>
-        print("Added Data with ID: ${documentSnapshot.id}"));
+    print("CHANGED");
   }
 
   void validateForm(Function signupProcessingCallback) {
@@ -149,30 +174,6 @@ class SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  bool isValidEmail(String email) {
-    return RegExp(
-            r'^[\w-]+(.[\w-]+)@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)(.[a-zA-Z]{2,})$')
-        .hasMatch(email);
-  }
-
-  bool isValidPassword(String password) {
-    // Check if the password meets the criteria
-    bool hasCapitalLetter = false;
-    bool hasSpecialCharacter = false;
-
-    for (int i = 0; i < password.length; i++) {
-      var char = password[i];
-      if (char == char.toUpperCase()) {
-        hasCapitalLetter = true;
-      }
-      if (char.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-        hasSpecialCharacter = true;
-      }
-    }
-
-    return hasCapitalLetter && hasSpecialCharacter;
-  }
-
   Widget signUpButton() {
     return SizedBox(
       width: 250,
@@ -184,10 +185,10 @@ class SignUpPageState extends State<SignUpPage> {
             password: _password,
           );
           if (message!.contains('Success')) {
-            addUser();
+            firebaseService.addUser();
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => const LoginPage()),
             );
           }
           ScaffoldMessenger.of(context).showSnackBar(
@@ -292,7 +293,7 @@ class SignUpPageState extends State<SignUpPage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: const Text(
-        'Ichthyolog',
+        'BiggestAtHeart',
         style: TextStyle(
           fontSize: 50,
           fontWeight: FontWeight.bold,
@@ -324,6 +325,47 @@ class SignUpPageState extends State<SignUpPage> {
           contentPadding: EdgeInsets.only(left: 10, right: 10),
         ),
       ),
+    );
+  }
+
+  Widget ethnicityField() 
+  {
+    return selectableTextForm(
+                        locationController,
+                        'Enter the location of sighting',
+                        const Icon(
+                          Icons.pin_drop,
+                          color: Color.fromARGB(255, 51, 64, 113),
+                        ),
+                        locations,
+                        locationCallback,
+                        locationClearCallback),
+    return SelectableList<String, String?>(
+      items: const [
+        "Chinese",
+        "Malay",
+        "Indian",
+        "Pakistani",
+        "Bangladeshi",
+        "Caribbean",
+        "African",
+        "Any other Asian background"
+            "Any other Black, Black British, or Caribbean background"
+            "Any other Mixed or multiple ethnic background"
+      ],
+      itemBuilder: (context, ethnicity, selected, onTap) =>
+          ListTile(title: Text(ethnicity), selected: selected, onTap: onTap),
+      selectedValue: _ethnicity,
+      onItemSelected: (ethnicity) {
+        setState(() {
+          _ethnicity = ethnicity;
+        });
+      },
+      onItemDeselected: (ethnicity) {
+        setState(() {
+          _ethnicity = '';
+        });
+      },
     );
   }
 

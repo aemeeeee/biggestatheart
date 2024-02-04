@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import '../Helpers/custom_icons.dart';
 import '../Models/post.dart';
 import '../Models/user.dart';

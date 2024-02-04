@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class StatsResultPage extends StatefulWidget {

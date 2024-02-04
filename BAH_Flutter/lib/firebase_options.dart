@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1046038874580',
     projectId: 'biggestatheart',
     storageBucket: 'biggestatheart.appspot.com',
-    iosBundleId: 'com.example.ichthyolog',
+    iosBundleId: 'com.example.biggestatheart',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -76,6 +76,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1046038874580',
     projectId: 'biggestatheart',
     storageBucket: 'biggestatheart.appspot.com',
-    iosBundleId: 'com.example.ichthyolog',
+    iosBundleId: 'com.example.biggestatheart',
   );
 }

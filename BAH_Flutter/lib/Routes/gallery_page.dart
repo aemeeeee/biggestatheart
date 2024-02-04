@@ -5,7 +5,7 @@ import '../Models/user.dart';
 import 'post_page.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'stepper.dart';

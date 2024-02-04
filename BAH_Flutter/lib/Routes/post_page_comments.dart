@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Models/comment.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'comments_page.dart';
 import 'comments.dart';

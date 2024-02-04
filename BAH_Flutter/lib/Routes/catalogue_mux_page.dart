@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'catalogue_page.dart';
 
 class CatalogueMuxPage extends StatelessWidget {

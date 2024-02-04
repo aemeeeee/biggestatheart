@@ -10,7 +10,7 @@ import '../Models/user.dart';
 import '../Models/post.dart';
 import '../Models/species.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/firebase_service.dart';
 import 'camera_page.dart';
 import 'gallery_page.dart';
 import 'post_page.dart';
