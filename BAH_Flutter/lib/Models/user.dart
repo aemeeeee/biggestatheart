@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 //User class for user profile and authentication
 class User {
-  final int userid;
+  final String userid;
+  final bool isAdmin;
   final String username;
   final String password;
   final String email;
@@ -26,6 +27,7 @@ class User {
 //use of required keyword for fields that cannot be null
   User({
     required this.userid,
+    required this.isAdmin,
     required this.username,
     required this.password,
     required this.email,
@@ -50,7 +52,8 @@ class User {
   ) {
     final user = snapshot.data();
     return User(
-      userid: user?['userid'] as int,
+      userid: snapshot.id,
+      isAdmin: user?['isAdmin'] as bool,
       username: user?['username'] as String,
       password: user?['password'] as String,
       email: user?['email'] as String,
@@ -78,7 +81,7 @@ class User {
 
   Map<String, dynamic> toFirestore() {
     return {
-      'userid': userid,
+      'isAdmin': isAdmin,
       'username': username,
       'password': password,
       'email': email,
