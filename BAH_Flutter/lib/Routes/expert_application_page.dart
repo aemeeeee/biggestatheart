@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/firebase_service.dart';
+import '../Helpers/Firebase_Services/signup.dart';
 import '../Models/user.dart';
 import '../Models/expert_application_request.dart';
 import 'camera_page.dart';

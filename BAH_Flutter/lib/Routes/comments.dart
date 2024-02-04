@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Models/comment.dart';
-import '../Models/species.dart';
 import '../Models/user.dart';
-import '../Helpers/firebase_service.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Firebase_Services/signup.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class OwnComment extends StatefulWidget {

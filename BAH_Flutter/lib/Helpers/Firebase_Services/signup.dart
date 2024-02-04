@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 //class which stores the functions responsible for Firebase backend communication
-class FirebaseService {
+class FirebaseServiceSignup {
   Future<void> addUser(
     String email,
     String username,
@@ -16,7 +15,6 @@ class FirebaseService {
     String interests,
     String skills,
     String preferences,
-    String availability,
   ) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return users
@@ -35,7 +33,7 @@ class FirebaseService {
           'interests': interests,
           'skills': skills,
           'preferences': preferences,
-          'availability': availability,
+          'availability': [],
           'pastActivities': [],
           'currentActivities': [],
           'createdAt': DateTime.now()

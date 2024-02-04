@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 import 'login_background.dart';
 import 'signup.dart';
-import '../Helpers/helper.dart';
-import '../Helpers/firebase_service.dart';
+import '../Helpers/Firebase_Services/signup.dart';
 import '../Models/user.dart';
 import 'gallery_page.dart';
 import 'home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Helpers/auth_service.dart';
+import '../Helpers/Authentication/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,21 +19,20 @@ class LoginPageState extends State<LoginPage> {
   final emailUsernameController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final firebaseService = FirebaseService();
-  final helpers = Helpers();
+  final firebaseService = FirebaseServiceSignup();
   bool loginRequestProcessing = false;
-  final User guestUser = User(
-      userid: -1,
-      username: 'dummyUsername',
-      password: 'dummyPassword',
-      email: 'dummyEmail',
-      pfp: 'dummyPfp',
-      level: 0,
-      speciesCount: 0,
-      postCount: 0,
-      isExpert: false,
-      upvotedComments: [],
-      downvotedComments: []);
+  // final User guestUser = User(
+  //     userid: -1,
+  //     username: 'dummyUsername',
+  //     password: 'dummyPassword',
+  //     email: 'dummyEmail',
+  //     pfp: 'dummyPfp',
+  //     level: 0,
+  //     speciesCount: 0,
+  //     postCount: 0,
+  //     isExpert: false,
+  //     upvotedComments: [],
+  //     downvotedComments: []);
 
   loginProcessingCallback() {
     setState(() {
@@ -43,45 +41,45 @@ class LoginPageState extends State<LoginPage> {
   }
 
   // check if information filled in is valid, or if the log in request is successful
-  void validateForm(Function loginProcessingCallback) {
-    final bool? isValid = _formKey.currentState?.validate();
-    if (isValid == true) {
-      if (loginRequestProcessing) {
-        null;
-      } else {
-        loginProcessingCallback();
-        httpHelpers
-            .loginRequest(emailUsernameController.text,
-                emailUsernameController.text, passwordController.text)
-            .then((String response) async {
-          loginProcessingCallback();
-          if (response != 'Password Incorrect' &&
-              response != 'User Not Found' &&
-              response != 'Error') {
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            pref.setString("jwt", response);
-            if (context.mounted) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
-            }
-          } else {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return NoticeDialog(
-                      content: response == 'Error'
-                          ? 'Error. Please try again.'
-                          : response == 'Password Incorrect'
-                              ? 'Incorrect password. Please try again.'
-                              : 'User not found. Please try again.');
-                });
-          }
-        });
-      }
-    }
-  }
+  // void validateForm(Function loginProcessingCallback) {
+  //   final bool? isValid = _formKey.currentState?.validate();
+  //   if (isValid == true) {
+  //     if (loginRequestProcessing) {
+  //       null;
+  //     } else {
+  //       loginProcessingCallback();
+  //       httpHelpers
+  //           .loginRequest(emailUsernameController.text,
+  //               emailUsernameController.text, passwordController.text)
+  //           .then((String response) async {
+  //         loginProcessingCallback();
+  //         if (response != 'Password Incorrect' &&
+  //             response != 'User Not Found' &&
+  //             response != 'Error') {
+  //           SharedPreferences pref = await SharedPreferences.getInstance();
+  //           pref.setString("jwt", response);
+  //           if (context.mounted) {
+  //             Navigator.push(
+  //               context,
+  //               MaterialPageRoute(builder: (context) => const HomePage()),
+  //             );
+  //           }
+  //         } else {
+  //           showDialog(
+  //               context: context,
+  //               builder: (BuildContext context) {
+  //                 return NoticeDialog(
+  //                     content: response == 'Error'
+  //                         ? 'Error. Please try again.'
+  //                         : response == 'Password Incorrect'
+  //                             ? 'Incorrect password. Please try again.'
+  //                             : 'User not found. Please try again.');
+  //               });
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
 
   Widget logo() {
     return Container(
@@ -215,22 +213,6 @@ class LoginPageState extends State<LoginPage> {
     ]);
   }
 
-  Widget galleryButton() {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => GalleryPage(currUser: guestUser)),
-          );
-        },
-        child: const Text('Use this app without an account',
-            style: TextStyle(color: Color.fromARGB(255, 80, 154, 239))),
-      ),
-    ]);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -262,9 +244,6 @@ class LoginPageState extends State<LoginPage> {
 
                   //Sign up button
                   signupButton(),
-
-                  //Visit gallery directly button
-                  galleryButton()
                 ],
               ),
             ),

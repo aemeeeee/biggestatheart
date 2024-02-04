@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:selectable_list/selectable_list.dart';
 import '../Routes/login.dart';
 import 'login_background.dart';
-import '../Helpers/firebase_service.dart';
-import '../Helpers/auth_service.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Firebase_Services/signup.dart';
+import '../Helpers/Authentication/auth_service.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -22,12 +22,12 @@ class SignUpPageState extends State<SignUpPage> {
   String _gender = '';
   String _education = '';
   String _occupation = '';
-  List<String> _interets = [''];
-  List<String> _skills = [''];
+  String _interests = '';
+  String _skills = '';
   String _preferences = '';
   String _confirmPassword = '';
   final _formKey = GlobalKey<FormState>();
-  final firebaseService = FirebaseService();
+  final firebaseServiceSignup = FirebaseServiceSignup();
   final TextEditingController ethnicityController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController educationController = TextEditingController();
@@ -119,50 +119,50 @@ class SignUpPageState extends State<SignUpPage> {
     print("CHANGED");
   }
 
-  void validateForm(Function signupProcessingCallback) {
-    final bool? isValid = _formKey.currentState?.validate();
-    if (isValid == true) {
-      if (singupRequestProcessing) {
-      } else {
-        signupProcessingCallback();
-        httpHelpers
-            .signupRequest(_userName, _password, _userEmail)
-            .then((String response) {
-          signupProcessingCallback();
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("Notice"),
-                content: Text(response == 'Signup Successful'
-                    ? 'Signup Successful! Please login.'
-                    : response == 'Email Already Exists'
-                        ? 'Email already in use. Please try again.'
-                        : response == 'Username Already Exists'
-                            ? 'Username already in use. Please try again.'
-                            : 'Signup Failed. Please try again.'),
-                actions: [
-                  TextButton(
-                      child: const Text("OK"),
-                      onPressed: () {
-                        if (response == 'Signup Successful') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                          );
-                        } else {
-                          Navigator.pop(context);
-                        }
-                      })
-                ],
-              );
-            },
-          );
-        });
-      }
-    }
-  }
+  // void validateForm(Function signupProcessingCallback) {
+  //   final bool? isValid = _formKey.currentState?.validate();
+  //   if (isValid == true) {
+  //     if (singupRequestProcessing) {
+  //     } else {
+  //       signupProcessingCallback();
+  //       httpHelpers
+  //           .signupRequest(_userName, _password, _userEmail)
+  //           .then((String response) {
+  //         signupProcessingCallback();
+  //         showDialog(
+  //           context: context,
+  //           builder: (BuildContext context) {
+  //             return AlertDialog(
+  //               title: const Text("Notice"),
+  //               content: Text(response == 'Signup Successful'
+  //                   ? 'Signup Successful! Please login.'
+  //                   : response == 'Email Already Exists'
+  //                       ? 'Email already in use. Please try again.'
+  //                       : response == 'Username Already Exists'
+  //                           ? 'Username already in use. Please try again.'
+  //                           : 'Signup Failed. Please try again.'),
+  //               actions: [
+  //                 TextButton(
+  //                     child: const Text("OK"),
+  //                     onPressed: () {
+  //                       if (response == 'Signup Successful') {
+  //                         Navigator.push(
+  //                           context,
+  //                           MaterialPageRoute(
+  //                               builder: (context) => const LoginPage()),
+  //                         );
+  //                       } else {
+  //                         Navigator.pop(context);
+  //                       }
+  //                     })
+  //               ],
+  //             );
+  //           },
+  //         );
+  //       });
+  //     }
+  //   }
+  // }
 
   Widget signUpButton() {
     return SizedBox(
@@ -175,7 +175,19 @@ class SignUpPageState extends State<SignUpPage> {
             password: _password,
           );
           if (message!.contains('Success')) {
-            firebaseService.addUser();
+            firebaseServiceSignup.addUser(
+                _userEmail,
+                _userName,
+                _password,
+                _name,
+                _age,
+                _ethnicity,
+                _gender,
+                _education,
+                _occupation,
+                _interests,
+                _skills,
+                _preferences);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const LoginPage()),
