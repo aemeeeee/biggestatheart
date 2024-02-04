@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
 import 'post_page_comments.dart';
-import '../Helpers/helper.dart';
 import '../Helpers/Firebase_Services/signup.dart';
 import '../Models/user.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -22,27 +21,6 @@ class PostPage extends StatefulWidget {
 }
 
 class PostPageState extends State<PostPage> {
-  String jwt = '';
-  Map<String, dynamic> decodedJWT = {};
-  final httpHelpers = HttpHelpers();
-  final helpers = Helpers();
-
-  @override
-  void initState() {
-    super.initState();
-    helpers.checkJwt().then((token) {
-      if (token == '') {
-        setState(() {
-          jwt = '';
-        });
-      } else {
-        setState(() {
-          jwt = token;
-          decodedJWT = JwtDecoder.decode(token);
-        });
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
