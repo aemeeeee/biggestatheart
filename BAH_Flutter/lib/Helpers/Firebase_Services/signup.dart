@@ -18,10 +18,10 @@ class FirebaseServiceSignup {
   ) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return users
-        .doc('$username | $name')
-        .set({
+        .add({
           'username': username,
           'password': password,
+          'isAdmin': false,
           'email': email,
           'pfp': "",
           'name': name,
