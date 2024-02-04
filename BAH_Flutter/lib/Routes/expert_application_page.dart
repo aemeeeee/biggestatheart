@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/Firebase_Services/signup.dart';
 import '../Models/user.dart';
 import '../Models/expert_application_request.dart';
 import 'camera_page.dart';
@@ -791,11 +791,8 @@ class ExpertApplicationState extends State<ExpertApplication> {
                                                                 .shrinkWrap,
                                                         backgroundColor:
                                                             const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                80,
-                                                                170,
-                                                                121)),
+                                                                .fromARGB(255,
+                                                                80, 170, 121)),
                                                     child:
                                                         const Text("Approve")),
                                                 ElevatedButton(
@@ -809,11 +806,8 @@ class ExpertApplicationState extends State<ExpertApplication> {
                                                                 .shrinkWrap,
                                                         backgroundColor:
                                                             const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                170,
-                                                                80,
-                                                                80)),
+                                                                .fromARGB(255,
+                                                                170, 80, 80)),
                                                     child: const Text("Cancel"),
                                                     onPressed: () {
                                                       Navigator.pop(context);

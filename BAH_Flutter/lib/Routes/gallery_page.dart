@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 import '../Models/post.dart';
 import '../Models/user.dart';
 import 'post_page.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/Firebase_Services/signup.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'stepper.dart';
@@ -15,7 +15,6 @@ import 'statistics_page.dart';
 import 'notifications_page.dart';
 import 'expert_application_page.dart';
 import 'waiting_list_page.dart';
-import '../Models/species.dart';
 
 class GalleryPage extends StatefulWidget {
   final User currUser;

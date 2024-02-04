@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Helpers/helper.dart';
-import '../Helpers/http.dart';
+import '../Helpers/Firebase_Services/signup.dart';
 import '../Helpers/custom_icons.dart';
 import '../Models/post.dart';
 import '../Models/user.dart';
@@ -15,7 +15,7 @@ import 'statistics_page.dart';
 import 'expert_application_page.dart';
 import 'camera_page.dart';
 import 'notifications_page.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 import 'stepper.dart';
 
 class WaitingListPage extends StatefulWidget {

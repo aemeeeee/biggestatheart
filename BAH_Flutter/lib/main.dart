@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Routes/login.dart';
-import 'Routes/home_page.dart';
 import 'firebase_options.dart';
 
+// Initialise Firebase instance
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -12,6 +12,7 @@ void main() async {
   runApp(const MyApp());
 }
 
+// Entry point of this application
 class MyApp extends StatelessWidget {
   const MyApp({
     Key? key,

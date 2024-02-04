@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Models/comment.dart';
-import '../Models/species.dart';
 import '../Models/user.dart';
-import '../Helpers/http.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Firebase_Services/signup.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class OwnComment extends StatefulWidget {
@@ -261,7 +260,7 @@ class OwnCommentState extends State<OwnComment> {
                                                       right: 5),
                                                   padding:
                                                       const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 10),
                                                   decoration: BoxDecoration(
                                                       color:
@@ -348,7 +347,7 @@ class OwnCommentState extends State<OwnComment> {
                                                               style: ElevatedButton.styleFrom(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                              .all(
+                                                                          .all(
                                                                           8),
                                                                   minimumSize:
                                                                       Size.zero,
@@ -357,7 +356,7 @@ class OwnCommentState extends State<OwnComment> {
                                                                           .shrinkWrap,
                                                                   backgroundColor:
                                                                       const Color
-                                                                              .fromARGB(
+                                                                          .fromARGB(
                                                                           255,
                                                                           80,
                                                                           170,
@@ -366,8 +365,10 @@ class OwnCommentState extends State<OwnComment> {
                                                                   "Submit")),
                                                           ElevatedButton(
                                                               style: ElevatedButton.styleFrom(
-                                                                  padding: const EdgeInsets
-                                                                      .all(8),
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          8),
                                                                   minimumSize:
                                                                       Size.zero,
                                                                   tapTargetSize:
@@ -375,7 +376,7 @@ class OwnCommentState extends State<OwnComment> {
                                                                           .shrinkWrap,
                                                                   backgroundColor:
                                                                       const Color
-                                                                              .fromARGB(
+                                                                          .fromARGB(
                                                                           255,
                                                                           170,
                                                                           80,
@@ -441,7 +442,7 @@ class OwnCommentState extends State<OwnComment> {
                                                             style: ElevatedButton.styleFrom(
                                                                 backgroundColor:
                                                                     const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         80,
                                                                         170,
@@ -505,7 +506,7 @@ class OwnCommentState extends State<OwnComment> {
                                                             style: ElevatedButton.styleFrom(
                                                                 backgroundColor:
                                                                     const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         170,
                                                                         80,
@@ -546,7 +547,7 @@ class OwnCommentState extends State<OwnComment> {
                                                             style: ElevatedButton.styleFrom(
                                                                 backgroundColor:
                                                                     const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         80,
                                                                         170,
@@ -606,7 +607,7 @@ class OwnCommentState extends State<OwnComment> {
                                                             style: ElevatedButton.styleFrom(
                                                                 backgroundColor:
                                                                     const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         170,
                                                                         80,
@@ -725,22 +726,21 @@ class OwnCommentState extends State<OwnComment> {
                                                                 child: Text(
                                                                     'Submit Rejection Reason')),
                                                             content: Container(
-                                                                margin: const EdgeInsets
-                                                                        .only(
+                                                                margin: const EdgeInsets.only(
                                                                     top: 8,
                                                                     left: 5,
                                                                     right: 5),
                                                                 padding: const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         10),
                                                                 decoration: BoxDecoration(
-                                                                    color:
-                                                                        const Color.fromARGB(
-                                                                            255,
-                                                                            225,
-                                                                            235,
-                                                                            248),
+                                                                    color: const Color
+                                                                        .fromARGB(
+                                                                        255,
+                                                                        225,
+                                                                        235,
+                                                                        248),
                                                                     borderRadius:
                                                                         BorderRadius.circular(
                                                                             16)),
@@ -752,7 +752,8 @@ class OwnCommentState extends State<OwnComment> {
                                                                   decoration:
                                                                       InputDecoration(
                                                                     focusColor:
-                                                                        const Color.fromARGB(
+                                                                        const Color
+                                                                            .fromARGB(
                                                                             255,
                                                                             51,
                                                                             64,
@@ -777,12 +778,15 @@ class OwnCommentState extends State<OwnComment> {
                                                                 )),
                                                             actions: [
                                                               Padding(
-                                                                  padding: const EdgeInsets
+                                                                  padding:
+                                                                      const EdgeInsets
                                                                           .only(
-                                                                      left: 10,
-                                                                      right: 10,
-                                                                      bottom:
-                                                                          7),
+                                                                          left:
+                                                                              10,
+                                                                          right:
+                                                                              10,
+                                                                          bottom:
+                                                                              7),
                                                                   child: Wrap(
                                                                       spacing:
                                                                           5,
@@ -1394,11 +1398,8 @@ class OtherCommentState extends State<OtherComment> {
                                                                 .shrinkWrap,
                                                         backgroundColor:
                                                             const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                80,
-                                                                170,
-                                                                121)),
+                                                                .fromARGB(255,
+                                                                80, 170, 121)),
                                                     child:
                                                         const Text("Submit")),
                                                 ElevatedButton(
@@ -1412,11 +1413,8 @@ class OtherCommentState extends State<OtherComment> {
                                                                 .shrinkWrap,
                                                         backgroundColor:
                                                             const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                170,
-                                                                80,
-                                                                80)),
+                                                                .fromARGB(255,
+                                                                170, 80, 80)),
                                                     child: const Text("Cancel"),
                                                     onPressed: () {
                                                       Navigator.pop(context);
@@ -1528,22 +1526,21 @@ class OtherCommentState extends State<OtherComment> {
                                                                 child: Text(
                                                                     'Submit Rejection Reason')),
                                                             content: Container(
-                                                                margin: const EdgeInsets
-                                                                        .only(
+                                                                margin: const EdgeInsets.only(
                                                                     top: 8,
                                                                     left: 5,
                                                                     right: 5),
                                                                 padding: const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         10),
                                                                 decoration: BoxDecoration(
-                                                                    color:
-                                                                        const Color.fromARGB(
-                                                                            255,
-                                                                            225,
-                                                                            235,
-                                                                            248),
+                                                                    color: const Color
+                                                                        .fromARGB(
+                                                                        255,
+                                                                        225,
+                                                                        235,
+                                                                        248),
                                                                     borderRadius:
                                                                         BorderRadius.circular(
                                                                             16)),
@@ -1555,7 +1552,8 @@ class OtherCommentState extends State<OtherComment> {
                                                                   decoration:
                                                                       InputDecoration(
                                                                     focusColor:
-                                                                        const Color.fromARGB(
+                                                                        const Color
+                                                                            .fromARGB(
                                                                             255,
                                                                             51,
                                                                             64,
@@ -1580,12 +1578,15 @@ class OtherCommentState extends State<OtherComment> {
                                                                 )),
                                                             actions: [
                                                               Padding(
-                                                                  padding: const EdgeInsets
+                                                                  padding:
+                                                                      const EdgeInsets
                                                                           .only(
-                                                                      left: 10,
-                                                                      right: 10,
-                                                                      bottom:
-                                                                          7),
+                                                                          left:
+                                                                              10,
+                                                                          right:
+                                                                              10,
+                                                                          bottom:
+                                                                              7),
                                                                   child: Wrap(
                                                                       spacing:
                                                                           5,

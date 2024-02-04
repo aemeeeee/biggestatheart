@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Models/comment.dart';
-import '../Helpers/http.dart';
+import '../Helpers/Firebase_Services/signup.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'comments_page.dart';
 import 'comments.dart';
@@ -8,7 +8,7 @@ import 'comment_disputes.dart';
 import '../Models/species.dart';
 import '../Models/user.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import '../Helpers/standard_widgets.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 
 class PostPageMultiComment extends StatefulWidget {
   final List<Comment> comments;
