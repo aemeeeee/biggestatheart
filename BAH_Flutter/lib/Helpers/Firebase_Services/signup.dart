@@ -19,9 +19,9 @@ class FirebaseServiceSignup {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return users
         .add({
+          'isAdmin': false,
           'username': username,
           'password': password,
-          'isAdmin': false,
           'email': email,
           'pfp': "",
           'name': name,
