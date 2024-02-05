@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login_background.dart';
 import 'signup_page_1.dart';
 import '../Helpers/Firebase_Services/signup.dart';
 import 'home_page.dart';
 import '../Helpers/Authentication/auth_service.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -86,13 +88,13 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget projectName() {
+  Widget appName() {
     return Container(
       margin: const EdgeInsets.only(bottom: 40),
       child: const Text(
-        'Ichthyolog',
+        'BiggestAtHeart',
         style: TextStyle(
-          fontSize: 50,
+          fontSize: 45,
           fontWeight: FontWeight.bold,
           color: Color.fromARGB(255, 255, 255, 255),
         ),
@@ -116,7 +118,7 @@ class LoginPageState extends State<LoginPage> {
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
           border: InputBorder.none,
-          hintText: 'Enter your email or username',
+          hintText: 'Enter your email',
           contentPadding: EdgeInsets.all(10),
         ),
       ),
@@ -146,44 +148,34 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Widget forgotPasswordButton() {
-  //   return Container(
-  //     margin: const EdgeInsets.only(right: 40, left: 40),
-  //     child: Align(
-  //       alignment: Alignment.topRight,
-  //       child: TextButton(
-  //         onPressed: () {
-  //           // TODO: implement reset password functionality
-  //         },
-  //         child: const Text('Forgot Password?'),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget loginButton() {
     return SizedBox(
       width: 250,
       height: 36,
       child: ElevatedButton(
         onPressed: () {
-          () async {
-            final message = await AuthService().login(
-              email: emailUsernameController.text,
-              password: passwordController.text,
-            );
-            if (message!.contains('Success')) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
-            }
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(message),
-              ),
-            );
-          };
+          try {
+            AuthService()
+                .login(
+                  email: emailUsernameController.text,
+                  password: passwordController.text,
+                )
+                .then((userCredential) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage(currUser: userCredential!.user!)),
+                    ));
+          } on FirebaseAuthException catch (e) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return NoticeDialog(
+                      content: e.code == "invalid-credential."
+                          ? 'Incorrect email or password. Please try again.'
+                          : 'Error. Please try again.');
+                });
+          }
         },
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -222,22 +214,17 @@ class LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   //Logo up top
                   logo(),
-
-                  //Project name
-                  projectName(),
-
+                  //App name
+                  appName(),
                   //Email field
                   emailField(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 40),
-
                   //Password field
                   passwordField(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 20),
-
                   //Login button
                   loginButton(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 28),
-
                   //Sign up button
                   signupButton(),
                 ],

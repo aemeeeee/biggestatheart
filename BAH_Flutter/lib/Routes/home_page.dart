@@ -1,18 +1,13 @@
 import 'dart:io';
-import '../main.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:uuid/uuid.dart';
 import '../Models/user.dart';
-import '../Models/post.dart';
 import '../Helpers/Firebase_Services/signup.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final auth.User currUser;
+  const HomePage({super.key, required this.currUser});
   @override
   HomePageState createState() => HomePageState();
 }
@@ -36,7 +31,12 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const NoticeDialog(content: 'Not authorised. Please sign in again');
+    return Scaffold(
+        appBar: AppBar(
+      automaticallyImplyLeading: false,
+      centerTitle: true,
+      title: const Text('Home Page'),
+    ));
   }
 }
 //    else {
