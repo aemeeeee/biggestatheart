@@ -17,12 +17,12 @@ class User {
   final String gender;
   final String educationLevel;
   final String occupation;
-  final List<String> interests;
-  final List<String> skills;
+  final String interests;
+  final String skills;
   final String preferences;
   final List<Timestamp>? availability;
-  final List<String>? pastActivities;
-  final List<String>? currentActivities;
+  final List<int>? pastActivities;
+  final List<int>? currentActivities;
 
 //use of required keyword for fields that cannot be null
   User({
@@ -46,7 +46,7 @@ class User {
     this.currentActivities,
   });
 
-  factory User.fromFirestore(
+  factory User.fromFireStore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
@@ -64,24 +64,23 @@ class User {
       gender: user?['gender'] as String,
       educationLevel: user?['educationLevel'] as String,
       occupation: user?['occupation'] as String,
-      interests: List<String>.from(user?['interests']),
-      skills: List<String>.from(user?['skills']),
+      interests: user?['interests'] as String,
+      skills: user?['skills'] as String,
       preferences: user?['preferences'] as String,
       availability: user?['availability'] is Iterable
-          ? List<Timestamp>.from(user?['availability'].toDate())
+          ? List<Timestamp>.from(user?['availability'])
           : null,
       pastActivities: user?['pastActivities'] is Iterable
-          ? List<String>.from(user?['pastActivities'])
+          ? List<int>.from(user?['pastActivities'])
           : null,
       currentActivities: user?['currentActivities'] is Iterable
-          ? List<String>.from(user?['currentActivities'])
+          ? List<int>.from(user?['currentActivities'])
           : null,
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      'userid': userid,
       'isAdmin': isAdmin,
       'username': username,
       'password': password,
