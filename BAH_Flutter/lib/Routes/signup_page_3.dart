@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../Routes/login.dart';
 import 'login_background.dart';
@@ -87,30 +89,31 @@ class SignUpPage3State extends State<SignUpPage3> {
           if (isValid == true) {
             AuthService()
                 .registration(
-              email: widget.userEmail,
-              password: widget.password,
-            )
+                  email: widget.userEmail,
+                  password: widget.password,
+                )
                 .then((String message) {
-              if (message.contains('Success')) {
-                firebaseServiceSignup.addUser(
-                    widget.userEmail,
-                    widget.userName,
-                    widget.password,
-                    widget.name,
-                    widget.age,
-                    widget.ethnicity,
-                    widget.gender,
-                    widget.educationLevel,
-                    widget.occupation,
-                    _interests,
-                    _skills,
-                    _preferences);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
-              }
-            });
+                  if (message.contains('Success')) {
+                    firebaseServiceSignup.addUser(
+                        widget.userEmail,
+                        widget.userName,
+                        widget.password,
+                        widget.name,
+                        widget.age,
+                        widget.ethnicity,
+                        widget.gender,
+                        widget.educationLevel,
+                        widget.occupation,
+                        _interests,
+                        _skills,
+                        _preferences);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                    );
+                  }
+                } as FutureOr Function(String? value));
           } else {
             showDialog(
               context: context,
