@@ -17,7 +17,6 @@ class SignUpPage1State extends State<SignUpPage1> {
   String _confirmPassword = '';
   final _formKey = GlobalKey<FormState>();
   final firebaseServiceSignup = FirebaseServiceSignup();
-  bool singupRequestProcessing = false;
 
   @override
   Widget build(BuildContext context) {

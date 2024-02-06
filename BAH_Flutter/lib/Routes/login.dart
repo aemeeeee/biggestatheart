@@ -19,65 +19,12 @@ class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final firebaseService = FirebaseServiceSignup();
   bool loginRequestProcessing = false;
-  // final User guestUser = User(
-  //     userid: -1,
-  //     username: 'dummyUsername',
-  //     password: 'dummyPassword',
-  //     email: 'dummyEmail',
-  //     pfp: 'dummyPfp',
-  //     level: 0,
-  //     speciesCount: 0,
-  //     postCount: 0,
-  //     isExpert: false,
-  //     upvotedComments: [],
-  //     downvotedComments: []);
 
   loginProcessingCallback() {
     setState(() {
       loginRequestProcessing = !loginRequestProcessing;
     });
   }
-
-  // check if information filled in is valid, or if the log in request is successful
-  // void validateForm(Function loginProcessingCallback) {
-  //   final bool? isValid = _formKey.currentState?.validate();
-  //   if (isValid == true) {
-  //     if (loginRequestProcessing) {
-  //       null;
-  //     } else {
-  //       loginProcessingCallback();
-  //       httpHelpers
-  //           .loginRequest(emailUsernameController.text,
-  //               emailUsernameController.text, passwordController.text)
-  //           .then((String response) async {
-  //         loginProcessingCallback();
-  //         if (response != 'Password Incorrect' &&
-  //             response != 'User Not Found' &&
-  //             response != 'Error') {
-  //           SharedPreferences pref = await SharedPreferences.getInstance();
-  //           pref.setString("jwt", response);
-  //           if (context.mounted) {
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(builder: (context) => const HomePage()),
-  //             );
-  //           }
-  //         } else {
-  //           showDialog(
-  //               context: context,
-  //               builder: (BuildContext context) {
-  //                 return NoticeDialog(
-  //                     content: response == 'Error'
-  //                         ? 'Error. Please try again.'
-  //                         : response == 'Password Incorrect'
-  //                             ? 'Incorrect password. Please try again.'
-  //                             : 'User not found. Please try again.');
-  //               });
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
 
   Widget logo() {
     return Container(
@@ -154,19 +101,26 @@ class LoginPageState extends State<LoginPage> {
       height: 36,
       child: ElevatedButton(
         onPressed: () {
+          loginProcessingCallback();
           try {
             AuthService()
                 .login(
-                  email: emailUsernameController.text,
-                  password: passwordController.text,
-                )
-                .then((userCredential) => Navigator.push(
+              email: emailUsernameController.text,
+              password: passwordController.text,
+            )
+                .then((value) {
+              loginProcessingCallback();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Logged In Successfully"),
+                ),
+              );
+            }).whenComplete(() => Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              HomePage(currUser: userCredential!.user!)),
+                      MaterialPageRoute(builder: (context) => const HomePage()),
                     ));
           } on FirebaseAuthException catch (e) {
+            loginProcessingCallback();
             showDialog(
                 context: context,
                 builder: (BuildContext context) {

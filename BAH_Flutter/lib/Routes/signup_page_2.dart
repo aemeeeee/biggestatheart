@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Routes/login.dart';
 import 'login_background.dart';
 import '../Helpers/Firebase_Services/signup.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
@@ -31,7 +30,6 @@ class SignUpPage2State extends State<SignUpPage2> {
   final TextEditingController ethnicityController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController educationController = TextEditingController();
-  bool singupRequestProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +93,7 @@ class SignUpPage2State extends State<SignUpPage2> {
         child: ElevatedButton(
           onPressed: () async {
             final bool? isValid = _formKey.currentState?.validate();
+
             if (isValid == true) {
               Navigator.push(
                 context,

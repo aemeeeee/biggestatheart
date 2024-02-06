@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../Routes/login.dart';
 import 'login_background.dart';
@@ -38,7 +36,7 @@ class SignUpPage3State extends State<SignUpPage3> {
   String _preferences = '';
   final _formKey = GlobalKey<FormState>();
   final firebaseServiceSignup = FirebaseServiceSignup();
-  bool singupRequestProcessing = false;
+  bool signupRequestProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +77,12 @@ class SignUpPage3State extends State<SignUpPage3> {
     );
   }
 
+  signupProcessingCallback() {
+    setState(() {
+      signupRequestProcessing = !signupRequestProcessing;
+    });
+  }
+
   Widget signUpButton() {
     return SizedBox(
       width: 250,
@@ -87,33 +91,34 @@ class SignUpPage3State extends State<SignUpPage3> {
         onPressed: () async {
           final bool? isValid = _formKey.currentState?.validate();
           if (isValid == true) {
+            signupProcessingCallback();
             AuthService()
                 .registration(
-                  email: widget.userEmail,
-                  password: widget.password,
-                )
+              email: widget.userEmail,
+              password: widget.password,
+            )
                 .then((String message) {
-                  if (message.contains('Success')) {
-                    firebaseServiceSignup.addUser(
-                        widget.userEmail,
-                        widget.userName,
-                        widget.password,
-                        widget.name,
-                        widget.age,
-                        widget.ethnicity,
-                        widget.gender,
-                        widget.educationLevel,
-                        widget.occupation,
-                        _interests,
-                        _skills,
-                        _preferences);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
-                    );
-                  }
-                } as FutureOr Function(String? value));
+              signupProcessingCallback();
+              if (message.contains('Success')) {
+                firebaseServiceSignup.addUser(
+                    widget.userEmail,
+                    widget.userName,
+                    widget.password,
+                    widget.name,
+                    widget.age,
+                    widget.ethnicity,
+                    widget.gender,
+                    widget.educationLevel,
+                    widget.occupation,
+                    _interests,
+                    _skills,
+                    _preferences);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              }
+            });
           } else {
             showDialog(
               context: context,
