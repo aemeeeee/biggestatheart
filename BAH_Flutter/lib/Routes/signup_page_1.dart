@@ -17,7 +17,6 @@ class SignUpPage1State extends State<SignUpPage1> {
   String _confirmPassword = '';
   final _formKey = GlobalKey<FormState>();
   final firebaseServiceSignup = FirebaseServiceSignup();
-  bool singupRequestProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -97,46 +96,48 @@ class SignUpPage1State extends State<SignUpPage1> {
         width: 250,
         height: 36,
         child: ElevatedButton(
-          onPressed: () {
-            final bool? isValid = _formKey.currentState?.validate();
-            if (isValid == true) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SignUpPage2(
-                          userName: _userName,
-                          userEmail: _userEmail,
-                          password: _password,
-                        )),
-              );
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text(
-                      "Notice",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    content: const Text(
-                      'Please make sure you have entered your account details correctly.',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    actions: [
-                      TextButton(
-                          child:
-                              const Text("OK", style: TextStyle(fontSize: 16)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          })
-                    ],
-                  );
-                },
-              );
-            }
-          },
-          child: const Text('Next'),
-        ));
+            onPressed: () {
+              final bool? isValid = _formKey.currentState?.validate();
+              if (isValid == true) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignUpPage2(
+                            userName: _userName,
+                            userEmail: _userEmail,
+                            password: _password,
+                          )),
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        "Notice",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      content: const Text(
+                        'Please make sure you have entered your account details correctly.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      actions: [
+                        TextButton(
+                            child: const Text("OK",
+                                style: TextStyle(fontSize: 16)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })
+                      ],
+                    );
+                  },
+                );
+              }
+            },
+            child: const Text(
+              'Next',
+              style: TextStyle(color: Color.fromARGB(255, 119, 71, 71)),
+            )));
   }
 
   Widget appTitle() {

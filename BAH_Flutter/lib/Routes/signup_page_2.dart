@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Routes/login.dart';
 import 'login_background.dart';
 import '../Helpers/Firebase_Services/signup.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
@@ -31,7 +30,6 @@ class SignUpPage2State extends State<SignUpPage2> {
   final TextEditingController ethnicityController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController educationController = TextEditingController();
-  bool singupRequestProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -93,52 +91,55 @@ class SignUpPage2State extends State<SignUpPage2> {
         width: 250,
         height: 36,
         child: ElevatedButton(
-          onPressed: () async {
-            final bool? isValid = _formKey.currentState?.validate();
-            if (isValid == true) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SignUpPage3(
-                          userName: widget.userName,
-                          userEmail: widget.userEmail,
-                          password: widget.password,
-                          name: _name,
-                          age: _age,
-                          gender: _gender,
-                          ethnicity: _ethnicity,
-                          educationLevel: _education,
-                          occupation: _occupation,
-                        )),
-              );
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text(
-                      "Notice",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    content: const Text(
-                      'Please make sure you have entered your personal details correctly.',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    actions: [
-                      TextButton(
-                          child:
-                              const Text("OK", style: TextStyle(fontSize: 16)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          })
-                    ],
-                  );
-                },
-              );
-            }
-          },
-          child: const Text('Next'),
-        ));
+            onPressed: () async {
+              final bool? isValid = _formKey.currentState?.validate();
+
+              if (isValid == true) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignUpPage3(
+                            userName: widget.userName,
+                            userEmail: widget.userEmail,
+                            password: widget.password,
+                            name: _name,
+                            age: _age,
+                            gender: _gender,
+                            ethnicity: _ethnicity,
+                            educationLevel: _education,
+                            occupation: _occupation,
+                          )),
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        "Notice",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      content: const Text(
+                        'Please make sure you have entered your personal details correctly.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      actions: [
+                        TextButton(
+                            child: const Text("OK",
+                                style: TextStyle(fontSize: 16)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })
+                      ],
+                    );
+                  },
+                );
+              }
+            },
+            child: const Text(
+              'Next',
+              style: TextStyle(color: Color.fromARGB(255, 119, 71, 71)),
+            )));
   }
 
   Widget appTitle() {

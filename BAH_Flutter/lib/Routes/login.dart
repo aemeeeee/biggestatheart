@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login_background.dart';
 import 'signup_page_1.dart';
 import '../Helpers/Firebase_Services/signup.dart';
 import 'home_page.dart';
 import '../Helpers/Authentication/auth_service.dart';
+import '../Helpers/Widgets/standard_widgets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,65 +19,12 @@ class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final firebaseService = FirebaseServiceSignup();
   bool loginRequestProcessing = false;
-  // final User guestUser = User(
-  //     userid: -1,
-  //     username: 'dummyUsername',
-  //     password: 'dummyPassword',
-  //     email: 'dummyEmail',
-  //     pfp: 'dummyPfp',
-  //     level: 0,
-  //     speciesCount: 0,
-  //     postCount: 0,
-  //     isExpert: false,
-  //     upvotedComments: [],
-  //     downvotedComments: []);
 
   loginProcessingCallback() {
     setState(() {
       loginRequestProcessing = !loginRequestProcessing;
     });
   }
-
-  // check if information filled in is valid, or if the log in request is successful
-  // void validateForm(Function loginProcessingCallback) {
-  //   final bool? isValid = _formKey.currentState?.validate();
-  //   if (isValid == true) {
-  //     if (loginRequestProcessing) {
-  //       null;
-  //     } else {
-  //       loginProcessingCallback();
-  //       httpHelpers
-  //           .loginRequest(emailUsernameController.text,
-  //               emailUsernameController.text, passwordController.text)
-  //           .then((String response) async {
-  //         loginProcessingCallback();
-  //         if (response != 'Password Incorrect' &&
-  //             response != 'User Not Found' &&
-  //             response != 'Error') {
-  //           SharedPreferences pref = await SharedPreferences.getInstance();
-  //           pref.setString("jwt", response);
-  //           if (context.mounted) {
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(builder: (context) => const HomePage()),
-  //             );
-  //           }
-  //         } else {
-  //           showDialog(
-  //               context: context,
-  //               builder: (BuildContext context) {
-  //                 return NoticeDialog(
-  //                     content: response == 'Error'
-  //                         ? 'Error. Please try again.'
-  //                         : response == 'Password Incorrect'
-  //                             ? 'Incorrect password. Please try again.'
-  //                             : 'User not found. Please try again.');
-  //               });
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
 
   Widget logo() {
     return Container(
@@ -86,13 +35,13 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget projectName() {
+  Widget appName() {
     return Container(
       margin: const EdgeInsets.only(bottom: 40),
       child: const Text(
-        'Ichthyolog',
+        'BiggestAtHeart',
         style: TextStyle(
-          fontSize: 50,
+          fontSize: 45,
           fontWeight: FontWeight.bold,
           color: Color.fromARGB(255, 255, 255, 255),
         ),
@@ -116,7 +65,7 @@ class LoginPageState extends State<LoginPage> {
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
           border: InputBorder.none,
-          hintText: 'Enter your email or username',
+          hintText: 'Enter your email',
           contentPadding: EdgeInsets.all(10),
         ),
       ),
@@ -146,52 +95,52 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Widget forgotPasswordButton() {
-  //   return Container(
-  //     margin: const EdgeInsets.only(right: 40, left: 40),
-  //     child: Align(
-  //       alignment: Alignment.topRight,
-  //       child: TextButton(
-  //         onPressed: () {
-  //           // TODO: implement reset password functionality
-  //         },
-  //         child: const Text('Forgot Password?'),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget loginButton() {
     return SizedBox(
-      width: 250,
-      height: 36,
-      child: ElevatedButton(
-        onPressed: () {
-          () async {
-            final message = await AuthService().login(
-              email: emailUsernameController.text,
-              password: passwordController.text,
-            );
-            if (message!.contains('Success')) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
+        width: 250,
+        height: 36,
+        child: ElevatedButton(
+          onPressed: () {
+            loginProcessingCallback();
+            try {
+              AuthService()
+                  .login(
+                email: emailUsernameController.text,
+                password: passwordController.text,
+              )
+                  .then((value) {
+                loginProcessingCallback();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Logged In Successfully"),
+                  ),
+                );
+              }).whenComplete(() => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                      ));
+            } on FirebaseAuthException catch (e) {
+              loginProcessingCallback();
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return NoticeDialog(
+                        content: e.code == "invalid-credential."
+                            ? 'Incorrect email or password. Please try again.'
+                            : 'Error. Please try again.');
+                  });
             }
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(message),
-              ),
-            );
-          };
-        },
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)))),
-        child: const Text('Login'),
-      ),
-    );
+          },
+          style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)))),
+          child: const Text(
+            'Login',
+            style: TextStyle(color: Color.fromARGB(255, 119, 71, 71)),
+          ),
+        ));
   }
 
   Widget signupButton() {
@@ -204,7 +153,10 @@ class LoginPageState extends State<LoginPage> {
             MaterialPageRoute(builder: (context) => const SignUpPage1()),
           );
         },
-        child: const Text('Sign up'),
+        child: const Text(
+          'Sign up',
+          style: TextStyle(color: Color.fromARGB(255, 146, 49, 49)),
+        ),
       ),
     ]);
   }
@@ -222,22 +174,17 @@ class LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   //Logo up top
                   logo(),
-
-                  //Project name
-                  projectName(),
-
+                  //App name
+                  appName(),
                   //Email field
                   emailField(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 40),
-
                   //Password field
                   passwordField(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 20),
-
                   //Login button
                   loginButton(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 28),
-
                   //Sign up button
                   signupButton(),
                 ],

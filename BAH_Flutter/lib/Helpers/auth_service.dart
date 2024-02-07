@@ -1,7 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import '../../Routes/login.dart';
-import '../../Helpers/Widgets/standard_widgets.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -36,22 +33,5 @@ class AuthService {
       email: email,
       password: password,
     );
-  }
-
-  void logout(BuildContext context) async {
-    _auth.signOut().then((value) {
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-        );
-      } else {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return const NoticeDialog(content: 'Logout failed');
-            });
-      }
-    });
   }
 }

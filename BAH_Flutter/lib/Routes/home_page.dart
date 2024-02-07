@@ -1,15 +1,10 @@
 import 'dart:io';
-import '../main.dart';
+import 'package:biggestatheart/Routes/gallery_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:uuid/uuid.dart';
-import '../Models/user.dart';
-import '../Models/post.dart';
-import '../Helpers/Firebase_Services/signup.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
+import '../Helpers/Firebase_Services/home.dart';
+import '../Helpers/Authentication/auth_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,27 +13,92 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  bool _authorised = false;
-  File? image;
-  String jwt = '';
-  String newUsername = '';
-  String newEmail = '';
-  String newPassword = '';
-  String oldPassword = '';
-  String newTitle = '';
-  String newDescription = '';
-  final firebaseServiceSignup = FirebaseServiceSignup();
-  final _formKey = GlobalKey<FormState>();
-  bool editProfileRequestProcessing = false;
-  bool editpfpRequestProcessing = false;
-  bool editPostRequestProcessing = false;
-  bool deletePostRequestProcessing = false;
+  final firebaseService = FirebaseServiceHome();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String currUserID = '';
+  bool isAdmin = false;
 
   @override
   Widget build(BuildContext context) {
-    return const NoticeDialog(content: 'Not authorised. Please sign in again');
+    if (auth.currentUser == null) {
+      return const NoticeDialog(
+          content: 'Not authorised. Please sign in again');
+    } else {
+      print("Current userid:${auth.currentUser!.uid}");
+      return FutureBuilder(
+          future: firebaseService.getUser(auth.currentUser!.uid),
+          builder: ((context, snapshotUser) {
+            if (snapshotUser.hasData) {
+              return Scaffold(
+                  appBar: AppBar(
+                    automaticallyImplyLeading: false,
+                    centerTitle: true,
+                    title: const Text('Home Page'),
+                    backgroundColor: const Color.fromARGB(255, 65, 90, 181),
+                    actions: [logoutButton(context)],
+                  ),
+                  body: SingleChildScrollView(
+                      physics: const ScrollPhysics(),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Color.fromARGB(255, 30, 51, 128),
+                                    Color.fromARGB(255, 66, 94, 185),
+                                  ],
+                                )),
+                                height: MediaQuery.of(context).size.height *
+                                    1 /
+                                    2.7,
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                1 /
+                                                18),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                1 /
+                                                36)
+                                  ],
+                                )),
+                          ])));
+            } else if (snapshotUser.hasError) {
+              print(snapshotUser.error);
+              return const NoticeDialog(
+                  content: 'User not found! Please try again');
+            } else {
+              return Scaffold(
+                  appBar: AppBar(
+                    automaticallyImplyLeading: false,
+                    centerTitle: true,
+                    title: const Text('Home Page'),
+                    backgroundColor: const Color.fromARGB(255, 65, 90, 181),
+                  ),
+                  body: const LoadingScreen());
+            }
+          }));
+    }
   }
 }
+
+Widget logoutButton(BuildContext context) {
+  return IconButton(
+      icon: const Icon(Icons.logout),
+      onPressed: () {
+        AuthService().logout(context);
+      });
+}
+
 //    else {
 //       return FutureBuilder(
 //           future: httpHelpers.viewOwnUserProfileRequest(jwt),
@@ -467,15 +527,6 @@ class HomePageState extends State<HomePage> {
 //           )),
 //         ],
 //       ),
-//     );
-//   }
-
-//   Widget logoutButton() {
-//     return IconButton(
-//       icon: const Icon(Icons.logout),
-//       onPressed: () {
-//         helpers.logout(jwt, context);
-//       },
 //     );
 //   }
 

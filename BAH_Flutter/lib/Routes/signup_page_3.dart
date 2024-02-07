@@ -36,7 +36,7 @@ class SignUpPage3State extends State<SignUpPage3> {
   String _preferences = '';
   final _formKey = GlobalKey<FormState>();
   final firebaseServiceSignup = FirebaseServiceSignup();
-  bool singupRequestProcessing = false;
+  bool signupRequestProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,72 +77,83 @@ class SignUpPage3State extends State<SignUpPage3> {
     );
   }
 
+  signupProcessingCallback() {
+    setState(() {
+      signupRequestProcessing = !signupRequestProcessing;
+    });
+  }
+
   Widget signUpButton() {
     return SizedBox(
-      width: 250,
-      height: 36,
-      child: ElevatedButton(
-        onPressed: () async {
-          final bool? isValid = _formKey.currentState?.validate();
-          if (isValid == true) {
-            AuthService()
-                .registration(
-              email: widget.userEmail,
-              password: widget.password,
-            )
-                .then((String message) {
-              if (message.contains('Success')) {
-                firebaseServiceSignup.addUser(
-                    widget.userEmail,
-                    widget.userName,
-                    widget.password,
-                    widget.name,
-                    widget.age,
-                    widget.ethnicity,
-                    widget.gender,
-                    widget.educationLevel,
-                    widget.occupation,
-                    _interests,
-                    _skills,
-                    _preferences);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+        width: 250,
+        height: 36,
+        child: ElevatedButton(
+            onPressed: () async {
+              final bool? isValid = _formKey.currentState?.validate();
+              if (isValid == true) {
+                signupProcessingCallback();
+                AuthService()
+                    .registration(
+                  email: widget.userEmail,
+                  password: widget.password,
+                )
+                    .then((String message) {
+                  signupProcessingCallback();
+                  if (message.contains('Success')) {
+                    firebaseServiceSignup.addUser(
+                        widget.userEmail,
+                        widget.userName,
+                        widget.password,
+                        widget.name,
+                        widget.age,
+                        widget.ethnicity,
+                        widget.gender,
+                        widget.educationLevel,
+                        widget.occupation,
+                        _interests,
+                        _skills,
+                        _preferences);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                    );
+                  }
+                });
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        "Notice",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      content: const Text(
+                        'Please make sure you have entered your personal details correctly.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      actions: [
+                        TextButton(
+                            child: const Text("OK",
+                                style: TextStyle(fontSize: 16)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })
+                      ],
+                    );
+                  },
                 );
               }
-            });
-          } else {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text(
-                    "Notice",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  content: const Text(
-                    'Please make sure you have entered your personal details correctly.',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  actions: [
-                    TextButton(
-                        child: const Text("OK", style: TextStyle(fontSize: 16)),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        })
-                  ],
-                );
-              },
-            );
-          }
-        },
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)))),
-        child: const Text('Sign Up'),
-      ),
-    );
+            },
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)))),
+            child: const Text(
+              'Next',
+              style: TextStyle(color: Color.fromARGB(255, 119, 71, 71)),
+            )));
   }
 
   Widget appTitle() {
