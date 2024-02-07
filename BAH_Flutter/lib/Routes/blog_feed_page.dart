@@ -1,26 +1,24 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:biggestatheart/Routes/adminEvent/event_form.dart';
-import 'package:biggestatheart/Routes/blog_feed_page.dart';
 import 'package:biggestatheart/Routes/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
-import '../Models/activity.dart';
+import '../Models/post.dart';
 import '../Models/user.dart' as user;
-import 'activity_page.dart';
+import 'reflection_page.dart';
 import 'upload_post_page.dart';
 import 'home_page.dart';
-import '../Helpers/Firebase_Services/gallery_page.dart';
+import '../Helpers/Firebase_Services/blog_feed_page.dart';
+import 'package:intl/intl.dart';
 
-class GalleryPage extends StatefulWidget {
+class BlogFeedPage extends StatefulWidget {
   user.User? currUser;
-  GalleryPage({super.key});
+  BlogFeedPage({super.key});
   @override
-  GalleryPageState createState() => GalleryPageState();
+  BlogFeedPageState createState() => BlogFeedPageState();
 }
 
-class GalleryPageState extends State<GalleryPage> {
+class BlogFeedPageState extends State<BlogFeedPage> {
   bool editPostRequestProcessing = false;
   bool deletePostRequestProcessing = false;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -42,19 +40,19 @@ class GalleryPageState extends State<GalleryPage> {
       print("Current User ID: $currUserID");
       return FutureBuilder(
           future: Future.wait([
-            FirebaseServiceGallery().getActivities(),
-            FirebaseServiceGallery().getUser(currUserID)
+            FirebaseServiceBlog().getAllPosts(),
+            FirebaseServiceBlog().getUser(currUserID)
           ]),
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
-              List<Activity> activities = snapshot.data![0] as List<Activity>;
+              List<Post> posts = snapshot.data![0] as List<Post>;
               widget.currUser = snapshot.data![1] as user.User;
               isAdmin = widget.currUser!.isAdmin;
               return Scaffold(
                 appBar: AppBar(
                   leading: backButton(),
                   centerTitle: true,
-                  title: const Text('Activity Gallery',
+                  title: const Text('Blog Feed',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 30.0,
@@ -62,10 +60,10 @@ class GalleryPageState extends State<GalleryPage> {
                       )),
                   backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                   actions: [
-                    addNewActivityButton(currUserID, refreshCallback),
+                    addNewPostButton(refreshCallback),
                   ],
                 ),
-                body: galleryScreen(context, activities, refreshCallback),
+                body: galleryScreen(context, posts, refreshCallback),
                 bottomNavigationBar: BottomAppBar(
                   child: isAdmin
                       ? Row(
@@ -107,13 +105,25 @@ class GalleryPageState extends State<GalleryPage> {
     }
   }
 
-  Widget addNewActivityButton(String userID, Function refreshCallback) {
+  Widget blogFeedPageButton() {
+    return IconButton(
+      icon: const Icon(Icons.article, color: Color.fromARGB(255, 168, 49, 85)),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BlogFeedPage()),
+        );
+      },
+    );
+  }
+
+  Widget addNewPostButton(Function refreshCallback) {
     return IconButton(
       icon: const Icon(Icons.add, color: Color.fromARGB(255, 255, 255, 255)),
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EventForm(userID: userID)),
+          MaterialPageRoute(builder: (context) => const UploadPostPage()),
         ).then((value) => refreshCallback());
       },
     );
@@ -152,18 +162,6 @@ class GalleryPageState extends State<GalleryPage> {
           color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
         refreshCallback();
-      },
-    );
-  }
-
-  Widget blogFeedPageButton() {
-    return IconButton(
-      icon: const Icon(Icons.article, color: Color.fromARGB(255, 168, 49, 85)),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BlogFeedPage()),
-        );
       },
     );
   }
@@ -214,16 +212,16 @@ class GalleryPageState extends State<GalleryPage> {
     );
   }
 
-  Widget cardTitle(Activity activity) {
+  Widget cardTitle(Post post) {
     return Flexible(
       child: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12),
         child: Stack(
           children: [
             Text(
-              activity.title.length > 60
-                  ? '${activity.title.substring(0, 60)}...'
-                  : activity.title,
+              post.title.length > 60
+                  ? 'Title: ${post.title.substring(0, 60)}...'
+                  : 'Title: ${post.title}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -236,79 +234,13 @@ class GalleryPageState extends State<GalleryPage> {
     );
   }
 
-  Widget galleryLegend() {
-    return const Padding(
-        padding: EdgeInsets.only(left: 18, top: 10, right: 9),
-        child: Row(children: [
-          Text(
-            "Key:",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Color.fromARGB(255, 60, 89, 139)),
-          ),
-          SizedBox(width: 8),
-          CircleAvatar(
-              radius: 7,
-              backgroundColor: Color.fromARGB(255, 73, 155, 109),
-              child: Icon(
-                Icons.volunteer_activism,
-                size: 10,
-                color: Colors.white,
-              )),
-          SizedBox(width: 4),
-          Text(
-            "[ Volunteering ]",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 11,
-                color: Color.fromARGB(255, 73, 155, 109)),
-          ),
-          SizedBox(width: 10),
-          CircleAvatar(
-              radius: 7,
-              backgroundColor: Color.fromARGB(255, 175, 103, 51),
-              child: Icon(
-                Icons.model_training,
-                size: 10,
-                color: Colors.white,
-              )),
-          SizedBox(width: 4),
-          Text(
-            "[ Training ]",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 11,
-                color: Color.fromARGB(255, 175, 103, 51)),
-          ),
-          SizedBox(width: 10),
-          CircleAvatar(
-              radius: 7,
-              backgroundColor: Color.fromARGB(255, 152, 72, 85),
-              child: Icon(
-                Icons.question_mark_rounded,
-                size: 10,
-                color: Colors.white,
-              )),
-          SizedBox(width: 4),
-          Text(
-            "[ Workshop ]",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 11,
-                color: Color.fromARGB(255, 152, 72, 85)),
-          ),
-        ]));
-  }
-
-  Widget galleryScreen(BuildContext context, List<Activity> activities,
-      Function refreshCallback) {
+  Widget galleryScreen(
+      BuildContext context, List<Post> posts, Function refreshCallback) {
     return SingleChildScrollView(
         child: SizedBox(
             child: Column(children: [
-      galleryLegend(),
       GridView.builder(
-          itemCount: activities.length,
+          itemCount: posts.length,
           physics: const ScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
@@ -317,94 +249,75 @@ class GalleryPageState extends State<GalleryPage> {
             childAspectRatio: 3,
           ),
           itemBuilder: (context, index) {
-            return activityCard(activities[index], refreshCallback);
+            return postCard(posts[index], refreshCallback);
           },
           shrinkWrap: true,
           padding: const EdgeInsets.all(12.0))
     ])));
   }
 
-  Widget activityCard(Activity activity, Function refreshCallback) {
-    return InkWell(
-      onTap: () {
-        // Handle the tap event here, such as navigating to a new screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ActivityPage(
-                    activityID: activity.activityID,
-                  )),
-        );
-      },
-      child: Card(
-        color: const Color.fromARGB(255, 253, 254, 255),
-        elevation: 4.5,
-        shadowColor: const Color.fromARGB(255, 113, 165, 255),
-        clipBehavior: Clip.hardEdge,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(3),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ListTile(
-              dense: true,
-              minVerticalPadding: 0,
-              horizontalTitleGap: 0,
-              visualDensity: const VisualDensity(vertical: -4, horizontal: 0),
-              leading: CircleAvatar(
-                radius: 8,
-                backgroundColor: activity.type == 'Workshop'
-                    ? const Color.fromARGB(255, 155, 91, 101)
-                    : activity.type == 'Volunteering'
-                        ? const Color.fromARGB(255, 73, 155, 109)
-                        : const Color.fromARGB(255, 175, 103, 51),
-                child: Icon(
-                  activity.type == 'Workshop'
-                      ? Icons.question_mark_rounded
-                      : activity.type == 'Volunteering'
-                          ? Icons.volunteer_activism
-                          : Icons.model_training,
-                  size: 10,
-                  color: Colors.white,
-                ),
-              ),
+  Widget postCard(Post post, Function refreshCallback) {
+    return FutureBuilder(
+      future: FirebaseServiceBlog().getUser(post.userid),
+      builder: (context, snapshot) {
+        user.User author = snapshot.data as user.User;
+        return InkWell(
+          onTap: () {
+            // Handle the tap event here, such as navigating to a new screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ReflectionPage(postID: post.postid)),
+            );
+          },
+          child: Card(
+            color: const Color.fromARGB(255, 253, 254, 255),
+            elevation: 4.5,
+            shadowColor: const Color.fromARGB(255, 113, 165, 255),
+            clipBehavior: Clip.hardEdge,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(3),
             ),
-            // Post Image
-            cardTitle(activity),
-            Container(
-              margin: activity.title.length > 30
-                  ? const EdgeInsets.only(top: 10)
-                  : const EdgeInsets.only(top: 35),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12, right: 12),
-                child: Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 8),
-                      child: Icon(
-                        Icons.pin_drop,
-                        size: 14,
-                        color: Color.fromARGB(255, 51, 64, 113),
-                      ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                // Post Image
+                ListTile(
+                  title: Text(
+                    author.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Color.fromARGB(255, 33, 53, 88),
                     ),
-                    Expanded(
+                  ),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(author.pfp),
+                    radius: 15,
+                  ),
+                ),
+                cardTitle(post),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, right: 15),
                       child: Text(
-                        activity.location,
+                        DateFormat('dd/MM/yyyy').format(post.date),
                         style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
                           color: Color.fromARGB(255, 33, 53, 88),
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
