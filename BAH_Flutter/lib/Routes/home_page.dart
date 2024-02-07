@@ -7,6 +7,7 @@ import '../Helpers/Widgets/standard_widgets.dart';
 import '../Helpers/Firebase_Services/home.dart';
 import '../Helpers/Authentication/auth_service.dart';
 import '../Models/activity.dart';
+import 'blog_feed_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -129,6 +130,7 @@ class HomePageState extends State<HomePage> {
                     children: [
                       uploadPostButton(refreshCallback),
                       galleryPageButton(refreshCallback),
+                      blogFeedPageButton(),
                       certificateRequestPageButton(refreshCallback),
                     ],
                   ),
@@ -180,6 +182,18 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  Widget blogFeedPageButton() {
+    return IconButton(
+      icon: const Icon(Icons.article, color: Color.fromARGB(255, 168, 49, 85)),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BlogFeedPage()),
+        );
+      },
+    );
+  }
+
   Widget certificateRequestPageButton(Function refreshCallback) {
     return IconButton(
       icon: const Icon(Icons.picture_as_pdf,
@@ -219,7 +233,7 @@ Widget cardTitle(Activity activity) {
         children: [
           Text(
             activity.title.length > 60
-                ? activity.title.substring(0, 60) + '...'
+                ? '${activity.title.substring(0, 60)}...'
                 : activity.title,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
