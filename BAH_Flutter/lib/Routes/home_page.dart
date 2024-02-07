@@ -109,10 +109,19 @@ class HomePageState extends State<HomePage> {
                                   ]),
                                 ],
                               )),
-                          galleryScreen(
-                              context,
-                              snapshotUser.data!.currentActivities,
-                              refreshCallback)
+                          FutureBuilder(
+                              future: firebaseService.getCurrActivities(
+                                  snapshotUser.data!.currentActivities!),
+                              builder: ((context, snapshotActivities) {
+                                if (snapshotUser.hasData) {
+                                  return galleryScreen(
+                                      context,
+                                      snapshotActivities.data!,
+                                      refreshCallback);
+                                } else {
+                                  return const LoadingComment();
+                                }
+                              }))
                         ])),
                 bottomNavigationBar: BottomAppBar(
                   child: Row(
@@ -134,8 +143,10 @@ class HomePageState extends State<HomePage> {
                   appBar: AppBar(
                     automaticallyImplyLeading: false,
                     centerTitle: true,
-                    title: const Text('Home Page'),
-                    backgroundColor: const Color.fromARGB(255, 65, 90, 181),
+                    title: const Text('Home Page',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w700)),
+                    backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                   ),
                   body: const LoadingScreen());
             }
