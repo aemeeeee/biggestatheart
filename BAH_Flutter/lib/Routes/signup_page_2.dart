@@ -91,53 +91,55 @@ class SignUpPage2State extends State<SignUpPage2> {
         width: 250,
         height: 36,
         child: ElevatedButton(
-          onPressed: () async {
-            final bool? isValid = _formKey.currentState?.validate();
+            onPressed: () async {
+              final bool? isValid = _formKey.currentState?.validate();
 
-            if (isValid == true) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SignUpPage3(
-                          userName: widget.userName,
-                          userEmail: widget.userEmail,
-                          password: widget.password,
-                          name: _name,
-                          age: _age,
-                          gender: _gender,
-                          ethnicity: _ethnicity,
-                          educationLevel: _education,
-                          occupation: _occupation,
-                        )),
-              );
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text(
-                      "Notice",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    content: const Text(
-                      'Please make sure you have entered your personal details correctly.',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    actions: [
-                      TextButton(
-                          child:
-                              const Text("OK", style: TextStyle(fontSize: 16)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          })
-                    ],
-                  );
-                },
-              );
-            }
-          },
-          child: const Text('Next'),
-        ));
+              if (isValid == true) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignUpPage3(
+                            userName: widget.userName,
+                            userEmail: widget.userEmail,
+                            password: widget.password,
+                            name: _name,
+                            age: _age,
+                            gender: _gender,
+                            ethnicity: _ethnicity,
+                            educationLevel: _education,
+                            occupation: _occupation,
+                          )),
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        "Notice",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      content: const Text(
+                        'Please make sure you have entered your personal details correctly.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      actions: [
+                        TextButton(
+                            child: const Text("OK",
+                                style: TextStyle(fontSize: 16)),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })
+                      ],
+                    );
+                  },
+                );
+              }
+            },
+            child: const Text(
+              'Next',
+              style: TextStyle(color: Color.fromARGB(255, 119, 71, 71)),
+            )));
   }
 
   Widget appTitle() {

@@ -97,47 +97,50 @@ class LoginPageState extends State<LoginPage> {
 
   Widget loginButton() {
     return SizedBox(
-      width: 250,
-      height: 36,
-      child: ElevatedButton(
-        onPressed: () {
-          loginProcessingCallback();
-          try {
-            AuthService()
-                .login(
-              email: emailUsernameController.text,
-              password: passwordController.text,
-            )
-                .then((value) {
-              loginProcessingCallback();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Logged In Successfully"),
-                ),
-              );
-            }).whenComplete(() => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    ));
-          } on FirebaseAuthException catch (e) {
+        width: 250,
+        height: 36,
+        child: ElevatedButton(
+          onPressed: () {
             loginProcessingCallback();
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return NoticeDialog(
-                      content: e.code == "invalid-credential."
-                          ? 'Incorrect email or password. Please try again.'
-                          : 'Error. Please try again.');
-                });
-          }
-        },
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)))),
-        child: const Text('Login'),
-      ),
-    );
+            try {
+              AuthService()
+                  .login(
+                email: emailUsernameController.text,
+                password: passwordController.text,
+              )
+                  .then((value) {
+                loginProcessingCallback();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Logged In Successfully"),
+                  ),
+                );
+              }).whenComplete(() => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                      ));
+            } on FirebaseAuthException catch (e) {
+              loginProcessingCallback();
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return NoticeDialog(
+                        content: e.code == "invalid-credential."
+                            ? 'Incorrect email or password. Please try again.'
+                            : 'Error. Please try again.');
+                  });
+            }
+          },
+          style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)))),
+          child: const Text(
+            'Login',
+            style: TextStyle(color: Color.fromARGB(255, 119, 71, 71)),
+          ),
+        ));
   }
 
   Widget signupButton() {
@@ -150,7 +153,10 @@ class LoginPageState extends State<LoginPage> {
             MaterialPageRoute(builder: (context) => const SignUpPage1()),
           );
         },
-        child: const Text('Sign up'),
+        child: const Text(
+          'Sign up',
+          style: TextStyle(color: Color.fromARGB(255, 146, 49, 49)),
+        ),
       ),
     ]);
   }
