@@ -1,3 +1,4 @@
+import 'package:biggestatheart/Routes/upload_post_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login_background.dart';
@@ -117,7 +118,8 @@ class LoginPageState extends State<LoginPage> {
               );
             }).whenComplete(() => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(
+                          builder: (context) => const UploadPostPage()),
                     ));
           } on FirebaseAuthException catch (e) {
             loginProcessingCallback();
