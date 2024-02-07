@@ -40,13 +40,14 @@ class UploadPostPageState extends State<UploadPostPage> {
             if (snapshotUser.hasData) {
               return Scaffold(
                 appBar: AppBar(
+                  leading: backButton(),
                   centerTitle: true,
                   title: const Text('Blog/Reflection/Feedback',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold)),
-                  backgroundColor: const Color.fromARGB(255, 65, 90, 181),
+                  backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                 ),
                 body: SingleChildScrollView(
                   child: Center(
@@ -65,7 +66,7 @@ class UploadPostPageState extends State<UploadPostPage> {
                                 ),
                                 decoration: BoxDecoration(
                                     color: const Color.fromARGB(
-                                        255, 225, 235, 248),
+                                        255, 255, 234, 240),
                                     borderRadius: BorderRadius.circular(16)),
                                 child: TextFormField(
                                   minLines: 1,
@@ -103,7 +104,7 @@ class UploadPostPageState extends State<UploadPostPage> {
                                 height: 200,
                                 decoration: BoxDecoration(
                                     color: const Color.fromARGB(
-                                        255, 225, 235, 248),
+                                        255, 255, 237, 237),
                                     borderRadius: BorderRadius.circular(16)),
                                 child: TextFormField(
                                   minLines: 1,
@@ -225,6 +226,16 @@ class UploadPostPageState extends State<UploadPostPage> {
       title = '';
       titleController.clear();
     });
+  }
+
+  Widget backButton() {
+    return Container(
+        alignment: Alignment.topLeft,
+        child: IconButton(
+            color: Colors.white,
+            iconSize: 35,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context)));
   }
 
   Widget selectableTextForm(

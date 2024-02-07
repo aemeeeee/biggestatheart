@@ -126,7 +126,9 @@ class SignUpPage2State extends State<SignUpPage2> {
                       actions: [
                         TextButton(
                             child: const Text("OK",
-                                style: TextStyle(fontSize: 16)),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 119, 71, 71))),
                             onPressed: () {
                               Navigator.pop(context);
                             })
@@ -338,7 +340,7 @@ class SignUpPage2State extends State<SignUpPage2> {
         alignment: Alignment.topLeft,
         margin: const EdgeInsets.only(top: 20),
         child: IconButton(
-            color: const Color.fromARGB(255, 57, 81, 189),
+            color: const Color.fromARGB(255, 149, 67, 67),
             iconSize: 35,
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context)));
