@@ -21,8 +21,8 @@ class User {
   final String skills;
   final String preferences;
   final List<Timestamp>? availability;
-  final List<int>? pastActivities;
-  final List<int>? currentActivities;
+  final List<String>? pastActivities;
+  final List<String>? currentActivities;
 
 //use of required keyword for fields that cannot be null
   User({
@@ -71,10 +71,10 @@ class User {
           ? List<Timestamp>.from(user?['availability'])
           : null,
       pastActivities: user?['pastActivities'] is Iterable
-          ? List<int>.from(user?['pastActivities'])
+          ? List<String>.from(user?['pastActivities'])
           : null,
       currentActivities: user?['currentActivities'] is Iterable
-          ? List<int>.from(user?['currentActivities'])
+          ? List<String>.from(user?['currentActivities'])
           : null,
     );
   }
