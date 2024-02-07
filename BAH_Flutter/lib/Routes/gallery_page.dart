@@ -1,18 +1,20 @@
 import 'package:biggestatheart/Routes/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
 import '../Models/activity.dart';
-import '../Models/user.dart';
+import '../Models/user.dart' as user;
 import 'activity_page.dart';
 import 'home_page.dart';
 import 'camera_page.dart';
 import 'expert_application_page.dart';
 import 'waiting_list_page.dart';
 import '../Helpers/Firebase_Services/gallery_page.dart';
+import '../Helpers/Authentication/auth_service.dart';
 
 class GalleryPage extends StatefulWidget {
-  final User currUser;
-  const GalleryPage({super.key, required this.currUser});
+  user.User? currUser;
+  GalleryPage({super.key});
   @override
   GalleryPageState createState() => GalleryPageState();
 }
@@ -20,8 +22,10 @@ class GalleryPage extends StatefulWidget {
 class GalleryPageState extends State<GalleryPage> {
   bool editPostRequestProcessing = false;
   bool deletePostRequestProcessing = false;
-
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String currUserID = '';
   String newDescription = '';
+  bool isAdmin = false;
 
   refreshCallback() {
     setState(() {});
@@ -29,54 +33,73 @@ class GalleryPageState extends State<GalleryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: FirebaseServiceGallery().getActivities(),
-        builder: ((context, snapshot) {
-          if (snapshot.hasData) {
-            return Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                title: const Text('Sighting Gallery'),
-                backgroundColor: const Color.fromARGB(255, 65, 90, 181),
-                actions: [logoutButton()],
-              ),
-              body: galleryScreen(context, snapshot.data!, refreshCallback),
-              bottomNavigationBar: BottomAppBar(
-                child: widget.currUser.isAdmin
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          //Visit home page to view profile
-                          homePageButton(refreshCallback),
-                          //Visit camera page to post sighting
-                          cameraPageButton(refreshCallback),
-                          //Visit isExpert application page to review/submit applications
-                          isExpertApplicationPageButton(refreshCallback),
-                          //Visit waiting list page to verify/flag posts
-                          waitingListPageButton(refreshCallback),
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          //Visit home page to view profile
-                          homePageButton(refreshCallback),
-                          //Visit camera page to post sighting
-                          cameraPageButton(refreshCallback),
-                          //Visit isExpert application page to review/submit applications
-                          isExpertApplicationPageButton(refreshCallback),
-                          //visit notifications to read notifications
-                        ],
-                      ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return const NoticeDialog(
-                content: 'Error fetching posts. Please try again!');
-          } else {
-            return const LoadingScreen();
-          }
-        }));
+    if (auth.currentUser == null) {
+      return const NoticeDialog(
+          content: 'Not authorised. Please sign in again');
+    } else {
+      currUserID = auth.currentUser!.uid;
+      print("Current User ID: $currUserID");
+      return FutureBuilder(
+          future: Future.wait([
+            FirebaseServiceGallery().getActivities(),
+            FirebaseServiceGallery().getUser(currUserID)
+          ]),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              List<Activity> activities = snapshot.data![0] as List<Activity>;
+              widget.currUser = snapshot.data![1] as user.User;
+              isAdmin = widget.currUser!.isAdmin;
+              return Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: const Text('Activity Gallery',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  backgroundColor: const Color.fromARGB(255, 65, 90, 181),
+                  actions: [logoutButton()],
+                ),
+                body: galleryScreen(context, activities, refreshCallback),
+                bottomNavigationBar: BottomAppBar(
+                  child: isAdmin
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            //Visit home page to view profile
+                            homePageButton(refreshCallback),
+                            //Visit camera page to post sighting
+                            cameraPageButton(refreshCallback),
+                            //Visit isExpert application page to review/submit applications
+                            isExpertApplicationPageButton(refreshCallback),
+                            //Visit waiting list page to verify/flag posts
+                            waitingListPageButton(refreshCallback),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            //Visit home page to view profile
+                            homePageButton(refreshCallback),
+                            //Visit camera page to post sighting
+                            cameraPageButton(refreshCallback),
+                            //Visit isExpert application page to review/submit applications
+                            isExpertApplicationPageButton(refreshCallback),
+                            //visit notifications to read notifications
+                          ],
+                        ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              print(snapshot.error);
+              return const NoticeDialog(
+                  content: 'Error fetching posts. Please try again!');
+            } else {
+              return const LoadingScreen();
+            }
+          }));
+    }
   }
 
   Widget logoutButton() {
@@ -108,13 +131,13 @@ class GalleryPageState extends State<GalleryPage> {
       icon: const Icon(Icons.add_a_photo_rounded,
           color: Color.fromARGB(255, 52, 66, 117)),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CameraPage(
-                    currUser: widget.currUser,
-                  )),
-        ).then((value) => refreshCallback());
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => CameraPage(
+        //               currUser: widget.currUser,
+        //             )),
+        //   ).then((value) => refreshCallback());
       },
     );
   }
@@ -124,12 +147,12 @@ class GalleryPageState extends State<GalleryPage> {
       icon:
           const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 52, 66, 117)),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ExpertApplicationPage(currUser: widget.currUser)),
-        ).then((value) => refreshCallback());
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) =>
+        //           ExpertApplicationPage(currUser: widget.currUser)),
+        // ).then((value) => refreshCallback());
       },
     );
   }
@@ -141,33 +164,37 @@ class GalleryPageState extends State<GalleryPage> {
         color: Color.fromARGB(255, 52, 66, 117),
       ),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WaitingListPage(
-                    currUser: widget.currUser,
-                  )),
-        ).then((value) => refreshCallback());
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) => WaitingListPage(
+        //             currUser: widget.currUser,
+        //           )),
+        // ).then((value) => refreshCallback());
       },
     );
   }
 
-  Widget clickableImage(Activity activity, Function refreshCallback) {
-    return Expanded(
-        child: Padding(
-            padding: const EdgeInsets.only(left: 6, right: 6),
-            child: Stack(children: [
-              InkWell(onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ActivityPage(
-                            activityID: activity.activityID,
-                            currUser: widget.currUser,
-                          )),
-                ).then((value) => refreshCallback());
-              }),
-            ])));
+  Widget cardTitle(Activity activity) {
+    return Flexible(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12, right: 12),
+        child: Stack(
+          children: [
+            Text(
+              activity.title.length > 60
+                  ? activity.title.substring(0, 60) + '...'
+                  : activity.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Color.fromARGB(255, 33, 53, 88),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget galleryLegend() {
@@ -186,7 +213,7 @@ class GalleryPageState extends State<GalleryPage> {
               radius: 7,
               backgroundColor: Color.fromARGB(255, 73, 155, 109),
               child: Icon(
-                Icons.verified,
+                Icons.volunteer_activism,
                 size: 10,
                 color: Colors.white,
               )),
@@ -203,7 +230,7 @@ class GalleryPageState extends State<GalleryPage> {
               radius: 7,
               backgroundColor: Color.fromARGB(255, 175, 103, 51),
               child: Icon(
-                Icons.pending,
+                Icons.model_training,
                 size: 10,
                 color: Colors.white,
               )),
@@ -220,7 +247,7 @@ class GalleryPageState extends State<GalleryPage> {
               radius: 7,
               backgroundColor: Color.fromARGB(255, 152, 72, 85),
               child: Icon(
-                Icons.priority_high,
+                Icons.question_mark_rounded,
                 size: 10,
                 color: Colors.white,
               )),
@@ -248,7 +275,7 @@ class GalleryPageState extends State<GalleryPage> {
             crossAxisCount: 1,
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 7.0,
-            childAspectRatio: 0.85,
+            childAspectRatio: 3,
           ),
           itemBuilder: (context, index) {
             return activityCard(activities[index], refreshCallback);
@@ -259,7 +286,11 @@ class GalleryPageState extends State<GalleryPage> {
   }
 
   Widget activityCard(Activity activity, Function refreshCallback) {
-    return Card(
+    return InkWell(
+      onTap: () {
+        // Handle the tap event here, such as navigating to a new screen
+      },
+      child: Card(
         color: const Color.fromARGB(255, 253, 254, 255),
         elevation: 4.5,
         shadowColor: const Color.fromARGB(255, 113, 165, 255),
@@ -268,63 +299,67 @@ class GalleryPageState extends State<GalleryPage> {
           borderRadius: BorderRadius.circular(3),
         ),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              ListTile(
-                  dense: true,
-                  minVerticalPadding: 0,
-                  horizontalTitleGap: 0,
-                  visualDensity:
-                      const VisualDensity(vertical: -4, horizontal: 0),
-                  title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          activity.title,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11,
-                              color: Color.fromARGB(255, 33, 53, 88)),
-                        ),
-                      ]),
-                  trailing: CircleAvatar(
-                    radius: 8,
-                    backgroundColor: activity.type == 'Workshop'
-                        ? Color.fromARGB(255, 155, 91, 101)
-                        : activity.type == 'Volunteering'
-                            ? const Color.fromARGB(255, 73, 155, 109)
-                            : const Color.fromARGB(255, 175, 103, 51),
-                    child: Icon(
-                      activity.type == 'Workshop'
-                          ? Icons.question_mark_rounded
-                          : activity.type == 'Volunteering'
-                              ? Icons.volunteer_activism
-                              : Icons.model_training,
-                      size: 10,
-                      color: Colors.white,
-                    ),
-                  )),
-              //Post Image
-              Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, top: 8, right: 9, bottom: 8),
-                  child: Row(children: [
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ListTile(
+              dense: true,
+              minVerticalPadding: 0,
+              horizontalTitleGap: 0,
+              visualDensity: const VisualDensity(vertical: -4, horizontal: 0),
+              leading: CircleAvatar(
+                radius: 8,
+                backgroundColor: activity.type == 'Workshop'
+                    ? const Color.fromARGB(255, 155, 91, 101)
+                    : activity.type == 'Volunteering'
+                        ? const Color.fromARGB(255, 73, 155, 109)
+                        : const Color.fromARGB(255, 175, 103, 51),
+                child: Icon(
+                  activity.type == 'Workshop'
+                      ? Icons.question_mark_rounded
+                      : activity.type == 'Volunteering'
+                          ? Icons.volunteer_activism
+                          : Icons.model_training,
+                  size: 10,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            // Post Image
+            cardTitle(activity),
+            Container(
+              margin: activity.title.length > 30
+                  ? const EdgeInsets.only(top: 10)
+                  : const EdgeInsets.only(top: 35),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12),
+                child: Row(
+                  children: [
                     const Padding(
-                        padding: EdgeInsets.only(right: 8),
-                        child: Icon(
-                          Icons.pin_drop,
-                          size: 14,
-                          color: Color.fromARGB(255, 51, 64, 113),
-                        )),
-                    Expanded(
-                      child: Text(activity.location,
-                          style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 33, 53, 88))),
+                      padding: EdgeInsets.only(right: 8),
+                      child: Icon(
+                        Icons.pin_drop,
+                        size: 14,
+                        color: Color.fromARGB(255, 51, 64, 113),
+                      ),
                     ),
-                  ])),
-            ]));
+                    Expanded(
+                      child: Text(
+                        activity.location,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 33, 53, 88),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   editPostRequestProcessingCallback() {

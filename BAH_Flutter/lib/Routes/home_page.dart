@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:biggestatheart/Routes/gallery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
@@ -23,7 +24,7 @@ class HomePageState extends State<HomePage> {
       return const NoticeDialog(
           content: 'Not authorised. Please sign in again');
     } else {
-      print(auth.currentUser!.uid);
+      print("Current userid:${auth.currentUser!.uid}");
       return FutureBuilder(
           future: firebaseService.getUser(auth.currentUser!.uid),
           builder: ((context, snapshotUser) {
@@ -69,7 +70,7 @@ class HomePageState extends State<HomePage> {
                                                 1 /
                                                 36)
                                   ],
-                                ))
+                                )),
                           ])));
             } else if (snapshotUser.hasError) {
               print(snapshotUser.error);

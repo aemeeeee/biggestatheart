@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../Models/activity.dart';
+import '../../Models/user.dart';
 
 class FirebaseServiceGallery {
   Future<List<Activity>> getActivities() async {
@@ -12,5 +13,12 @@ class FirebaseServiceGallery {
       return Activity.fromFireStore(doc, null);
     }).toList();
     return activityList;
+  }
+
+  Future<User> getUser(String userID) async {
+    DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userID).get();
+    User currUser = User.fromFireStore(querySnapshot, null);
+    return currUser;
   }
 }
