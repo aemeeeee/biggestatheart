@@ -1,3 +1,6 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:biggestatheart/Routes/adminEvent/event_form.dart';
 import 'package:biggestatheart/Routes/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +60,9 @@ class GalleryPageState extends State<GalleryPage> {
                         fontWeight: FontWeight.bold,
                       )),
                   backgroundColor: const Color.fromARGB(255, 168, 49, 85),
-                  actions: [logoutButton()],
+                  actions: [
+                    addNewActivityButton(currUserID, refreshCallback),
+                  ],
                 ),
                 body: galleryScreen(context, activities, refreshCallback),
                 bottomNavigationBar: BottomAppBar(
@@ -81,7 +86,7 @@ class GalleryPageState extends State<GalleryPage> {
                             //Visit home page to view profile
                             homePageButton(refreshCallback),
                             //Visit camera page to post sighting
-                            uploadPostButton(refreshCallback),
+                            galleryPageButton(),
                             //Visit isExpert application page to review/submit applications
                             isExpertApplicationPageButton(refreshCallback),
                             //visit notifications to read notifications
@@ -98,6 +103,18 @@ class GalleryPageState extends State<GalleryPage> {
             }
           }));
     }
+  }
+
+  Widget addNewActivityButton(String userID, Function refreshCallback) {
+    return IconButton(
+      icon: const Icon(Icons.add, color: Color.fromARGB(255, 255, 255, 255)),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EventForm(userID: userID)),
+        ).then((value) => refreshCallback());
+      },
+    );
   }
 
   Widget logoutButton() {
@@ -123,6 +140,16 @@ class GalleryPageState extends State<GalleryPage> {
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
         ).then((value) => refreshCallback());
+      },
+    );
+  }
+
+  Widget galleryPageButton() {
+    return IconButton(
+      icon: const Icon(Icons.photo_album,
+          color: Color.fromARGB(255, 168, 49, 85)),
+      onPressed: () {
+        refreshCallback();
       },
     );
   }
@@ -181,7 +208,7 @@ class GalleryPageState extends State<GalleryPage> {
           children: [
             Text(
               activity.title.length > 60
-                  ? activity.title.substring(0, 60) + '...'
+                  ? '${activity.title.substring(0, 60)}...'
                   : activity.title,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -287,6 +314,13 @@ class GalleryPageState extends State<GalleryPage> {
     return InkWell(
       onTap: () {
         // Handle the tap event here, such as navigating to a new screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ActivityPage(
+                    activityID: activity.activityID,
+                  )),
+        );
       },
       child: Card(
         color: const Color.fromARGB(255, 253, 254, 255),

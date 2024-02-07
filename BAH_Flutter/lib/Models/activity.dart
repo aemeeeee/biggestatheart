@@ -47,10 +47,16 @@ class Activity {
       }
     }).toList();
 
+    final int attendeeCount = activity?['attendeeCount'] == null
+        ? 0
+        : activity?['attendeeCount'] as int;
+    final int maxAttendees = activity?['maxAttendees'] == null
+        ? 0
+        : activity?['maxAttendees'] as int;
     return Activity(
       activityID: snapshot.id,
       title: activity?['title'] as String,
-      attendeeCount: activity?['attendeeCount'] as int,
+      attendeeCount: attendeeCount,
       attendeeList: attendeeList, // Use the converted list
       date: activity?['date'].toDate() as DateTime,
       description: activity?['description'] as String,
@@ -58,7 +64,7 @@ class Activity {
       location: activity?['location'] as String,
       organiser: activity?['organiser'] as String,
       type: activity?['type'] as String,
-      maxAttendees: activity?['maxAttendees'] as int,
+      maxAttendees: maxAttendees,
     );
   }
 
