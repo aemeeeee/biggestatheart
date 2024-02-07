@@ -118,8 +118,7 @@ class LoginPageState extends State<LoginPage> {
               );
             }).whenComplete(() => Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const UploadPostPage()),
+                      MaterialPageRoute(builder: (context) => const HomePage()),
                     ));
           } on FirebaseAuthException catch (e) {
             loginProcessingCallback();
