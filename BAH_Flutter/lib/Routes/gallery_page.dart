@@ -5,12 +5,9 @@ import '../Helpers/Widgets/standard_widgets.dart';
 import '../Models/activity.dart';
 import '../Models/user.dart' as user;
 import 'activity_page.dart';
+import 'upload_post_page.dart';
 import 'home_page.dart';
-import 'camera_page.dart';
-import 'expert_application_page.dart';
-import 'waiting_list_page.dart';
 import '../Helpers/Firebase_Services/gallery_page.dart';
-import '../Helpers/Authentication/auth_service.dart';
 
 class GalleryPage extends StatefulWidget {
   user.User? currUser;
@@ -51,6 +48,7 @@ class GalleryPageState extends State<GalleryPage> {
               isAdmin = widget.currUser!.isAdmin;
               return Scaffold(
                 appBar: AppBar(
+                  leading: backButton(),
                   centerTitle: true,
                   title: const Text('Activity Gallery',
                       style: TextStyle(
@@ -58,7 +56,7 @@ class GalleryPageState extends State<GalleryPage> {
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
                       )),
-                  backgroundColor: const Color.fromARGB(255, 65, 90, 181),
+                  backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                   actions: [logoutButton()],
                 ),
                 body: galleryScreen(context, activities, refreshCallback),
@@ -70,7 +68,7 @@ class GalleryPageState extends State<GalleryPage> {
                             //Visit home page to view profile
                             homePageButton(refreshCallback),
                             //Visit camera page to post sighting
-                            cameraPageButton(refreshCallback),
+                            uploadPostButton(refreshCallback),
                             //Visit isExpert application page to review/submit applications
                             isExpertApplicationPageButton(refreshCallback),
                             //Visit waiting list page to verify/flag posts
@@ -83,7 +81,7 @@ class GalleryPageState extends State<GalleryPage> {
                             //Visit home page to view profile
                             homePageButton(refreshCallback),
                             //Visit camera page to post sighting
-                            cameraPageButton(refreshCallback),
+                            uploadPostButton(refreshCallback),
                             //Visit isExpert application page to review/submit applications
                             isExpertApplicationPageButton(refreshCallback),
                             //visit notifications to read notifications
@@ -104,7 +102,10 @@ class GalleryPageState extends State<GalleryPage> {
 
   Widget logoutButton() {
     return IconButton(
-      icon: const Icon(Icons.logout),
+      icon: const Icon(
+        Icons.logout,
+        color: Colors.white,
+      ),
       onPressed: () {
         Navigator.push(
           context,
@@ -116,7 +117,7 @@ class GalleryPageState extends State<GalleryPage> {
 
   Widget homePageButton(Function refreshCallback) {
     return IconButton(
-      icon: const Icon(Icons.home, color: Color.fromARGB(255, 52, 66, 117)),
+      icon: const Icon(Icons.home, color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
         Navigator.push(
           context,
@@ -126,26 +127,23 @@ class GalleryPageState extends State<GalleryPage> {
     );
   }
 
-  Widget cameraPageButton(Function refreshCallback) {
+  Widget uploadPostButton(Function refreshCallback) {
     return IconButton(
-      icon: const Icon(Icons.add_a_photo_rounded,
-          color: Color.fromARGB(255, 52, 66, 117)),
+      icon: const Icon(Icons.library_add,
+          color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => CameraPage(
-        //               currUser: widget.currUser,
-        //             )),
-        //   ).then((value) => refreshCallback());
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const UploadPostPage()),
+        ).then((value) => refreshCallback());
       },
     );
   }
 
   Widget isExpertApplicationPageButton(Function refreshCallback) {
     return IconButton(
-      icon:
-          const Icon(Icons.how_to_reg, color: Color.fromARGB(255, 52, 66, 117)),
+      icon: const Icon(Icons.picture_as_pdf,
+          color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
         // Navigator.push(
         //   context,
@@ -360,6 +358,16 @@ class GalleryPageState extends State<GalleryPage> {
         ),
       ),
     );
+  }
+
+  Widget backButton() {
+    return Container(
+        alignment: Alignment.topLeft,
+        child: IconButton(
+            color: Colors.white,
+            iconSize: 35,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context)));
   }
 
   editPostRequestProcessingCallback() {

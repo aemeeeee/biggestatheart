@@ -136,7 +136,9 @@ class SignUpPage3State extends State<SignUpPage3> {
                       actions: [
                         TextButton(
                             child: const Text("OK",
-                                style: TextStyle(fontSize: 16)),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 119, 71, 71))),
                             onPressed: () {
                               Navigator.pop(context);
                             })
@@ -151,7 +153,7 @@ class SignUpPage3State extends State<SignUpPage3> {
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)))),
             child: const Text(
-              'Next',
+              'Sign Up',
               style: TextStyle(color: Color.fromARGB(255, 119, 71, 71)),
             )));
   }
@@ -253,7 +255,7 @@ class SignUpPage3State extends State<SignUpPage3> {
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(top: 20),
       child: IconButton(
-          color: const Color.fromARGB(255, 57, 81, 189),
+          color: const Color.fromARGB(255, 149, 67, 67),
           iconSize: 35,
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context)),
