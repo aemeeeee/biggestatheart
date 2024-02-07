@@ -10,7 +10,7 @@ class LoginBackgroundPage extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Container(
-              color: const Color.fromARGB(255, 215, 242, 255),
+              color: const Color.fromARGB(255, 255, 224, 224),
             ),
           ),
           Positioned(
@@ -21,7 +21,7 @@ class LoginBackgroundPage extends StatelessWidget {
             child: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color.fromARGB(255, 146, 191, 240),
+                color: Color.fromARGB(255, 255, 203, 203),
               ),
             ),
           ),
@@ -34,7 +34,7 @@ class LoginBackgroundPage extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color:
-                    const Color.fromARGB(255, 104, 173, 247).withOpacity(0.7),
+                    const Color.fromARGB(255, 245, 166, 166).withOpacity(0.7),
               ),
             ),
           ),
