@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:biggestatheart/Routes/gallery_page.dart';
+import 'package:biggestatheart/Routes/adminEvent/event_form.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
@@ -35,7 +36,20 @@ class HomePageState extends State<HomePage> {
                     centerTitle: true,
                     title: const Text('Home Page'),
                     backgroundColor: const Color.fromARGB(255, 65, 90, 181),
-                    actions: [logoutButton(context)],
+                    actions: [
+                      logoutButton(context),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EventForm(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                   body: SingleChildScrollView(
                       physics: const ScrollPhysics(),

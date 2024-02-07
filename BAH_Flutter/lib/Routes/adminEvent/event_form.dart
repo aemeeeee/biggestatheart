@@ -1,11 +1,12 @@
+import 'package:biggestatheart/Helpers/Firebase_Services/activity_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'event.dart';
 
 class EventForm extends StatefulWidget {
-  final void Function(Event) onSubmit;
-  const EventForm({Key? key, required this.onSubmit}) : super(key:key);
-  
+  //final void Function(Event) onSubmit;
+  //const EventForm({Key? key, required this.onSubmit}) : super(key:key);
+  const EventForm({Key? key}) : super(key:key);
+
   @override
   _EventFormState createState() => _EventFormState();
 }
@@ -119,31 +120,9 @@ class _EventFormState extends State<EventForm> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final Event newEvent = Event(
-        eventName: _eventName!,
-        location: _location!,
-        time: _date!,
-        description: _eventDescription!,
-        numberOfVolunteersNeeded: _numberOfVolunteersNeeded!,
-      );
       _formKey.currentState!.reset();
-      widget.onSubmit(newEvent);
-      _addEventToFirestore(newEvent);
+      FirebaseServiceActivity().createActivity(_eventName!, _location!, _date!, _eventDescription!, _numberOfVolunteersNeeded!);
       Navigator.pop(context);
-    }
-  }
-  void _addEventToFirestore(Event event) async {
-    try {
-      CollectionReference eventsCollection = FirebaseFirestore.instance.collection('events');
-      await eventsCollection.doc(event.eventName).set({
-        'eventName': event.eventName,
-        'location': event.location,
-        'time': event.time,
-        'description': event.description,
-        'numberOfVolunteersNeeded': event.numberOfVolunteersNeeded,
-      });
-    } catch (e) {
-      print('Error adding event to Firestore: $e');
     }
   }
 }

@@ -37,4 +37,22 @@ class FirebaseServiceActivity {
       }
     });
   }
+
+  Future<void> createActivity(String title, String location, DateTime date, String description, int maxAttendees) async {
+    CollectionReference activityCollection = FirebaseFirestore.instance.collection('activities');
+    activityCollection.add({
+      'title': title,
+      'attendeeCount': 0,
+      'attendeeList': [],
+      'date': date,
+      'description': description,
+      'isCompleted': false,
+      'location': location,
+      'organiser': 'dummyOrganiserID',
+      'type': 'dummyType',
+      'maxAttendees': maxAttendees,
+      });
+      // .then((value) => print("Activity Added"))
+      // .catchError((error) => print("Failed to add activity: $error"));
+  }
 }
