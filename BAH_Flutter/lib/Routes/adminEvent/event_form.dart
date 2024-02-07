@@ -1,10 +1,10 @@
-import 'package:biggestatheart/Helpers/Firebase_Services/activity_page.dart';
 import 'package:flutter/material.dart';
+import 'package:biggestatheart/Helpers/Firebase_Services/activity_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventForm extends StatefulWidget {
-  //final void Function(Event) onSubmit;
-  //const EventForm({Key? key, required this.onSubmit}) : super(key:key);
-  const EventForm({Key? key}) : super(key:key);
+  final String userID;
+  const EventForm({Key? key, required this.userID}) : super(key: key);
 
   @override
   _EventFormState createState() => _EventFormState();
@@ -18,6 +18,7 @@ class _EventFormState extends State<EventForm> {
   String? _location;
   DateTime? _date;
   int? _numberOfVolunteersNeeded;
+  String? _type = 'Volunteering'; // Default value
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +95,8 @@ class _EventFormState extends State<EventForm> {
                 ),
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Number of Volunteers Needed'),
+                decoration:
+                    InputDecoration(labelText: 'Number of Volunteers Needed'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -104,6 +106,28 @@ class _EventFormState extends State<EventForm> {
                 },
                 onSaved: (value) {
                   _numberOfVolunteersNeeded = int.tryParse(value!);
+                },
+              ),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Type'),
+                value: _type,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _type = newValue;
+                  });
+                },
+                items: <String>['Volunteering', 'Training', 'Workshop']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a type';
+                  }
+                  return null;
                 },
               ),
               ElevatedButton(
@@ -116,13 +140,20 @@ class _EventFormState extends State<EventForm> {
       ),
     );
   }
+
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _formKey.currentState!.reset();
-      FirebaseServiceActivity().createActivity(_eventName!, _location!, _date!, _eventDescription!, _numberOfVolunteersNeeded!);
+      FirebaseServiceActivity().createActivity(
+          _eventName!,
+          _location!,
+          _date!,
+          _eventDescription!,
+          _numberOfVolunteersNeeded!,
+          widget.userID,
+          _type!);
       Navigator.pop(context);
     }
   }
 }
-
