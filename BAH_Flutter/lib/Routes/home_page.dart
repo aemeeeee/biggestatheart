@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:biggestatheart/Routes/gallery_page.dart';
-import 'package:biggestatheart/Routes/adminEvent/event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
