@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../Models/activity.dart';
 import '../../Models/user.dart';
-import '../../Models/user.dart';
 
 class FirebaseServiceActivity {
   Future<Activity> getActivity(String activityID) async {
@@ -103,7 +102,8 @@ class FirebaseServiceActivity {
       String description,
       int maxAttendees,
       String organiser,
-      String type) async {
+      String type,
+      int numHours) async {
     CollectionReference activityCollection =
         FirebaseFirestore.instance.collection('activities');
     activityCollection.add({
@@ -118,6 +118,7 @@ class FirebaseServiceActivity {
       'type': type,
       'maxAttendees': maxAttendees,
       'attendanceList': [],
+      'numHours': numHours,
     });
     // .then((value) => print("Activity Added"))
     // .catchError((error) => print("Failed to add activity: $error"));
