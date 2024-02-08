@@ -7,6 +7,8 @@ import '../Helpers/Widgets/standard_widgets.dart';
 import '../Helpers/Firebase_Services/home.dart';
 import '../Helpers/Authentication/auth_service.dart';
 import '../Models/activity.dart';
+import 'activity_page.dart';
+import 'blog_feed_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -129,6 +131,7 @@ class HomePageState extends State<HomePage> {
                     children: [
                       uploadPostButton(refreshCallback),
                       galleryPageButton(refreshCallback),
+                      blogFeedPageButton(),
                       certificateRequestPageButton(refreshCallback),
                     ],
                   ),
@@ -180,6 +183,18 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  Widget blogFeedPageButton() {
+    return IconButton(
+      icon: const Icon(Icons.article, color: Color.fromARGB(255, 168, 49, 85)),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BlogFeedPage()),
+        );
+      },
+    );
+  }
+
   Widget certificateRequestPageButton(Function refreshCallback) {
     return IconButton(
       icon: const Icon(Icons.picture_as_pdf,
@@ -219,7 +234,7 @@ Widget cardTitle(Activity activity) {
         children: [
           Text(
             activity.title.length > 60
-                ? activity.title.substring(0, 60) + '...'
+                ? '${activity.title.substring(0, 60)}...'
                 : activity.title,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
@@ -303,6 +318,14 @@ Widget galleryScreen(
   return SingleChildScrollView(
       child: SizedBox(
           child: Column(children: [
+    const Padding(
+      padding: EdgeInsets.only(top: 10),
+      child: Text('Your Upcoming Activities',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+              color: Color.fromARGB(255, 33, 53, 88))),
+    ),
     galleryLegend(),
     GridView.builder(
         itemCount: activities.length,
@@ -314,17 +337,24 @@ Widget galleryScreen(
           childAspectRatio: 3,
         ),
         itemBuilder: (context, index) {
-          return activityCard(activities[index], refreshCallback);
+          return activityCard(context, activities[index], refreshCallback);
         },
         shrinkWrap: true,
         padding: const EdgeInsets.all(12.0))
   ])));
 }
 
-Widget activityCard(Activity activity, Function refreshCallback) {
+Widget activityCard(
+    BuildContext context, Activity activity, Function refreshCallback) {
   return InkWell(
     onTap: () {
       // Handle the tap event here, such as navigating to a new screen
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ActivityPage(
+                    activityID: activity.activityID,
+                  )));
     },
     child: Card(
       color: const Color.fromARGB(255, 253, 254, 255),
