@@ -49,6 +49,18 @@ class Activity {
       }
     }).toList();
 
+    // Explicitly cast each element in attendanceList from dynamic to String
+    final List<dynamic> attendanceListDynamic = activity?['attendanceList'] ?? [];
+    final List<String> attendanceList = attendanceListDynamic.map((dynamic item) {
+      if (item is String) {
+        return item;
+      } else {
+        // Handle the case where the item is not a string (e.g., null or other types)
+        return 'dummyUserID'; // or any default value you prefer
+      }
+    }).toList();
+    
+
     final int attendeeCount = activity?['attendeeCount'] == null
         ? 0
         : activity?['attendeeCount'] as int;
@@ -67,7 +79,7 @@ class Activity {
       organiser: activity?['organiser'] as String,
       type: activity?['type'] as String,
       maxAttendees: maxAttendees,
-      attendanceList: activity?['attendanceList'] as List<String>,
+      attendanceList: attendanceList,
     );
   }
 
