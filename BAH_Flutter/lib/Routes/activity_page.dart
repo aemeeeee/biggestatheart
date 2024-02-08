@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:biggestatheart/Helpers/Firebase_Services/user_data.dart';
 import 'package:flutter/material.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
 import '../Models/user.dart' as userModel;
@@ -182,7 +183,7 @@ class ActivityPageState extends State<ActivityPage> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
+                return AlertDialog (
                   title: const Text("Enrollment Status"),
                   content: Text(message),
                   actions: [

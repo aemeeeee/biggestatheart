@@ -16,6 +16,7 @@ class Activity {
   final String type;
   final int maxAttendees;
   final List<String> attendanceList;
+  final int numHours;
 
 //use of required keyword as none of these fields can be null
   Activity(
@@ -30,7 +31,8 @@ class Activity {
       required this.organiser,
       required this.type,
       required this.maxAttendees,
-      required this.attendanceList}); // to do: close enrollment upon reaching maxAttendees
+      required this.attendanceList,
+      required this.numHours}); // to do: close enrollment upon reaching maxAttendees
 
   factory Activity.fromFireStore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -68,6 +70,9 @@ class Activity {
     final int maxAttendees = activity?['maxAttendees'] == null
         ? 0
         : activity?['maxAttendees'] as int;
+    final int numHours = activity?['numHours'] == null
+        ? 0
+        : activity?['numHours'] as int;
     return Activity(
       activityID: snapshot.id,
       title: activity?['title'] as String,
@@ -81,6 +86,7 @@ class Activity {
       type: activity?['type'] as String,
       maxAttendees: maxAttendees,
       attendanceList: attendanceList,
+      numHours: numHours,
     );
   }
 
@@ -97,6 +103,7 @@ class Activity {
       'type': type,
       'maxAttendees': maxAttendees,
       'attendanceList': attendanceList,
+      'numHours': numHours,
     };
   }
 }

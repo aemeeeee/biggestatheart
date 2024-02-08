@@ -20,6 +20,7 @@ class _EventFormState extends State<EventForm> {
   TimeOfDay? _time;
   int? _numberOfVolunteersNeeded;
   String? _type = 'Volunteering'; // Default value
+  int? _numberOfHours;
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +127,20 @@ class _EventFormState extends State<EventForm> {
                   _numberOfVolunteersNeeded = int.tryParse(value!);
                 },
               ),
+              TextFormField(
+                decoration: const InputDecoration(
+                    labelText: 'Number of Hours'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter number of hours';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _numberOfHours = int.tryParse(value!);
+                },
+              ),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Type'),
                 value: _type,
@@ -170,7 +185,8 @@ class _EventFormState extends State<EventForm> {
           _eventDescription!,
           _numberOfVolunteersNeeded!,
           widget.userID,
-          _type!);
+          _type!,
+          _numberOfHours!);
       Navigator.pop(context);
     }
   }
