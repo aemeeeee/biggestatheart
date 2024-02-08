@@ -8,6 +8,7 @@ import '../Helpers/Firebase_Services/home.dart';
 import '../Helpers/Authentication/auth_service.dart';
 import '../Models/activity.dart';
 import 'activity_page.dart';
+import 'adminReportPages/report_selection_page.dart';
 import 'blog_feed_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -132,7 +133,9 @@ class HomePageState extends State<HomePage> {
                       uploadPostButton(refreshCallback),
                       galleryPageButton(refreshCallback),
                       blogFeedPageButton(),
-                      certificateRequestPageButton(refreshCallback),
+                      snapshotUser.data!.isAdmin
+                          ? reportPageButton()
+                          : certificateRequestPageButton(refreshCallback),
                     ],
                   ),
                 ),
@@ -172,7 +175,7 @@ class HomePageState extends State<HomePage> {
 
   Widget galleryPageButton(Function refreshCallback) {
     return IconButton(
-      icon: const Icon(Icons.library_books),
+      icon: const Icon(Icons.photo_album),
       color: const Color.fromARGB(255, 168, 49, 85),
       onPressed: () {
         Navigator.push(
@@ -190,6 +193,19 @@ class HomePageState extends State<HomePage> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => BlogFeedPage()),
+        );
+      },
+    );
+  }
+
+  Widget reportPageButton() {
+    return IconButton(
+      icon: const Icon(Icons.data_exploration_outlined,
+          color: Color.fromARGB(255, 168, 49, 85)),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ReportSelectionPage()),
         );
       },
     );
