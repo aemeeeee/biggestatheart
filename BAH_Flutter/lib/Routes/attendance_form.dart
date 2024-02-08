@@ -10,52 +10,75 @@ class AttendanceForm extends StatefulWidget {
 }
 
 class _AttendanceFormState extends State<AttendanceForm> {
-  final _formKey = GlobalKey<FormState>();
 
   late Future<List<String>> futureAttendeeList;
-  late List<String> normalAttendeeList;
-
-  void _loadData() {
-    futureAttendeeList = FirebaseServiceActivity().getAttendeeList(widget.activityID);
-  }
+  late Map<String, String> userMapping = {};
+  //Map<String, bool> checkedAttendees = {};
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    _loadData();
-    normalAttendeeList = await futureAttendeeList;
+    loadData();
   }
 
-  Future<Map<String, String>>? futureUserMapping;
-  Map<String, String>? userMapping = {};
-
-  void mapUserKeytoID() async {
-    futureUserMapping = FirebaseServiceActivity().getUserMapping(normalAttendeeList);
-    userMapping = await futureUserMapping;
+  void loadData() async {
+    futureAttendeeList = FirebaseServiceActivity().getAttendeeList(widget.activityID);
+    userMapping = await FirebaseServiceActivity().getUserMapping(await futureAttendeeList);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: normalAttendeeList.length,
-      itemBuilder: (context, index) {
-        String? userNameEmail = userMapping?.keys.elementAt(index);
-        String? userID = userMapping?[userNameEmail]!;
-        return CheckboxListTile(
-          title: Text(userNameEmail!),
-          value: false,
-          onChanged: (isChecked) async {
-            // setState(() {
-            //   if (isChecked!) {
-            //     attendedUsers.add(userID); // Add userID to the list
-            //   } else {
-            //     attendedUsers.remove(userID); // Remove userID from the list
-            //   }
-            // });
-            await FirebaseServiceActivity().takeAttendanceActivity(widget.activityID, userMapping?[userID!] ?? '');
-          },
-        );
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Attendance Form'),
+      ),
+      body: FutureBuilder<List<String>>(
+        future: futureAttendeeList,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            List<String> attendeeList = snapshot.data!;
+            // for (String userID in attendeeList) {
+            //   checkedAttendees[userID] = false; // Initialize all checkboxes as unchecked initially
+            // };
+            return ListView.builder(
+              itemCount: attendeeList.length,
+              itemBuilder: (context, index) {
+                String userID = attendeeList[index];
+                String userNameEmail = userMapping.keys.firstWhere(
+                  (key) => userMapping[key] == userID,
+                  orElse: () => 'Unknown User',
+                );
+                return CheckboxListTile(
+                  title: Text(userNameEmail),
+                  //value: checkedAttendees[userID] ?? false,
+                  value: false,
+                  // onChanged: (bool? value) {
+                  //   setState(() {
+                  //     checkedAttendees[userID] = value ?? false; // Update the state of the checkbox
+                  //   });
+                  // },
+                  onChanged: (bool? value) async {
+                    setState(() {
+                      value = value!; // Update the state of the checkbox
+                    });
+                    await FirebaseServiceActivity().takeAttendanceActivity(
+                      widget.activityID,
+                      userID,
+                    );
+                  },
+                );
+              },
+            );
+          } else {
+            return Center(child: Text('No data available'));
+          }
+        },
+      ),
     );
   }
 }

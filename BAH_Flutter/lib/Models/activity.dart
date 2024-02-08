@@ -60,6 +60,7 @@ class Activity {
         return 'dummyUserID'; // or any default value you prefer
       }
     }).toList();
+    
 
     final int attendeeCount = activity?['attendeeCount'] == null
         ? 0
