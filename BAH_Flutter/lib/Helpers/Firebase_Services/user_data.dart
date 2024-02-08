@@ -1,17 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../Models/user.dart';
 
 class FirebaseServiceUser {
   // query user data such as 
   Future<List<String>> getUserDataByField(String field) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection('users')
-        .where(field, isEqualTo: value)
         .get();
-    List<String> userData = [];
-    for (var doc in querySnapshot.docs) {
-      userData.add(doc.id);
+
+    // Map to store counts of unique values
+    Map<String, int> valueCounts = {};
+
+    for (var userid in querySnapshot.docs) {
+      String value = userid.get(field);
+      if (valueCounts.containsKey(value)) {
+        valueCounts[value] = valueCounts[value]! + 1;
+      } else {
+        valueCounts[value] = 1;
+      }
     }
-    return userData;
+    // Build the concatenated result string
+    List<String> result = [];
+    valueCounts.forEach((value, countVal) {
+      String temp = '$value $countVal'; // [ 'Chinese 3', 'Indian 2', 'Malay 1']
+      result.add(temp);
+    });
+
+    // Trim trailing space and return the result
+    return result;
   }
 }
