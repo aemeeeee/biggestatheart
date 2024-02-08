@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:biggestatheart/Helpers/Firebase_Services/activity_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventForm extends StatefulWidget {
   final String userID;
@@ -16,7 +15,9 @@ class _EventFormState extends State<EventForm> {
   String? _eventName;
   String? _eventDescription;
   String? _location;
+  DateTime? _datetime;
   DateTime? _date;
+  TimeOfDay? _time;
   int? _numberOfVolunteersNeeded;
   String? _type = 'Volunteering'; // Default value
 
@@ -24,16 +25,16 @@ class _EventFormState extends State<EventForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create New Event'),
+        title: const Text('Create New Event'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'Event Name'),
+                decoration: const InputDecoration(labelText: 'Event Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter event name';
@@ -45,7 +46,8 @@ class _EventFormState extends State<EventForm> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Event Description'),
+                decoration:
+                    const InputDecoration(labelText: 'Event Description'),
                 maxLines: 4,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -58,7 +60,7 @@ class _EventFormState extends State<EventForm> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Location'),
+                decoration: const InputDecoration(labelText: 'Location'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter location';
@@ -71,7 +73,7 @@ class _EventFormState extends State<EventForm> {
               ),
               GestureDetector(
                 onTap: () async {
-                  final DateTime? pickedDate = await showDatePicker(
+                  final pickedDate = await showDatePicker(
                     context: context,
                     initialDate: _date ?? DateTime.now(),
                     firstDate: DateTime.now(),
@@ -79,24 +81,40 @@ class _EventFormState extends State<EventForm> {
                   );
 
                   if (pickedDate != null) {
-                    setState(() {
-                      _date = pickedDate;
-                    });
+                    // ignore: use_build_context_synchronously
+                    final pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: _time ?? TimeOfDay.now(),
+                    );
+
+                    if (pickedTime != null) {
+                      setState(() {
+                        _date = pickedDate;
+                        _time = pickedTime;
+                        _datetime = DateTime(
+                          _date!.year,
+                          _date!.month,
+                          _date!.day,
+                          _time!.hour,
+                          _time!.minute,
+                        );
+                      });
+                    }
                   }
                 },
                 child: ListTile(
-                  title: Text('Date'),
+                  title: const Text('Date and Time'),
                   subtitle: Text(
                     _date == null
                         ? 'Select Date'
-                        : 'Date: ${_date!.day}/${_date!.month}/${_date!.year}',
+                        : 'Date: ${_date!.day}/${_date!.month}/${_date!.year} Time: ${_time!.hour}:${_time!.minute}',
                   ),
-                  trailing: Icon(Icons.calendar_today),
+                  trailing: const Icon(Icons.calendar_today),
                 ),
               ),
               TextFormField(
-                decoration:
-                    InputDecoration(labelText: 'Number of Volunteers Needed'),
+                decoration: const InputDecoration(
+                    labelText: 'Number of Volunteers Needed'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -109,7 +127,7 @@ class _EventFormState extends State<EventForm> {
                 },
               ),
               DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Type'),
+                decoration: const InputDecoration(labelText: 'Type'),
                 value: _type,
                 onChanged: (String? newValue) {
                   setState(() {
@@ -132,7 +150,7 @@ class _EventFormState extends State<EventForm> {
               ),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),

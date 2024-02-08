@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+import 'package:biggestatheart/Routes/gallery_page.dart';
 import 'package:biggestatheart/Routes/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -109,10 +110,7 @@ class BlogFeedPageState extends State<BlogFeedPage> {
     return IconButton(
       icon: const Icon(Icons.article, color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BlogFeedPage()),
-        );
+        refreshCallback();
       },
     );
   }
@@ -161,7 +159,10 @@ class BlogFeedPageState extends State<BlogFeedPage> {
       icon: const Icon(Icons.photo_album,
           color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
-        refreshCallback();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GalleryPage()),
+        );
       },
     );
   }
