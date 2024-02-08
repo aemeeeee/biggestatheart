@@ -150,7 +150,7 @@ class FirebaseServiceActivity {
             .get();
       if (userSnapshot.exists) {
         User user = User.fromFireStore(userSnapshot, null);
-        String userKey = "${user.username} - ${user.email}";
+        String userKey = "${user.name} - ${user.email}";
         userMapping[userKey] = userID;
       }
     }

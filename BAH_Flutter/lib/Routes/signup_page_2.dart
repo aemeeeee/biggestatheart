@@ -255,8 +255,8 @@ class SignUpPage2State extends State<SignUpPage2> {
           "Cisgender",
           "Gender Neutral"
         ],
-        updateCallback: ethnicityCallback,
-        clearCallback: ethnicityClearCallback);
+        updateCallback: genderCallback,
+        clearCallback: genderClearCallback);
   }
 
   genderCallback(newValue) {
