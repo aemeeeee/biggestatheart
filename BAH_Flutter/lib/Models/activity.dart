@@ -38,9 +38,21 @@ class Activity {
   ) {
     final activity = snapshot.data();
     final List<dynamic> attendeeListDynamic = activity?['attendeeList'] ?? [];
+    final List<dynamic> attendanceListDynamic =
+        activity?['attendanceList'] ?? [];
 
     // Explicitly cast each element in attendeeList from dynamic to String
     final List<String> attendeeList = attendeeListDynamic.map((dynamic item) {
+      if (item is String) {
+        return item;
+      } else {
+        // Handle the case where the item is not a string (e.g., null or other types)
+        return 'dummyUserID'; // or any default value you prefer
+      }
+    }).toList();
+
+    final List<String> attendanceList =
+        attendanceListDynamic.map((dynamic item) {
       if (item is String) {
         return item;
       } else {
@@ -67,7 +79,7 @@ class Activity {
       organiser: activity?['organiser'] as String,
       type: activity?['type'] as String,
       maxAttendees: maxAttendees,
-      attendanceList: activity?['attendanceList'] as List<String>,
+      attendanceList: attendanceList,
     );
   }
 
