@@ -168,17 +168,17 @@ class ActivityPageState extends State<ActivityPage> {
 
                             // Enroll button
                             const SizedBox(height: 20),
-                            currActivityList.contains(widget.activityID)
-                                ? const Text(
-                                    "You are already enrolled in this activity.",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        color:
-                                            Color.fromARGB(255, 51, 64, 113)))
-                                : enrollButton(currUserID),
-                            const SizedBox(height: 20),
-                            takeAttendanceButton(context, widget.activityID),
+                            isAdmin
+                                ? takeAttendanceButton(context, widget.activityID)
+                                : currActivityList.contains(widget.activityID)
+                                  ? const Text(
+                                      "You are already enrolled in this activity.",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18,
+                                          color:
+                                              Color.fromARGB(255, 51, 64, 113)))
+                                  : enrollButton(currUserID),
                           ],
                         ),
                       ],
