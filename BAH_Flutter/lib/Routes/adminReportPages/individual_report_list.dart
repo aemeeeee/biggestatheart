@@ -1,6 +1,7 @@
 import 'package:biggestatheart/Helpers/Firebase_Services/individual_report_list.dart';
 import 'package:flutter/material.dart';
 import '../../Models/user.dart';
+import 'individual_report_page.dart';
 
 class IndividualReportListPage extends StatefulWidget {
   const IndividualReportListPage({super.key});
@@ -64,8 +65,14 @@ class IndividualReportListPageState extends State<IndividualReportListPage> {
                             title: Text(user.name),
                             subtitle: Text(user.email),
                             onTap: () {
-                              // Navigate to another page when the tile is tapped
-                              // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => AnotherPage(user: user)));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IndividualReportPage(
+                                    currVolunteer: user,
+                                  ),
+                                ),
+                              );
                             },
                           ),
                           const Divider(),

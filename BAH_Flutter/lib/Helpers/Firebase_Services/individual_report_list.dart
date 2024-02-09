@@ -3,8 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseServiceIndividualReport {
   Future<List<User>> getAllUsers() async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await FirebaseFirestore.instance.collection('users').get();
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('isAdmin', isEqualTo: false)
+        .get();
     List<User> users = [];
     for (var doc in querySnapshot.docs) {
       User user = User.fromFireStore(doc, null);

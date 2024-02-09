@@ -20,6 +20,7 @@ class User {
   final String interests;
   final String skills;
   final String preferences;
+  final int totalHours;
   final List<Timestamp>? availability;
   final List<String>? pastActivities;
   final List<String>? currentActivities;
@@ -41,6 +42,7 @@ class User {
     required this.interests,
     required this.skills,
     required this.preferences,
+    required this.totalHours,
     this.availability,
     this.pastActivities,
     this.currentActivities,
@@ -71,6 +73,7 @@ class User {
       skills: user?['skills'] == null ? '' : user?['skills'] as String,
       preferences:
           user?['preferences'] == null ? '' : user?['preferences'] as String,
+      totalHours: user?['totalHours'] == null ? 0 : user?['totalHours'] as int,
       availability: user?['availability'] is Iterable
           ? List<Timestamp>.from(user?['availability'])
           : null,
@@ -99,6 +102,7 @@ class User {
       'interests': interests,
       'skills': skills,
       'preferences': preferences,
+      'totalHours': totalHours,
       'availability': availability,
       'pastActivities': pastActivities,
       'currentActivities': currentActivities,
