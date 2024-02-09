@@ -23,7 +23,7 @@ class HonorRollPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Name of Volunteer with Highest Record: ',
+                      'Volunteer with Most Activities: ',
                       style: TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                     ),

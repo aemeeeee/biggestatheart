@@ -10,6 +10,8 @@ import '../Models/activity.dart';
 import 'activity_page.dart';
 import 'adminReportPages/report_selection_page.dart';
 import 'blog_feed_page.dart';
+import 'honor_roll.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,13 +39,30 @@ class HomePageState extends State<HomePage> {
               return Scaffold(
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
-                  centerTitle: true,
-                  title: const Text(
-                    'Home Page',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                  ),
+                  // new changes
                   backgroundColor: const Color.fromARGB(255, 168, 49, 85),
+                  title: Row(
+                    children: [
+                      honorRoll(context),
+                      Spacer(),
+                      const Text(
+                        'Home Page',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                  // centerTitle: true,
+                  // title: const Text(
+                  //   'Home Page',
+                  //   style: TextStyle(
+                  //       color: Colors.white, fontWeight: FontWeight.w700),
+                  // ),
+                  // backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                   actions: [logoutButton(context)],
                 ),
                 body: SingleChildScrollView(
@@ -239,6 +258,20 @@ Widget logoutButton(BuildContext context) {
       ),
       onPressed: () {
         AuthService().logout(context);
+      });
+}
+
+Widget honorRoll(BuildContext context) {
+  return IconButton(
+      icon: const Icon(
+        FontAwesomeIcons.trophy,
+        color: Colors.white,
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HonorRollPage()),
+        );
       });
 }
 
