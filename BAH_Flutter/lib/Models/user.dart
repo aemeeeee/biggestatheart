@@ -20,6 +20,7 @@ class User {
   final String interests;
   final String skills;
   final String preferences;
+  final int totalHours;
   final List<Timestamp>? availability;
   final List<String>? pastActivities;
   final List<String>? currentActivities;
@@ -41,6 +42,7 @@ class User {
     required this.interests,
     required this.skills,
     required this.preferences,
+    required this.totalHours,
     this.availability,
     this.pastActivities,
     this.currentActivities,
@@ -53,20 +55,25 @@ class User {
     final user = snapshot.data();
     return User(
       userid: snapshot.id,
-      isAdmin: user?['isAdmin'] as bool,
-      username: user?['username'] as String,
-      password: user?['password'] as String,
-      email: user?['email'] as String,
-      pfp: user?['pfp'] as String,
-      name: user?['name'] as String,
-      age: user?['age'] as int,
-      ethnicity: user?['ethnicity'] as String,
-      gender: user?['gender'] as String,
-      educationLevel: user?['educationLevel'] as String,
-      occupation: user?['occupation'] as String,
-      interests: user?['interests'] as String,
-      skills: user?['skills'] as String,
-      preferences: user?['preferences'] as String,
+      isAdmin: user?['isAdmin'] == null ? false : user?['isAdmin'] as bool,
+      username: user?['username'] == null ? '' : user?['username'] as String,
+      password: user?['password'] == null ? '' : user?['password'] as String,
+      email: user?['email'] == null ? '' : user?['email'] as String,
+      pfp: user?['pfp'] == null ? '' : user?['pfp'] as String,
+      name: user?['name'] == null ? '' : user?['name'] as String,
+      age: user?['age'] == null ? 0 : user?['age'] as int,
+      ethnicity: user?['ethnicity'] == null ? '' : user?['ethnicity'] as String,
+      gender: user?['gender'] == null ? '' : user?['gender'] as String,
+      educationLevel: user?['educationLevel'] == null
+          ? ''
+          : user?['educationLevel'] as String,
+      occupation:
+          user?['occupation'] == null ? '' : user?['occupation'] as String,
+      interests: user?['interests'] == null ? '' : user?['interests'] as String,
+      skills: user?['skills'] == null ? '' : user?['skills'] as String,
+      preferences:
+          user?['preferences'] == null ? '' : user?['preferences'] as String,
+      totalHours: user?['totalHours'] == null ? 0 : user?['totalHours'] as int,
       availability: user?['availability'] is Iterable
           ? List<Timestamp>.from(user?['availability'])
           : null,
@@ -95,6 +102,7 @@ class User {
       'interests': interests,
       'skills': skills,
       'preferences': preferences,
+      'totalHours': totalHours,
       'availability': availability,
       'pastActivities': pastActivities,
       'currentActivities': currentActivities,

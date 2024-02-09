@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
 import '../Models/post.dart';
 import '../Models/user.dart' as user;
+import 'adminReportPages/report_selection_page.dart';
 import 'reflection_page.dart';
 import 'upload_post_page.dart';
 import 'home_page.dart';
@@ -73,11 +74,11 @@ class BlogFeedPageState extends State<BlogFeedPage> {
                             //Visit home page to view profile
                             homePageButton(refreshCallback),
                             //Visit camera page to post sighting
-                            uploadPostButton(refreshCallback),
+                            galleryPageButton(),
                             //Visit isExpert application page to review/submit applications
-                            isExpertApplicationPageButton(refreshCallback),
+                            blogFeedPageButton(),
                             //Visit waiting list page to verify/flag posts
-                            waitingListPageButton(refreshCallback),
+                            reportPageButton(),
                           ],
                         )
                       : Row(
@@ -89,7 +90,7 @@ class BlogFeedPageState extends State<BlogFeedPage> {
                             galleryPageButton(),
                             blogFeedPageButton(),
                             //Visit isExpert application page to review/submit applications
-                            isExpertApplicationPageButton(refreshCallback),
+                            certificateRequestPageButton(refreshCallback),
                             //visit notifications to read notifications
                           ],
                         ),
@@ -123,6 +124,21 @@ class BlogFeedPageState extends State<BlogFeedPage> {
           context,
           MaterialPageRoute(builder: (context) => const UploadPostPage()),
         ).then((value) => refreshCallback());
+      },
+    );
+  }
+
+  Widget certificateRequestPageButton(Function refreshCallback) {
+    return IconButton(
+      icon: const Icon(Icons.picture_as_pdf,
+          color: Color.fromARGB(255, 168, 49, 85)),
+      onPressed: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) =>
+        //           ExpertApplicationPage(currUser: widget.currUser)),
+        // ).then((value) => refreshCallback());
       },
     );
   }
@@ -180,17 +196,15 @@ class BlogFeedPageState extends State<BlogFeedPage> {
     );
   }
 
-  Widget isExpertApplicationPageButton(Function refreshCallback) {
+  Widget reportPageButton() {
     return IconButton(
-      icon: const Icon(Icons.picture_as_pdf,
+      icon: const Icon(Icons.data_exploration_outlined,
           color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) =>
-        //           ExpertApplicationPage(currUser: widget.currUser)),
-        // ).then((value) => refreshCallback());
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ReportSelectionPage()),
+        );
       },
     );
   }

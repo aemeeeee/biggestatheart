@@ -1,13 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ichthyolog">
+    package="com.example.biggestatheart">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
-        android:label="Ichthyolog"
+        android:label="biggestatheart"
         android:name="${applicationName}"
-        android:icon="@mipmap/ichthyolog">
+        android:icon="@mipmap/biggestatheart">
         <activity
             android:name=".MainActivity"
             android:exported="true"

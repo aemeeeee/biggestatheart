@@ -45,6 +45,7 @@ class FirebaseServiceSignup {
           'interests': interests,
           'skills': skills,
           'preferences': preferences,
+          'totalHours': 0,
           'availability': [],
           'pastActivities': [],
           'currentActivities': [],

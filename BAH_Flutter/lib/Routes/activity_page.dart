@@ -146,6 +146,25 @@ class ActivityPageState extends State<ActivityPage> {
                                 child: Text(
                                   currActivity.type,
                                 )),
+                            Container(
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 20, top: 15, bottom: 7),
+                                alignment: Alignment.centerLeft,
+                                child: const Text(
+                                  "Duration",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 51, 64, 113)),
+                                )),
+                            Container(
+                                padding: const EdgeInsets.only(
+                                    left: 20, top: 5, right: 20, bottom: 5),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "${currActivity.numHours} hours",
+                                )),
+
                             // Enroll button
                             const SizedBox(height: 20),
                             currActivityList.contains(widget.activityID)
@@ -183,7 +202,7 @@ class ActivityPageState extends State<ActivityPage> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog (
+                return AlertDialog(
                   title: const Text("Enrollment Status"),
                   content: Text(message),
                   actions: [

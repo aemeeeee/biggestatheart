@@ -1,4 +1,4 @@
-package com.example.ichthyolog
+package com.example.biggestatheart
 
 import io.flutter.embedding.android.FlutterActivity
 
