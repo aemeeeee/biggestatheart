@@ -64,5 +64,3 @@ Admin users can select between viewing statistical report by month via a date pi
 
 ![alt text](<assets/images/report by month.png>)
 ![alt text](<assets/images/report by type.png>)
-
-[Back to table of contents](#table-of-contents)
