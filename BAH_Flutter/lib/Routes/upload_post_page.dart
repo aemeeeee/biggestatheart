@@ -1,3 +1,4 @@
+import 'package:biggestatheart/Routes/blog_feed_page.dart';
 import 'package:flutter/material.dart';
 //import 'package:image_picker/image_picker.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -149,6 +150,35 @@ class UploadPostPageState extends State<UploadPostPage> {
                                             title,
                                             DateTime.now(),
                                             description);
+
+                                        showDialog(
+                                            context: context,
+                                            builder: ((context) => AlertDialog(
+                                                  title: const Text('Success!',
+                                                      style: TextStyle(
+                                                          fontWeight: FontWeight
+                                                              .bold)), // add styling
+
+                                                  content: const Text(
+                                                      'Your post has been uploaded'),
+                                                  actions: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(
+                                                            context); // Close the dialog
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                BlogFeedPage(), // Replace AnotherPage with the page you want to navigate to
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: const Text(
+                                                          'Back to Blog Feed'),
+                                                    ),
+                                                  ],
+                                                )));
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: const Color.fromARGB(
