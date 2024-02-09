@@ -14,6 +14,7 @@ import 'certificate_page.dart';
 import 'upload_post_page.dart';
 import 'home_page.dart';
 import '../Helpers/Firebase_Services/gallery_page.dart';
+import 'honor_roll.dart';
 
 class GalleryPage extends StatefulWidget {
   user.User? currUser;
@@ -115,7 +116,8 @@ class GalleryPageState extends State<GalleryPage> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EventForm(userID: userID)),
+          //MaterialPageRoute(builder: (context) => EventForm(userID: userID)),
+          MaterialPageRoute(builder: (context) => HonorRollPage()),
         ).then((value) => refreshCallback());
       },
     );

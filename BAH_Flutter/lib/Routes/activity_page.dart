@@ -8,6 +8,7 @@ import '../Helpers/Firebase_Services/activity_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Models/activity.dart';
 import 'package:intl/intl.dart';
+import 'attendance_form.dart';
 
 class ActivityPage extends StatefulWidget {
   final String activityID;
@@ -167,15 +168,17 @@ class ActivityPageState extends State<ActivityPage> {
 
                             // Enroll button
                             const SizedBox(height: 20),
-                            currActivityList.contains(widget.activityID)
-                                ? const Text(
-                                    "You are already enrolled in this activity.",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        color:
-                                            Color.fromARGB(255, 51, 64, 113)))
-                                : enrollButton(currUserID),
+                            isAdmin
+                                ? takeAttendanceButton(context, widget.activityID)
+                                : currActivityList.contains(widget.activityID)
+                                  ? const Text(
+                                      "You are already enrolled in this activity.",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18,
+                                          color:
+                                              Color.fromARGB(255, 51, 64, 113)))
+                                  : enrollButton(currUserID),
                           ],
                         ),
                       ],
@@ -230,4 +233,26 @@ class ActivityPageState extends State<ActivityPage> {
       ),
     );
   }
+}
+
+Widget takeAttendanceButton(BuildContext context, activityID) {
+  return Container(
+    margin: const EdgeInsets.only(top: 20),
+    child: ElevatedButton(
+      onPressed: () async {
+        // Navigate to the AttendanceForm page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AttendanceForm(activityID: activityID),
+          ),
+        );
+      },
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)))),
+      child: const Text('Take Attendance'),
+    ),
+  );
 }

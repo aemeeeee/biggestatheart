@@ -1,3 +1,4 @@
+import 'package:biggestatheart/Helpers/Firebase_Services/activity_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseServiceUser {
@@ -27,5 +28,24 @@ class FirebaseServiceUser {
 
     // Trim trailing space and return the result
     return result;
+  }
+
+  Future<String> getHighestRecordVolunteer() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .get();
+    int highestRecord = querySnapshot.docs[0].get('pastActivities').length;
+    String userWithHighestRecord = querySnapshot.docs[0].id;
+    for (var userid in querySnapshot.docs) {
+      if (userid.get('pastActivities').length > highestRecord) {
+        highestRecord = userid.get('pastActivities').length;
+        userWithHighestRecord = userid.id;
+      }
+    }
+    DocumentSnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userWithHighestRecord)
+        .get();
+    return userSnapshot.get('name');
   }
 }
