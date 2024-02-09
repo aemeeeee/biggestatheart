@@ -65,7 +65,9 @@ class GalleryPageState extends State<GalleryPage> {
                       )),
                   backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                   actions: [
-                    addNewActivityButton(currUserID, refreshCallback),
+                    isAdmin
+                        ? addNewActivityButton(currUserID, refreshCallback)
+                        : const SizedBox(),
                   ],
                 ),
                 body: galleryScreen(context, activities, refreshCallback),
@@ -117,7 +119,7 @@ class GalleryPageState extends State<GalleryPage> {
         Navigator.push(
           context,
           //MaterialPageRoute(builder: (context) => EventForm(userID: userID)),
-          MaterialPageRoute(builder: (context) => HonorRollPage()),
+          MaterialPageRoute(builder: (context) => EventForm(userID: userID)),
         ).then((value) => refreshCallback());
       },
     );
