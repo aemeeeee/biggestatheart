@@ -8,6 +8,7 @@ import '../blog_feed_page.dart';
 import '../gallery_page.dart';
 import '../home_page.dart';
 import 'individual_report_list.dart';
+import 'month_type_selection_page.dart';
 
 class ReportSelectionPage extends StatelessWidget {
   ReportSelectionPage({Key? key}) : super(key: key);
@@ -68,13 +69,10 @@ class ReportSelectionPage extends StatelessWidget {
               'By Month/Type',
               Icons.calendar_today,
               () {
-                // Navigate to Month/Type Page
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => MonthTypePage(),
-                //   ),
-                // );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MonthTypeSelectionPage()));
               },
             ),
             const Divider(),
