@@ -7,6 +7,7 @@ import '../Helpers/Widgets/standard_widgets.dart';
 import '../Models/post.dart';
 import '../Models/user.dart' as user;
 import 'adminReportPages/report_selection_page.dart';
+import 'certificate_page.dart';
 import 'reflection_page.dart';
 import 'upload_post_page.dart';
 import 'home_page.dart';
@@ -133,12 +134,10 @@ class BlogFeedPageState extends State<BlogFeedPage> {
       icon: const Icon(Icons.picture_as_pdf,
           color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) =>
-        //           ExpertApplicationPage(currUser: widget.currUser)),
-        // ).then((value) => refreshCallback());
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CertificatePage()),
+        ).then((value) => refreshCallback());
       },
     );
   }

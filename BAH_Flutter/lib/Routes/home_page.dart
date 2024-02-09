@@ -10,6 +10,7 @@ import '../Models/activity.dart';
 import 'activity_page.dart';
 import 'adminReportPages/report_selection_page.dart';
 import 'blog_feed_page.dart';
+import 'certificate_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -216,12 +217,10 @@ class HomePageState extends State<HomePage> {
       icon: const Icon(Icons.picture_as_pdf,
           color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) =>
-        //           ExpertApplicationPage(currUser: widget.currUser)),
-        // ).then((value) => refreshCallback());
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CertificatePage()),
+        ).then((value) => refreshCallback());
       },
     );
   }
