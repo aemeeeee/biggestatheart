@@ -62,7 +62,6 @@ class Activity {
         return 'dummyUserID'; // or any default value you prefer
       }
     }).toList();
-    
 
     final int attendeeCount = activity?['attendeeCount'] == null
         ? 0
@@ -70,20 +69,28 @@ class Activity {
     final int maxAttendees = activity?['maxAttendees'] == null
         ? 0
         : activity?['maxAttendees'] as int;
-    final int numHours = activity?['numHours'] == null
-        ? 0
-        : activity?['numHours'] as int;
+    final int numHours =
+        activity?['numHours'] == null ? 0 : activity?['numHours'] as int;
     return Activity(
       activityID: snapshot.id,
-      title: activity?['title'] as String,
+      title: activity?['title'] == null ? '' : activity?['title'] as String,
       attendeeCount: attendeeCount,
       attendeeList: attendeeList, // Use the converted list
-      date: activity?['date'].toDate() as DateTime,
-      description: activity?['description'] as String,
-      isCompleted: activity?['isCompleted'] as bool,
-      location: activity?['location'] as String,
-      organiser: activity?['organiser'] as String,
-      type: activity?['type'] as String,
+      date: activity?['date'] == null
+          ? DateTime.now()
+          : (activity?['date'] as Timestamp).toDate(),
+      description: activity?['description'] == null
+          ? ''
+          : activity?['description'] as String,
+      isCompleted: activity?['isCompleted'] == null
+          ? false
+          : activity?['isCompleted'] as bool,
+      location:
+          activity?['location'] == null ? '' : activity?['location'] as String,
+      organiser: activity?['organiser'] == null
+          ? ''
+          : activity?['organiser'] as String,
+      type: activity?['type'] == null ? '' : activity?['type'] as String,
       maxAttendees: maxAttendees,
       attendanceList: attendanceList,
       numHours: numHours,
