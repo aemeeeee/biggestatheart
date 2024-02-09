@@ -1,14 +1,10 @@
 import 'package:biggestatheart/Routes/blog_feed_page.dart';
 import 'package:flutter/material.dart';
-//import 'package:image_picker/image_picker.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../Helpers/Widgets/standard_widgets.dart';
-import '../Models/user.dart';
-import 'package:intl/intl.dart';
 import '../Helpers/Firebase_Services/upload_post.dart';
 import '../Helpers/Firebase_Services/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../Helpers/Authentication/auth_service.dart';
 
 class UploadPostPage extends StatefulWidget {
   const UploadPostPage({super.key});

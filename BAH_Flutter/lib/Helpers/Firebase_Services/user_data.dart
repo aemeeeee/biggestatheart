@@ -1,12 +1,10 @@
-import 'package:biggestatheart/Helpers/Firebase_Services/activity_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseServiceUser {
-  // query user data such as 
+  // query user data such as
   Future<List<String>> getUserDataByField(String field) async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .get();
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('users').get();
 
     // Map to store counts of unique values
     Map<String, int> valueCounts = {};
@@ -31,9 +29,8 @@ class FirebaseServiceUser {
   }
 
   Future<String> getHighestRecordVolunteer() async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .get();
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('users').get();
     int highestRecord = querySnapshot.docs[0].get('pastActivities').length;
     String userWithHighestRecord = querySnapshot.docs[0].id;
     for (var userid in querySnapshot.docs) {
@@ -42,10 +39,11 @@ class FirebaseServiceUser {
         userWithHighestRecord = userid.id;
       }
     }
-    DocumentSnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userWithHighestRecord)
-        .get();
+    DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userWithHighestRecord)
+            .get();
     return userSnapshot.get('name');
   }
 }
