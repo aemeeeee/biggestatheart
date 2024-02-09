@@ -20,16 +20,18 @@ class SignUpPage2 extends StatefulWidget {
 
 class SignUpPage2State extends State<SignUpPage2> {
   String _name = '';
-  int _age = 0;
+  DateTime _dob = DateTime.now();
   String _ethnicity = '';
   String _gender = '';
   String _education = '';
   String _occupation = '';
+  String _phoneNumber = '';
   final _formKey = GlobalKey<FormState>();
   final firebaseServiceSignup = FirebaseServiceSignup();
   final TextEditingController ethnicityController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController educationController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +51,14 @@ class SignUpPage2State extends State<SignUpPage2> {
                   logo(),
                   //App Title
                   appTitle(),
+                  //Phone number field
+                  phoneNumberField(),
+                  SizedBox(height: MediaQuery.of(context).size.height * 1 / 40),
                   //Name field
                   nameField(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 40),
                   //Age field
-                  ageField(),
+                  dobField(),
                   SizedBox(height: MediaQuery.of(context).size.height * 1 / 40),
                   //Ethnicity field
                   ethnicityField(),
@@ -103,11 +108,12 @@ class SignUpPage2State extends State<SignUpPage2> {
                             userEmail: widget.userEmail,
                             password: widget.password,
                             name: _name,
-                            age: _age,
+                            dob: _dob,
                             gender: _gender,
                             ethnicity: _ethnicity,
                             educationLevel: _education,
                             occupation: _occupation,
+                            phoneNumber: _phoneNumber,
                           )),
                 );
               } else {
@@ -158,6 +164,33 @@ class SignUpPage2State extends State<SignUpPage2> {
     );
   }
 
+  Widget phoneNumberField() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15), color: Colors.white),
+      margin: const EdgeInsets.only(right: 40, left: 40),
+      child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter your phone number';
+          } else if (value.length != 8 ||
+              int.tryParse(value) == null ||
+              (value[0] != '8' && value[0] != '9')) {
+            return 'Please enter a valid phone number';
+          } else {
+            return null;
+          }
+        },
+        onChanged: (value) => _phoneNumber = value,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: 'Enter your phone number',
+          contentPadding: EdgeInsets.only(left: 10, right: 10),
+        ),
+      ),
+    );
+  }
+
   Widget nameField() {
     return Container(
       decoration: BoxDecoration(
@@ -181,27 +214,34 @@ class SignUpPage2State extends State<SignUpPage2> {
     );
   }
 
-  Widget ageField() {
+  Widget dobField() {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: Colors.white),
       margin: const EdgeInsets.only(right: 40, left: 40),
-      child: TextFormField(
-        validator: (value) {
-          int valueNum = int.parse(value ?? "-1");
-          if (value == null || value.isEmpty) {
-            return 'Please enter your age';
-          } else if (!isValidAge(valueNum)) {
-            return 'Please enter a valid age.';
-          } else {
-            return null;
+      child: GestureDetector(
+        onTap: () async {
+          final pickedDate = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2000, 1, 1),
+            lastDate: DateTime(2101),
+          );
+
+          if (pickedDate != null) {
+            setState(() {
+              _dob = pickedDate;
+            });
           }
         },
-        onChanged: (value) => _age = (value is int) ? value as int : 0,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Enter your age',
-          contentPadding: EdgeInsets.only(left: 10, right: 10),
+        child: ListTile(
+          title: const Text('Date and Time'),
+          subtitle: Text(
+            _dob == DateTime.now()
+                ? 'Select Date of Birth'
+                : 'Date: ${_dob.day}/${_dob.month}/${_dob.year}',
+          ),
+          trailing: const Icon(Icons.calendar_today),
         ),
       ),
     );

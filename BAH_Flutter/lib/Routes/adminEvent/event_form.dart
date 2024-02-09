@@ -128,8 +128,7 @@ class _EventFormState extends State<EventForm> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(
-                    labelText: 'Number of Hours'),
+                decoration: const InputDecoration(labelText: 'Number of Hours'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -181,7 +180,7 @@ class _EventFormState extends State<EventForm> {
       FirebaseServiceActivity().createActivity(
           _eventName!,
           _location!,
-          _date!,
+          _datetime!,
           _eventDescription!,
           _numberOfVolunteersNeeded!,
           widget.userID,

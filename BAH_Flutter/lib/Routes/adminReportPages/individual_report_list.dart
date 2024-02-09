@@ -63,7 +63,13 @@ class IndividualReportListPageState extends State<IndividualReportListPage> {
                         children: [
                           ListTile(
                             title: Text(user.name),
-                            subtitle: Text(user.email),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Email: ${user.email}'),
+                                Text('Phone Number: ${user.phoneNumber}')
+                              ],
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,

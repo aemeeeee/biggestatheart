@@ -8,11 +8,11 @@ class User {
   final String userid;
   final bool isAdmin;
   final String username;
-  final String password;
+  final String phoneNumber;
   final String email;
   final String pfp;
   final String name;
-  final int age;
+  final DateTime dob;
   final String ethnicity;
   final String gender;
   final String educationLevel;
@@ -30,11 +30,11 @@ class User {
     required this.userid,
     required this.isAdmin,
     required this.username,
-    required this.password,
+    required this.phoneNumber,
     required this.email,
     required this.pfp,
     required this.name,
-    required this.age,
+    required this.dob,
     required this.ethnicity,
     required this.gender,
     required this.educationLevel,
@@ -57,11 +57,12 @@ class User {
       userid: snapshot.id,
       isAdmin: user?['isAdmin'] == null ? false : user?['isAdmin'] as bool,
       username: user?['username'] == null ? '' : user?['username'] as String,
-      password: user?['password'] == null ? '' : user?['password'] as String,
+      phoneNumber:
+          user?['phoneNumber'] == null ? '' : user?['phoneNumber'] as String,
       email: user?['email'] == null ? '' : user?['email'] as String,
       pfp: user?['pfp'] == null ? '' : user?['pfp'] as String,
       name: user?['name'] == null ? '' : user?['name'] as String,
-      age: user?['age'] == null ? 0 : user?['age'] as int,
+      dob: user?['dob'] == null ? DateTime.now() : user?['dob'] as DateTime,
       ethnicity: user?['ethnicity'] == null ? '' : user?['ethnicity'] as String,
       gender: user?['gender'] == null ? '' : user?['gender'] as String,
       educationLevel: user?['educationLevel'] == null
@@ -90,11 +91,11 @@ class User {
     return {
       'isAdmin': isAdmin,
       'username': username,
-      'password': password,
+      'phoneNumber': phoneNumber,
       'email': email,
       'pfp': pfp,
       'name': name,
-      'age': age,
+      'dob': dob,
       'ethnicity': ethnicity,
       'gender': gender,
       'educationLevel': educationLevel,

@@ -8,8 +8,9 @@ class SignUpPage3 extends StatefulWidget {
   final String userName;
   final String userEmail;
   final String password;
+  final String phoneNumber;
   final String name;
-  final int age;
+  final DateTime dob;
   final String ethnicity;
   final String gender;
   final String educationLevel;
@@ -19,8 +20,9 @@ class SignUpPage3 extends StatefulWidget {
       required this.userName,
       required this.userEmail,
       required this.password,
+      required this.phoneNumber,
       required this.name,
-      required this.age,
+      required this.dob,
       required this.ethnicity,
       required this.gender,
       required this.educationLevel,
@@ -104,8 +106,9 @@ class SignUpPage3State extends State<SignUpPage3> {
                         widget.userEmail,
                         widget.userName,
                         widget.password,
+                        widget.phoneNumber,
                         widget.name,
-                        widget.age,
+                        widget.dob,
                         widget.ethnicity,
                         widget.gender,
                         widget.educationLevel,
