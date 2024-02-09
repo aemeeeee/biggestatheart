@@ -36,7 +36,14 @@ class _CertificatePageState extends State<CertificatePage> {
           if (snapshotUser.hasData) {
             return Scaffold(
                 appBar: AppBar(
-                  title: const Text('Certificate'),
+                  leading: backButton(),
+                  centerTitle: true,
+                  title: const Text('Certificate',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
+                  backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                 ),
                 body: PdfPreview(
                   build: (format) => _createPdf(format, snapshotUser.data!.name,
@@ -169,5 +176,15 @@ class _CertificatePageState extends State<CertificatePage> {
       ),
     );
     return pdf.save();
+  }
+
+  Widget backButton() {
+    return Container(
+        alignment: Alignment.topLeft,
+        child: IconButton(
+            color: Colors.white,
+            iconSize: 35,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context)));
   }
 }
