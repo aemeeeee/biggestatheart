@@ -9,6 +9,7 @@ import '../Helpers/Widgets/standard_widgets.dart';
 import '../Models/activity.dart';
 import '../Models/user.dart' as user;
 import 'activity_page.dart';
+import 'adminReportPages/report_selection_page.dart';
 import 'upload_post_page.dart';
 import 'home_page.dart';
 import '../Helpers/Firebase_Services/gallery_page.dart';
@@ -74,11 +75,11 @@ class GalleryPageState extends State<GalleryPage> {
                             //Visit home page to view profile
                             homePageButton(refreshCallback),
                             //Visit camera page to post sighting
-                            uploadPostButton(refreshCallback),
+                            galleryPageButton(),
                             //Visit isExpert application page to review/submit applications
-                            isExpertApplicationPageButton(refreshCallback),
+                            blogFeedPageButton(),
                             //Visit waiting list page to verify/flag posts
-                            waitingListPageButton(refreshCallback),
+                            reportPageButton(),
                           ],
                         )
                       : Row(
@@ -90,7 +91,7 @@ class GalleryPageState extends State<GalleryPage> {
                             galleryPageButton(),
                             blogFeedPageButton(),
                             //Visit isExpert application page to review/submit applications
-                            isExpertApplicationPageButton(refreshCallback),
+                            certificateRequestPageButton(refreshCallback),
                             //visit notifications to read notifications
                           ],
                         ),
@@ -181,7 +182,7 @@ class GalleryPageState extends State<GalleryPage> {
     );
   }
 
-  Widget isExpertApplicationPageButton(Function refreshCallback) {
+  Widget certificateRequestPageButton(Function refreshCallback) {
     return IconButton(
       icon: const Icon(Icons.picture_as_pdf,
           color: Color.fromARGB(255, 168, 49, 85)),
@@ -196,20 +197,15 @@ class GalleryPageState extends State<GalleryPage> {
     );
   }
 
-  Widget waitingListPageButton(Function refreshCallback) {
+  Widget reportPageButton() {
     return IconButton(
-      icon: const Icon(
-        Icons.feedback,
-        color: Color.fromARGB(255, 52, 66, 117),
-      ),
+      icon: const Icon(Icons.data_exploration_outlined,
+          color: Color.fromARGB(255, 168, 49, 85)),
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) => WaitingListPage(
-        //             currUser: widget.currUser,
-        //           )),
-        // ).then((value) => refreshCallback());
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ReportSelectionPage()),
+        );
       },
     );
   }
