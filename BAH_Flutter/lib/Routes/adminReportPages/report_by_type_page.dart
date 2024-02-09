@@ -26,15 +26,16 @@ class ReportByTypeState extends State<ReportByType> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             Map<String, int> dataMapping = snapshot.data!;
-            // for (String userID in attendeeList) {
-            //   checkedAttendees[userID] = false; // Initialize all checkboxes as unchecked initially
-            // };
             return Center(
               child: Column(
                 children: [
-                  Text('Report by Type : ${widget.selectedType}'),
+                  Text('Report by Type : ${widget.selectedType}',
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold)),
                   for (var entry in dataMapping.entries)
-                    Text('${entry.key}: ${entry.value}')
+                    Text('${entry.key}: ${entry.value}',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold))
                 ],
               ),
             );

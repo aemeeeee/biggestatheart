@@ -62,7 +62,9 @@ class User {
       email: user?['email'] == null ? '' : user?['email'] as String,
       pfp: user?['pfp'] == null ? '' : user?['pfp'] as String,
       name: user?['name'] == null ? '' : user?['name'] as String,
-      dob: user?['dob'] == null ? DateTime.now() : user?['dob'] as DateTime,
+      dob: user?['dob'] == null
+          ? DateTime.now()
+          : (user?['dob'] as Timestamp).toDate(),
       ethnicity: user?['ethnicity'] == null ? '' : user?['ethnicity'] as String,
       gender: user?['gender'] == null ? '' : user?['gender'] as String,
       educationLevel: user?['educationLevel'] == null
