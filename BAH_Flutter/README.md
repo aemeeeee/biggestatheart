@@ -3,16 +3,17 @@
 emmy fill in hehe
 
 ## Table of Contents
-1. [List of All Features](#features)
-2. [Frequently Asked Questions](#faq)
-
-## Features
-1. [User Sign Up](#user-sign-up) 
-2. [User Log In](#user-log-in)
-3. [Home Page](#home-page)
-4. [Blog/Reflection](#blog-feed)
-5. [Certificate Request](#certificate)
-6. [View Reports](#view-reports-(admin-users-only))
+- [Biggest At Heart mobile app](#biggest-at-heart-mobile-app)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+    - [User Sign Up](#user-sign-up)
+    - [User Log In](#user-log-in)
+    - [Home Page](#home-page)
+    - [Blog/Reflection](#blogreflection)
+    - [Request Certificate (Volunteer users only)](#request-certificate-volunteer-users-only)
+    - [View Reports (Admin users only)](#view-reports-admin-users-only)
+      - [By individual volunteers](#by-individual-volunteers)
+      - [By month/type of activity](#by-monthtype-of-activity)
 
 ### User Sign Up
 
@@ -124,6 +125,8 @@ User can request for a certificate by clicking on the `PDF` button on the bottom
 - Signature
 
 To download and save the certificate as PDF to his/her device, user can click on the blue `PDF` button on the top right corner of the screen. The PDF certificate can be found under the Files application on the user's phone. An example of the PDF certificate successfully generated and downloaded to device is shown above.
+
+[Back to table of contents](#table-of-contents)
 
 ### View Reports (Admin users only)
 
