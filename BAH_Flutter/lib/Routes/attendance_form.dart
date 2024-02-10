@@ -10,20 +10,24 @@ class AttendanceForm extends StatefulWidget {
 }
 
 class _AttendanceFormState extends State<AttendanceForm> {
-
   late Future<List<String>> futureAttendeeList;
   late Map<String, String> userMapping = {};
-  //Map<String, bool> checkedAttendees = {};
+  List<bool> checkedAttendees = [];
 
   @override
   void initState() {
     super.initState();
     loadData();
+    for (int i = 0; i < 10000; i++) {
+      checkedAttendees.add(false);
+    }
   }
 
   void loadData() async {
-    futureAttendeeList = FirebaseServiceActivity().getAttendeeList(widget.activityID);
-    userMapping = await FirebaseServiceActivity().getUserMapping(await futureAttendeeList);
+    futureAttendeeList =
+        FirebaseServiceActivity().getAttendeeList(widget.activityID);
+    userMapping = await FirebaseServiceActivity()
+        .getUserMapping(await futureAttendeeList);
     setState(() {});
   }
 
@@ -31,20 +35,17 @@ class _AttendanceFormState extends State<AttendanceForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Attendance Form'),
+        title: const Text('Attendance Form'),
       ),
       body: FutureBuilder<List<String>>(
         future: futureAttendeeList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             List<String> attendeeList = snapshot.data!;
-            // for (String userID in attendeeList) {
-            //   checkedAttendees[userID] = false; // Initialize all checkboxes as unchecked initially
-            // };
             return ListView.builder(
               itemCount: attendeeList.length,
               itemBuilder: (context, index) {
@@ -55,16 +56,10 @@ class _AttendanceFormState extends State<AttendanceForm> {
                 );
                 return CheckboxListTile(
                   title: Text(userNameEmail),
-                  //value: checkedAttendees[userID] ?? false,
-                  value: false,
-                  // onChanged: (bool? value) {
-                  //   setState(() {
-                  //     checkedAttendees[userID] = value ?? false; // Update the state of the checkbox
-                  //   });
-                  // },
-                  onChanged: (bool? value) async {
+                  value: checkedAttendees[index],
+                  onChanged: (bool? newValue) async {
                     setState(() {
-                      value = value!; // Update the state of the checkbox
+                      checkedAttendees[index] = newValue!;
                     });
                     await FirebaseServiceActivity().takeAttendanceActivity(
                       widget.activityID,
@@ -75,7 +70,7 @@ class _AttendanceFormState extends State<AttendanceForm> {
               },
             );
           } else {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           }
         },
       ),
