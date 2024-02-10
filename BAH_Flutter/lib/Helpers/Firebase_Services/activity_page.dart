@@ -47,6 +47,34 @@ class FirebaseServiceActivity {
     }
   }
 
+  Future<String> assignActivity(String activityID, String userID) async {
+    try {
+      DocumentReference<Map<String, dynamic>> activityRef =
+          FirebaseFirestore.instance.collection('activities').doc(activityID);
+      DocumentReference<Map<String, dynamic>> userRef =
+          FirebaseFirestore.instance.collection('users').doc(userID);
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot<Map<String, dynamic>> activitySnapshot =
+            await transaction.get(activityRef);
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await transaction.get(userRef);
+        if (activitySnapshot.exists && userSnapshot.exists) {
+          Activity currActivity =
+              Activity.fromFireStore(activitySnapshot, null);
+          String currActivityID = currActivity.activityID;
+          transaction.update(userRef, <String, dynamic>{
+            'currentActivities': FieldValue.arrayUnion([currActivityID])
+          });
+        } else {
+          return "Activity or user does not exist.";
+        }
+      });
+      return "Assignment successful.";
+    } catch (error) {
+      return "Error: $error";
+    }
+  }
+
   Future<User> getUser(String userID) async {
     DocumentSnapshot<Map<String, dynamic>> querySnapshot =
         await FirebaseFirestore.instance.collection('users').doc(userID).get();
@@ -54,52 +82,50 @@ class FirebaseServiceActivity {
     return currUser;
   }
 
-  Future<void> takeAttendanceActivity(String activityID, String userID) async {
+  Future<void> submitAttendance(
+      String activityID, List<String> bufferList) async {
     DocumentReference<Map<String, dynamic>> activityRef =
         FirebaseFirestore.instance.collection('activities').doc(activityID);
-    DocumentReference<Map<String, dynamic>> userRef =
-        FirebaseFirestore.instance.collection('users').doc(userID);
     await FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot<Map<String, dynamic>> activitySnapshot =
           await transaction.get(activityRef);
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-          await transaction.get(userRef);
-
-      if (activitySnapshot.exists && userSnapshot.exists) {
-        // verify userID and activityID
-        Activity currActivity = Activity.fromFireStore(activitySnapshot, null);
-        String currActivityID = currActivity.activityID;
-        User currUser = User.fromFireStore(userSnapshot, null);
-        String currUserID = currUser.userid;
-
-        // add userID to attendanceList
-        List<String> currAttendanceList = currActivity.attendanceList;
-        if (!currAttendanceList.contains(currUserID)) {
-          currAttendanceList.add(currUserID);
-          transaction.update(activityRef, <String, dynamic>{
-            'attendanceList': currAttendanceList,
-            'attendanceCount': currAttendanceList.length
-          });
-        }
-
-        // add activityID to user's pastActivities and remove from currentActivities
-        List<String>? currentActivitiesList = currUser.currentActivities;
-        List<String>? pastActivitiesList = currUser.pastActivities;
-        currentActivitiesList?.remove(currActivityID);
-        transaction.update(userRef, <String, dynamic>{
-          'currentActivities': currentActivitiesList,
+      if (activitySnapshot.exists) {
+        transaction.update(activityRef, <String, dynamic>{
+          'attendanceList': FieldValue.arrayUnion(bufferList),
+          'attendanceCount': bufferList.length,
+          'isCompleted': true,
         });
-        if ((pastActivitiesList != null &&
-                !pastActivitiesList.contains(currActivityID)) ||
-            pastActivitiesList == null) {
-          transaction.update(userRef, <String, dynamic>{
-            'pastActivities': FieldValue.arrayUnion(
-                [currActivityID]), // only support one-time activity
-          });
-        }
       }
     });
+
+    for (String userID in bufferList) {
+      DocumentReference<Map<String, dynamic>> userRef =
+          FirebaseFirestore.instance.collection('users').doc(userID);
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await transaction.get(userRef);
+        if (userSnapshot.exists) {
+          User currUser = User.fromFireStore(userSnapshot, null);
+
+          // remove activityID from user's currentActivities and add to pastActivities
+          List<String>? currentActivitiesList = currUser.currentActivities;
+          List<String>? pastActivitiesList = currUser.pastActivities;
+          currentActivitiesList?.remove(activityID);
+          transaction.update(userRef, <String, dynamic>{
+            'currentActivities': currentActivitiesList,
+          });
+          if ((pastActivitiesList != null &&
+                  !pastActivitiesList.contains(activityID)) ||
+              pastActivitiesList == null) {
+            transaction.update(userRef, <String, dynamic>{
+              'pastActivities': FieldValue.arrayUnion([activityID])
+            });
+          }
+        }
+      });
+    }
   }
+
   Future<void> createActivity(
       String title,
       String location,
@@ -132,9 +158,9 @@ class FirebaseServiceActivity {
   Future<List<String>> getAttendeeList(String activityID) async {
     DocumentSnapshot<Map<String, dynamic>> activitySnapshot =
         await FirebaseFirestore.instance
-          .collection('activities')
-          .doc(activityID)
-          .get();
+            .collection('activities')
+            .doc(activityID)
+            .get();
 
     if (activitySnapshot.exists) {
       Activity activity = Activity.fromFireStore(activitySnapshot, null);
@@ -150,9 +176,9 @@ class FirebaseServiceActivity {
     for (String userID in userIDList) {
       DocumentSnapshot<Map<String, dynamic>> userSnapshot =
           await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userID)
-            .get();
+              .collection('users')
+              .doc(userID)
+              .get();
       if (userSnapshot.exists) {
         User user = User.fromFireStore(userSnapshot, null);
         String userKey = "${user.name} - ${user.email}";

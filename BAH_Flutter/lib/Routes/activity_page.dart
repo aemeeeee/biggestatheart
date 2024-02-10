@@ -168,8 +168,11 @@ class ActivityPageState extends State<ActivityPage> {
                             // Enroll button
                             const SizedBox(height: 20),
                             isAdmin
-                                ? takeAttendanceButton(
-                                    context, widget.activityID)
+                                ? widget.currUser!.currentActivities!
+                                        .contains(widget.activityID)
+                                    ? takeAttendanceButton(
+                                        context, widget.activityID)
+                                    : assignButton(currUserID)
                                 : currActivityList.contains(widget.activityID)
                                     ? const Text(
                                         "You are already enrolled in this activity.",
@@ -230,6 +233,46 @@ class ActivityPageState extends State<ActivityPage> {
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)))),
         child: const Text('Enroll'),
+      ),
+    );
+  }
+
+  Widget assignButton(String userid) {
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      child: ElevatedButton(
+        onPressed: () async {
+          FirebaseServiceActivity()
+              .assignActivity(widget.activityID, userid)
+              .then((message) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Assignment Status"),
+                  content: Text(message),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context); // Close the dialog
+                        if (message == "Assignment successful.") {
+                          Navigator.pop(
+                              context); // Navigate back to the gallery page
+                        }
+                      },
+                      child: const Text("Back to Activity Gallery"),
+                    ),
+                  ],
+                );
+              },
+            );
+          });
+        },
+        style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)))),
+        child: const Text('Assign'),
       ),
     );
   }

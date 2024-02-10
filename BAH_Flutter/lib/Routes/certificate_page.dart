@@ -7,8 +7,6 @@ import 'package:printing/printing.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
 import '../Helpers/Firebase_Services/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../Helpers/Authentication/auth_service.dart';
-import '../Helpers/Firebase_Services/certificate.dart';
 import 'package:intl/intl.dart';
 
 class CertificatePage extends StatefulWidget {

@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:biggestatheart/Helpers/Firebase_Services/activity_page.dart';
+import 'package:biggestatheart/Routes/gallery_page.dart';
 import 'package:flutter/material.dart';
 
 class AttendanceForm extends StatefulWidget {
@@ -13,6 +16,7 @@ class _AttendanceFormState extends State<AttendanceForm> {
   late Future<List<String>> futureAttendeeList;
   late Map<String, String> userMapping = {};
   List<bool> checkedAttendees = [];
+  List<String> bufferList = [];
 
   @override
   void initState() {
@@ -60,11 +64,12 @@ class _AttendanceFormState extends State<AttendanceForm> {
                   onChanged: (bool? newValue) async {
                     setState(() {
                       checkedAttendees[index] = newValue!;
+                      if (newValue && !bufferList.contains(userID)) {
+                        bufferList.add(userID);
+                      } else {
+                        bufferList.remove(userID);
+                      }
                     });
-                    await FirebaseServiceActivity().takeAttendanceActivity(
-                      widget.activityID,
-                      userID,
-                    );
                   },
                 );
               },
@@ -74,6 +79,28 @@ class _AttendanceFormState extends State<AttendanceForm> {
           }
         },
       ),
+      floatingActionButton: submitButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Widget submitButton() {
+    return ElevatedButton(
+      onPressed: () async {
+        await FirebaseServiceActivity().submitAttendance(
+          widget.activityID,
+          bufferList,
+        );
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return GalleryPage();
+        }));
+      },
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all(const Color.fromARGB(255, 168, 49, 85)),
+      ),
+      child: const Text('Submit attendance and mark as complete',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
     );
   }
 }
