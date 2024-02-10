@@ -1,6 +1,6 @@
 # Biggest At Heart mobile app
 ## Overview
-emmy fill in hehe
+Biggest At Heart is a mobile app that supports volunteer management specifically for Big At Heart organisation. This app aims to provide multiple functions for volunteers to easily access volunteering opportunities, reflections, volunteering hours, as well as for admins to manage volunteers' data to generate insightful reports. Moreover, this app allows volunteers to auto-generate certificates based on reliable and transparent data captured in Firestore database. This relieves admins from manually verifying the hours and increases operational efficiency.
 
 ## Table of Contents
 - [Biggest At Heart mobile app](#biggest-at-heart-mobile-app)
@@ -9,11 +9,13 @@ emmy fill in hehe
     - [User Sign Up](#user-sign-up)
     - [User Log In](#user-log-in)
     - [Home Page](#home-page)
+    - [Activity Gallery] (#activity-gallery)
     - [Blog/Reflection](#blogreflection)
     - [Request Certificate (Volunteer users only)](#request-certificate-volunteer-users-only)
     - [View Reports (Admin users only)](#view-reports-admin-users-only)
       - [By individual volunteers](#by-individual-volunteers)
       - [By month/type of activity](#by-monthtype-of-activity)
+    - [Honor Roll] (#honor-roll)
 
 ### User Sign Up
 
@@ -52,6 +54,38 @@ Users can navigate to the following pages by clicking on one of the four buttons
 - `Generate Certificate Page` **OR** `View Reports Page` - Depending on whether the user is a normal volunteer or an admin user, the corresponding button and navigation will be shown. For normal users, clicking on the `Generate Certificate Page` will allow them to download a pdf version of a certificate for their volunteering work. For admin users, clicking on the `View Reports Page` will bring allow them to view different types of reports.
 
 **Note**: For details on the respective pages, check out the detailed guide under each feature.
+
+[Back to table of contents](#table-of-contents)
+
+### Activity Gallery
+
+<img src="assets/images/activity_gallery.png" alt="Activity Gallery" width="200px">
+
+Upon clicking the second icon on the bottom navigation bar, users will be redirected to the Activity Gallery, where users can view all available upcoming volunteering opportunities with their event names and locations.
+
+#### a. Post a new activity (Admin-only)
+
+<img src="assets/images/create_new.png" alt="Create New Activity" width="200px">
+
+Admin users will be able to view a plus icon on the right of top navigation bar, which will lead them to a "Post a new activity" page. Admin users can proceed to enter the details of the new activity before clicking "Submit", which will add the newly created activity to the gallery for volunteers to view.
+
+#### b. View details of volunteering activities
+
+<img src="assets/images/activity_detail.png" alt="Activity Gallery" width="200px">
+
+On the gallery page, users can click on each activity to view it in their respective Activity Page in further detail, such as the number of volunteers needed and the number of hours involved.
+
+#### c. Enrol in a new activity (Volunteer-only)
+
+<img src="assets/images/activity_detail.png" alt="Activity Details" width="200px">
+
+Once entering the Activity Page, volunteers will see the button "Enrol" should they wish to sign up for that volunteering opportunity. After clicking "Enrol", volunteers cannot click that button again and will only see a message "You have already enrolled in this activity" upon revisiting the activity.
+
+#### d. Take attendance of volunteers (Admin-only)
+
+<img src="assets/images/take_attendance.png" alt="Take Attendance Button" width="200px"><img src="assets/images/attendance_list.png" alt="Attendance List" width="200px">
+
+Unlike volunteers, admin users will see the button "Take Attendance" instead upon entering the respective Activity Page. After clicking the button, admins can see a list of signed up participants and take their attendance by clicking the checkbox next to each participant's name.
 
 [Back to table of contents](#table-of-contents)
 
@@ -125,3 +159,10 @@ Admin users can select between viewing statistical report by month via a date pi
 
 <img src="assets/images/report by month.png" alt="Report by Month" width="200px"><img src="assets/images/report by type.png" alt="Report by Type" width="200px">
 
+### Honor Roll
+
+<img src="assets/images/honor_roll.png" alt="Activity Gallery" width="200px">
+
+On the top navigation bar of Home Page, users can click the trophy icon on the left corner to access the Honor Roll. The organisation can choose to display Volunteer with Most Activities (demo), Volunteer with Most Insightful Posts and so on, in order to recognise their commitment and encourage long-term involvement with the organisation and the beneficiaries.
+
+[Back to table of contents](#table-of-contents)
