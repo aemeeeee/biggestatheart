@@ -64,7 +64,7 @@ class FirebaseServiceActivity {
           await transaction.get(activityRef);
       DocumentSnapshot<Map<String, dynamic>> userSnapshot =
           await transaction.get(userRef);
-      
+
       if (activitySnapshot.exists && userSnapshot.exists) {
         // verify userID and activityID
         Activity currActivity = Activity.fromFireStore(activitySnapshot, null);
@@ -74,27 +74,32 @@ class FirebaseServiceActivity {
 
         // add userID to attendanceList
         List<String> currAttendanceList = currActivity.attendanceList;
-        currAttendanceList.add(currUserID);
-        transaction.update(activityRef, <String, dynamic>{
-          'attendanceList': currAttendanceList,
-          'attendanceCount': currAttendanceList.length
-        });
+        if (!currAttendanceList.contains(currUserID)) {
+          currAttendanceList.add(currUserID);
+          transaction.update(activityRef, <String, dynamic>{
+            'attendanceList': currAttendanceList,
+            'attendanceCount': currAttendanceList.length
+          });
+        }
 
         // add activityID to user's pastActivities and remove from currentActivities
         List<String>? currentActivitiesList = currUser.currentActivities;
         List<String>? pastActivitiesList = currUser.pastActivities;
         currentActivitiesList?.remove(currActivityID);
-        //pastActivitiesList?.add(currActivityID); //duplicate from last line
         transaction.update(userRef, <String, dynamic>{
           'currentActivities': currentActivitiesList,
         });
-        transaction.update(userRef, <String, dynamic>{
-          'pastActivities': FieldValue.arrayUnion([currActivityID]), // only support one-time activity
-        });
+        if ((pastActivitiesList != null &&
+                !pastActivitiesList.contains(currActivityID)) ||
+            pastActivitiesList == null) {
+          transaction.update(userRef, <String, dynamic>{
+            'pastActivities': FieldValue.arrayUnion(
+                [currActivityID]), // only support one-time activity
+          });
+        }
       }
     });
   }
-
   Future<void> createActivity(
       String title,
       String location,
