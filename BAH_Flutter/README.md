@@ -9,13 +9,13 @@ Biggest At Heart is a mobile app that supports volunteer management specifically
     - [User Sign Up](#user-sign-up)
     - [User Log In](#user-log-in)
     - [Home Page](#home-page)
-    - [Activity Gallery] (#activity-gallery)
+    - [Activity Gallery](#activity-gallery)
     - [Blog/Reflection](#blogreflection)
     - [Request Certificate (Volunteer users only)](#request-certificate-volunteer-users-only)
     - [View Reports (Admin users only)](#view-reports-admin-users-only)
       - [By individual volunteers](#by-individual-volunteers)
       - [By month/type of activity](#by-monthtype-of-activity)
-    - [Honor Roll] (#honor-roll)
+    - [Honor Roll](#honor-roll)
 
 ### User Sign Up
 
