@@ -2,6 +2,10 @@
 ## Overview
 Biggest At Heart is a mobile app that supports volunteer management specifically for Big At Heart organisation. This app aims to provide multiple functions for volunteers to easily access volunteering opportunities, reflections, volunteering hours, as well as for admins to manage volunteers' data to generate insightful reports. Moreover, this app allows volunteers to auto-generate certificates based on reliable and transparent data captured in Firestore database. This relieves admins from manually verifying the hours and increases operational efficiency.
 
+## Prototype
+
+To try out our prototype, please download the apk under our releases and run it on an Android device or emulator. [Click Here](https://github.com/aemeeeee/biggestatheart/releases)
+
 ## Table of Contents
 - [Biggest At Heart mobile app](#biggest-at-heart-mobile-app)
   - [Overview](#overview)
