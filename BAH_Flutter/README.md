@@ -17,10 +17,7 @@ emmy fill in hehe
 
 ### User Sign Up
 
-<div style="text-align:center;">
-    <img src="assets/images/sign up.png" alt="img" width="200px">
-</div>
-</br>
+<img src="assets/images/sign up.png" alt="img" width="200px">
 
 When a new user is brought to the login page without an account, he or she can click on the `Sign Up` button at the bottom of the screen to navigate to a sign up page. 
 
@@ -32,10 +29,7 @@ Upon successful sign up, users will be navigated back to the Log In page.
 
 ### User Log In
 
-<div style="text-align:center;">
-    <img src="assets/images/login.png" alt="img" width="200px">
-</div>
-</br>
+<img src="assets/images/login.png" alt="img" width="200px">
 
 User can log in to their account by keying in their email and password, then clicking on `Log In` button.
 
@@ -45,10 +39,7 @@ Upon successful log in, users will be navigated to their Home page.
 
 ### Home Page
 
-<div style="text-align:center;">
-    <img src="assets/images/home page.png" alt="img" width="200px">
-</div>
-</br>
+<img src="assets/images/home page.png" alt="img" width="200px">
 
 Upon successful login, users will be navigated to their respective home page. It should display their respective profile picture and user name on the top, and a list of volunteering activities that they have enrolled in. Users can click on these activities to view the details of the activities. 
 
@@ -66,14 +57,7 @@ Users can navigate to the following pages by clicking on one of the four buttons
 
 ### Blog/Reflection
 
-<div style="display:flex; justify-content:center;">
-    <div style="margin-right: 40px;">
-        <img src="assets/images/feed button.png" alt="Report by Month" width="200px">
-    </div>
-    <div style="margin-left: 40px;">
-        <img src="assets/images/blog feed.png" alt="Report by Type" width="200px">
-    </div>
-</div>
+<img src="assets/images/feed button.png" alt="Report by Month" width="200px"><img src="assets/images/blog feed.png" alt="Report by Type" width="200px">
 <br/>
 
 User can navigate to the Blog Feed page where he/she can view all blog/reflection posts uploaded by other users by clicking on the `Blog Feed Page` button (third button at the bottom navigation bar). At this page, for each post, user can see:
@@ -83,17 +67,11 @@ User can navigate to the Blog Feed page where he/she can view all blog/reflectio
 
 User can click on the `Add Post` button (Plus sign) on the right side of the top navigation bar at this page to upload a blog/reflection post. Upon clicking, user will be navigated to the Upload Post page, where users can type the title and the caption of the post. To delete the whole field fast, user can click on the `Delete` button ('X' mark) at the end of each field. 
 
-<div style="text-align:center;">
-    <img src="assets/images/post.png" alt="img" width="200px">
-</div>
-<br/>
+<img src="assets/images/post.png" alt="img" width="200px">
 
 When user finishes crafting his/her post, he/she can click on the `Upload` button below the fields to upload it. Upon successful uploading, user will be notified with a pop-up message and a `Back to Blog Feed` button, and their post will be displayed on the Blog Feed.
 
-<div style="text-align:center;">
-    <img src="assets/images/blog.png" alt="img" width="200px">
-</div>
-<br/>
+<img src="assets/images/blog.png" alt="img" width="200px">
 
 User can also click on a post on the Blog Feed to view its details. Upon clicking on a post, user will be navigated to the Post Details page, where he/she can see the caption of the post, in addition to the details displayed on Blog Feed page.
 
@@ -103,17 +81,7 @@ In future implementations, user should be able to interact with the posts by cli
 
 ### Request Certificate (Volunteer users only)
 
-<div style="display:flex; justify-content:center;">
-    <div style="margin-right: 10px;">
-        <img src="assets/images/save pdf.png" alt="Download PDF" width="200px">
-    </div>
-    <div style="margin-right: 10px;">
-        <img src="assets/images/pdf device.png" alt="Save PDF to file" width="200px">
-    </div>
-    <div>
-        <img src="assets/images/pdf on phone.png" alt="PDF viewed on Phone" width="200px">
-    </div>
-</div>
+<img src="assets/images/save pdf.png" alt="Download PDF" width="200px"><img src="assets/images/pdf device.png" alt="Save PDF to file" width="200px"><img src="assets/images/pdf on phone.png" alt="PDF viewed on Phone" width="200px">
 
 <br/>
 
@@ -130,9 +98,7 @@ To download and save the certificate as PDF to his/her device, user can click on
 
 ### View Reports (Admin users only)
 
-<div style="text-align:center;">
-    <img src="assets/images/report page.png" alt="img" width="200px">
-</div>
+<img src="assets/images/report page.png" alt="img" width="200px">
 
 Admin Users can view reports and statistics regarding the volunteers in 3 ways: 
 - By individual 
@@ -141,15 +107,11 @@ Admin Users can view reports and statistics regarding the volunteers in 3 ways:
 
 #### By individual volunteers
 
-<div style="text-align:center;">
-    <img src="assets/images/indiv report list.png" alt="img" width="200px">
-</div>
+<img src="assets/images/indiv report list.png" alt="img" width="200px">
 
 Admin users can view the entire list of registered volunteers arranged alphabetically by their names. Each volunteer's email and phone number is also shown below their name. Admin users can search for specific volunteers by searching for the user's name in the search bar at the top of the screen.
 
-<div style="text-align:center;">
-    <img src="assets/images/report by indiv.png" alt="img" width="200px">
-</div>
+<img src="assets/images/report by indiv.png" alt="img" width="200px">
 
 Clicking on a specific volunteer will display a page with more detailed report for that particular volunteer. Admin can also select a time range and view all activities attended by the user within that period of time, along with each activity's date and duration.
 
@@ -161,11 +123,5 @@ Clicking on a specific volunteer will display a page with more detailed report f
 
 Admin users can select between viewing statistical report by month via a date picker or by the one of the 3 types of activity (Volunteering, Training, Workshop) through a drop down menu.
 
-<div style="display:flex; justify-content:center;">
-    <div style="margin-right: 40px;">
-        <img src="assets/images/report by month.png" alt="Report by Month" width="200px">
-    </div>
-    <div style="margin-left: 40px;">
-        <img src="assets/images/report by type.png" alt="Report by Type" width="200px">
-    </div>
-</div>
+<img src="assets/images/report by month.png" alt="Report by Month" width="200px"><img src="assets/images/report by type.png" alt="Report by Type" width="200px">
+
