@@ -7,7 +7,9 @@ Biggest At Heart is a mobile app that supports volunteer management specifically
 To try out our prototype, please download the apk under our releases and run it on an Android device or emulator. [Click Here](https://github.com/aemeeeee/biggestatheart/releases)
 
 To test the admin features, you can sign in using this test account:
+<br>
 **Username**: admintest@gmail.com
+<br>
 **Password**: adminTest!
 
 ## Table of Contents
