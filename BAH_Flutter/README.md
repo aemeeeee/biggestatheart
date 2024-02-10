@@ -61,31 +61,31 @@ Users can navigate to the following pages by clicking on one of the four buttons
 
 <img src="assets/images/activity_gallery.png" alt="Activity Gallery" width="200px">
 
-Upon clicking the second icon on the bottom navigation bar, users will be redirected to the Activity Gallery, where users can view all available upcoming volunteering opportunities with their event names and locations.
+Upon clicking the second icon on the bottom navigation bar, users will be redirected to the `Activity Gallery`, where users can view all available upcoming volunteering opportunities with their event names and locations.
 
 #### a. Post a new activity (Admin-only)
 
 <img src="assets/images/create_new.png" alt="Create New Activity" width="200px">
 
-Admin users will be able to view a plus icon on the right of top navigation bar, which will lead them to a "Post a new activity" page. Admin users can proceed to enter the details of the new activity before clicking "Submit", which will add the newly created activity to the gallery for volunteers to view.
+Admin users will be able to view a `+` icon on the right of top navigation bar, which will lead them to a `Post a New Activity` page. Admin users can proceed to enter the details of the new activity before clicking `Submit`, which will add the newly created activity to the `Activity Gallery` for volunteers to view.
 
 #### b. View details of volunteering activities
 
 <img src="assets/images/activity_detail.png" alt="Activity Gallery" width="200px">
 
-On the gallery page, users can click on each activity to view it in their respective Activity Page in further detail, such as the number of volunteers needed and the number of hours involved.
+On the `Activity Gallery`, users can click on each activity to view it in their respective `Activity Page` in further detail, such as the number of volunteers needed and the number of hours involved.
 
 #### c. Enrol in a new activity (Volunteer-only)
 
-<img src="assets/images/activity_detail.png" alt="Activity Details" width="200px">
+<img src="assets/images/activity_detail.png" alt="Activity Details" width="200px"><img src="assets/images/already_enrolled.png" alt="Already Enrolled" width="200px">
 
-Once entering the Activity Page, volunteers will see the button "Enrol" should they wish to sign up for that volunteering opportunity. After clicking "Enrol", volunteers cannot click that button again and will only see a message "You have already enrolled in this activity" upon revisiting the activity.
+Once entering the `Activity Page`, volunteers will see the button `Enrol` should they wish to sign up for that volunteering opportunity. After clicking `Enrol`, volunteers cannot click that button again and will only see a message "You are already enrolled in this activity." upon revisiting the activity.
 
 #### d. Take attendance of volunteers (Admin-only)
 
 <img src="assets/images/take_attendance.png" alt="Take Attendance Button" width="200px"><img src="assets/images/attendance_list.png" alt="Attendance List" width="200px">
 
-Unlike volunteers, admin users will see the button "Take Attendance" instead upon entering the respective Activity Page. After clicking the button, admins can see a list of signed up participants and take their attendance by clicking the checkbox next to each participant's name.
+Unlike volunteers, admin users will see the button `Take Attendance` instead upon entering the respective `Activity Page`. After clicking the button, admins can see a list of signed up participants and take their attendance by clicking the checkbox next to each participant's name.
 
 [Back to table of contents](#table-of-contents)
 
@@ -163,6 +163,6 @@ Admin users can select between viewing statistical report by month via a date pi
 
 <img src="assets/images/honor_roll.png" alt="Activity Gallery" width="200px">
 
-On the top navigation bar of Home Page, users can click the trophy icon on the left corner to access the Honor Roll. The organisation can choose to display Volunteer with Most Activities (demo), Volunteer with Most Insightful Posts and so on, in order to recognise their commitment and encourage long-term involvement with the organisation and the beneficiaries.
+On the top navigation bar of Home Page, users can click the `Trophy icon` on the left corner to access the `Honor Roll`. The organisation can choose to display Volunteer with Most Activities (demo), Volunteer with Most Insightful Posts and so on, in order to recognise their commitment and encourage long-term involvement with the organisation and the beneficiaries.
 
 [Back to table of contents](#table-of-contents)
