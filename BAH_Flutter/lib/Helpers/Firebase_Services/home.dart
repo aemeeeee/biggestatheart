@@ -20,7 +20,9 @@ class FirebaseServiceHome {
               .doc(id)
               .get();
       Activity activity = Activity.fromFireStore(querySnapshot, null);
-      currActivites.add(activity);
+      if (activity.isCompleted == false) {
+        currActivites.add(activity);
+      }
     }
     return currActivites;
   }

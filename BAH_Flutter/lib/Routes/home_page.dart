@@ -55,13 +55,6 @@ class HomePageState extends State<HomePage> {
                       Spacer(),
                     ],
                   ),
-                  // centerTitle: true,
-                  // title: const Text(
-                  //   'Home Page',
-                  //   style: TextStyle(
-                  //       color: Colors.white, fontWeight: FontWeight.w700),
-                  // ),
-                  // backgroundColor: const Color.fromARGB(255, 168, 49, 85),
                   actions: [logoutButton(context)],
                 ),
                 body: SingleChildScrollView(

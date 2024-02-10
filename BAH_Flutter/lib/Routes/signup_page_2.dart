@@ -235,7 +235,7 @@ class SignUpPage2State extends State<SignUpPage2> {
           }
         },
         child: ListTile(
-          title: const Text('Date and Time'),
+          title: const Text('Date of Birth'),
           subtitle: Text(
             _dob == DateTime.now()
                 ? 'Select Date of Birth'
